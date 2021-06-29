@@ -26,6 +26,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         
+        
         if (Input.GetButtonDown("Fire3"))
         {
             if (GameIsPaused)
@@ -58,7 +59,7 @@ public class PauseMenu : MonoBehaviour
                 {
                     if (timeList[i] + 0.1f <= Time.time - start_time)
                     {
-                        hits[i].GetComponent<Renderer>().enabled = true;
+                       hits[i].GetComponent<Renderer>().enabled = true;
                     }
                     else
                     {
@@ -121,7 +122,7 @@ public class PauseMenu : MonoBehaviour
 
     void LoadHits()
     {
-        var filename = "Collision2.txt";
+        var filename = "Collision3.txt";
         var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
         var fileContents = source.ReadToEnd();
         source.Close();
@@ -156,9 +157,11 @@ public class PauseMenu : MonoBehaviour
                 if (j == 3)
                 {
                     z = float.Parse(coords[j]);
+                    
                 }
                 if (j == 4)
                 {
+                    //Debug.Log(coords[j]);
                     if (Math.Log(float.Parse(coords[j]),10) < minE)
                     {
                         minE = (float)Math.Log(float.Parse(coords[j]), 10);
@@ -168,6 +171,8 @@ public class PauseMenu : MonoBehaviour
                         maxE = (float)Math.Log(float.Parse(coords[j]), 10);
                     }
                     energyList[i] = (float)Math.Log(float.Parse(coords[j]),10f);
+                    Debug.Log(energyList[i]);
+                    
                 }
             }
             hits[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -182,7 +187,14 @@ public class PauseMenu : MonoBehaviour
         {
             float redness = (energyList[i] - minE) / (maxE - minE);
             float blueness = 1f - redness;
-            hits[i].GetComponent<Renderer>().material.color = new Color(redness, 0f, blueness);
+            Color color = new Color(redness, 0f, blueness);
+            color.a = redness;
+
+            Material material = new Material(Shader.Find("Transparent/Diffuse"));
+            material.color = color;
+
+            hits[i].GetComponent<Renderer>().material = material;
+            
         }
 
         animating = true;
