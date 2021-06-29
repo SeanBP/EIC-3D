@@ -147,7 +147,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 if (j == 1)
                 {
-                    x = -1.0f * float.Parse(coords[j]);
+                    x = float.Parse(coords[j]);
                 }
                 if (j == 2)
                 {
@@ -155,7 +155,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 if (j == 3)
                 {
-                    z = -1.0f * float.Parse(coords[j]);
+                    z = float.Parse(coords[j]);
                 }
                 if (j == 4)
                 {
