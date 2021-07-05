@@ -122,7 +122,7 @@ public class PauseMenu : MonoBehaviour
 
     void LoadHits()
     {
-        var filename = "Collision3.txt";
+        var filename = "Collision1.txt";
         var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
         var fileContents = source.ReadToEnd();
         source.Close();
@@ -144,7 +144,7 @@ public class PauseMenu : MonoBehaviour
             {
                 if (j == 0)
                 { 
-                    timeList[i] = float.Parse(coords[j]) / 10.0f;
+                    timeList[i] = float.Parse(coords[j]) / 8.0f;
                 }
                 if (j == 1)
                 {
@@ -170,9 +170,7 @@ public class PauseMenu : MonoBehaviour
                     {
                         maxE = (float)Math.Log(float.Parse(coords[j]), 10);
                     }
-                    energyList[i] = (float)Math.Log(float.Parse(coords[j]),10f);
-                    Debug.Log(energyList[i]);
-                    
+                    energyList[i] = (float)Math.Log(float.Parse(coords[j]),10f);       
                 }
             }
             hits[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
