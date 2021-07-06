@@ -186,7 +186,7 @@ public class PauseMenu : MonoBehaviour
             float redness = (energyList[i] - minE) / (maxE - minE);
             float blueness = 1f - redness;
             Color color = new Color(redness, 0f, blueness);
-            color.a = redness;
+            color.a = redness+0.05f;
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
