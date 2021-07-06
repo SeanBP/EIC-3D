@@ -14,7 +14,7 @@ public class DetectorComponent : MonoBehaviour
     void Start()
     {
         Vector3[] vertices = new Vector3[sides*4];
-        int[] triangles = new int[sides * 12 * 2];
+        int[] triangles = new int[sides * 12 * 4];
 
         int index = 0;
         for(int i = 0; i < sides; i++)
@@ -33,12 +33,9 @@ public class DetectorComponent : MonoBehaviour
         }
         index = 0;
 
-        
+        //front and back faces
         for(int i = 0; i < sides; i++)
         {
-            //front face
-            //side 1
-
             for (int j = 0; j <= 2; j = j + 2)
             {
                 //side 1
@@ -68,12 +65,43 @@ public class DetectorComponent : MonoBehaviour
                 index++;
                 triangles[index] = (i * 4) + j;
                 index++;
-            }
-            
-
+            }            
         }
 
+        //inner and outer faces
+        for (int i = 0; i < sides; i++)
+        {
+            for(int j = 0; j <= 1; j++)
+            {
+                //outer pointing faces
+                triangles[index] = (i * 4) + j;
+                index++;
+                triangles[index] = (((i + 1) * 4) % (sides * 4)) + j;
+                index++;
+                triangles[index] = (i * 4) + 2 + j;
+                index++;
+                triangles[index] = (i * 4) + 2 + j;
+                index++;
+                triangles[index] = (((i + 1) * 4) % (sides * 4)) + j;
+                index++;
+                triangles[index] = (((i * 4) + 6) % (sides * 4)) + j;
+                index++;
 
+                //inner pointing faces
+                triangles[index] = (((i * 4) + 6) % (sides * 4)) +j;
+                index++;
+                triangles[index] = (((i + 1) * 4) % (sides * 4)) + j;
+                index++;
+                triangles[index] = (i * 4) + 2 + j;
+                index++;
+                triangles[index] = (i * 4) + 2 + j;
+                index++;
+                triangles[index] = (((i + 1) * 4) % (sides * 4)) + j;
+                index++;
+                triangles[index] = (i * 4) + j;
+                index++;
+            }
+        }
 
         Mesh mesh = new Mesh();
 
@@ -89,7 +117,7 @@ public class DetectorComponent : MonoBehaviour
 
         Material material = new Material(Shader.Find("Transparent/Diffuse"));
         Color color = new Color(1f, 1f, 1f);
-        color.a = 0.5f;
+        color.a = 1f;
         material.color = color;
         
         gameObject.GetComponent<MeshRenderer>().material = material;
