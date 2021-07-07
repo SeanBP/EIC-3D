@@ -17,6 +17,15 @@ public class DetectorComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+        if (sides % 2 == 0)
+        {
+            rotate = rotate + (360 / (sides * 2));
+        }
+        else
+        {
+            rotate = rotate + 90;
+        }
         Vector3[] vertices = new Vector3[sides * 4];
         int[] triangles = new int[sides * 12 * 4];
         GameObject[] lines = new GameObject[sides * 8];
@@ -43,7 +52,7 @@ public class DetectorComponent : MonoBehaviour
             Vector3 end;
             LineRenderer lr = new LineRenderer();
             Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
-            for (float j = (-length / 2) + offset; j <= length/2; j = j + length)
+            for (float j = (-length / 2) + offset; j <= length/2 + offset; j = j + length)
             {
                 start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j);
                 end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j);
@@ -99,10 +108,15 @@ public class DetectorComponent : MonoBehaviour
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
                 lineIndex++;
-                if(innerR != 0)
-                {
-                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2) + offset);
-                    end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (length / 2) + offset);
+                float lineOffset = 0;
+                if(innerR >= 0.06f)
+                { 
+                    if(alpha >= 0)
+                    {
+                        lineOffset = 0.02f;
+                    }
+                    start = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (-length / 2) + offset);
+                    end = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset)  * (float)Math.Sin(theta), (length / 2) + offset);
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].transform.position = start;
                     lines[lineIndex].AddComponent<LineRenderer>();
@@ -210,7 +224,15 @@ public class DetectorComponent : MonoBehaviour
         }
 
         Material material = new Material(Shader.Find("Transparent/Diffuse"));
-        Color color = new Color(0f, 0f, 1f);
+        //blue
+        Color color = new Color(9f / 255f, 130f / 255f , 250f / 255f);
+
+        //green
+        //Color color = new Color(146f / 255f, 208f / 255f, 80f / 255f);
+
+        //yellow
+        //Color color = new Color(255f / 255f, 196f / 255f, 47f / 255f);
+
         color.a = alpha;
         material.color = color;
         
