@@ -161,7 +161,6 @@ public class PauseMenu : MonoBehaviour
                 }
                 if (j == 4)
                 {
-                    //Debug.Log(coords[j]);
                     if (Math.Log(float.Parse(coords[j]),10) < minE)
                     {
                         minE = (float)Math.Log(float.Parse(coords[j]), 10);
@@ -186,7 +185,7 @@ public class PauseMenu : MonoBehaviour
             float redness = (energyList[i] - minE) / (maxE - minE);
             float blueness = 1f - redness;
             Color color = new Color(redness, 0f, blueness);
-            color.a = redness+0.05f;
+            color.a = redness;
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;

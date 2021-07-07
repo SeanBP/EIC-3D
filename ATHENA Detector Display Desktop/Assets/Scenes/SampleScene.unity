@@ -1716,6 +1716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1548188901}
   - component: {fileID: 1548188900}
+  - component: {fileID: 1548188902}
   m_Layer: 0
   m_Name: DetectorComponents
   m_TagString: Untagged
@@ -1730,15 +1731,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548188899}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fd48c9955dbee14da1225876c29caab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sides: 14
-  innerR: 2
-  outerR: 3
-  length: 5
+  sides: 12
+  innerR: 2.24
+  outerR: 3.24
+  length: 4.975
   rotate: 0
   offset: 0
   alpha: 0.2
@@ -1757,6 +1758,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1548188902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548188899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b16fb742fdb0a744a689e2d7654b1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2009533982
 GameObject:
   m_ObjectHideFlags: 0
