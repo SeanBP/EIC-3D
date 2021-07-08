@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pause Menu
   - Hit
+  - Detector
   layers:
   - Default
   - TransparentFX

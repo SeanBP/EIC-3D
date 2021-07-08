@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     private float start_time = 0f;
     private bool clearing = false;
     private bool duration = false;
+    private float lastSliderValue = 1;
 
     // Update is called once per frame
 
@@ -101,6 +102,38 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
         //Cursor.lockState = CursorLockMode.Confined;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void ExpandZ(float newValue)
+    {
+        GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
+        
+        for (var i = 0; i < detectorParts.Length; i++)
+        {
+            Vector3 lastPosition = detectorParts[i].transform.position;
+            Debug.Log(lastPosition.z);
+            detectorParts[i].transform.localPosition = new Vector3(lastPosition.x, lastPosition.y, (lastPosition.z/lastSliderValue)*newValue);
+        }
+        
+        lastSliderValue = newValue;
+    }
+
+    public void ChangeDetectorOpacity(float alpha)
+    {
+        GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
+        for (var i = 0; i < detectorParts.Length; i++)
+        {
+            Material oldMaterial = detectorParts[i].GetComponent<MeshRenderer>().material;
+            Material newMaterial = new Material(Shader.Find("Transparent/Diffuse"));
+            Color newColor = oldMaterial.color;
+            newColor.a = alpha;
+            newMaterial.color = newColor;
+
+           detectorParts[i].GetComponent<MeshRenderer>().material = newMaterial;
+
+        }
+        
+
     }
 
     public void ClearEvent()

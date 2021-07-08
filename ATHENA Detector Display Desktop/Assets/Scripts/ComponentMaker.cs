@@ -16,7 +16,7 @@ public class ComponentMaker : MonoBehaviour
 
         //yellow
         //Color color = new Color(255f / 255f, 196f / 255f, 47f / 255f);
-
+        
         //HCAL Barrel
         MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.03f, 9, 130, 250, 0.2f);
         //HCAL EndcapP
@@ -29,13 +29,13 @@ public class ComponentMaker : MonoBehaviour
         MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.03f, 146, 208, 80, 0.2f);
         //ECAL EndcapP
         MakeComponent(12, .2f, 2.24f, 0.48f, 2.53f + (0.48f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
-
+        
         //ECAL EndcapN
         MakeComponent(12, .3f, 1.6f, 0.41f, -1.555f - (0.41f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
 
         //Tracker Barrel
         //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
-
+        
         //Solenoid
         MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 0.2f);
 
@@ -69,13 +69,13 @@ public class ComponentMaker : MonoBehaviour
         {
             float angle = (360f / sides) * i + rotate;
             double theta = Math.PI * angle / 180.0;
-            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2) + offset);
+            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2));
             index++;
-            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2) + offset);
+            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2));
             index++;
-            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2) + offset);
+            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2));
             index++;
-            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (length / 2) + offset);
+            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (length / 2));
             index++;
 
 
@@ -85,10 +85,10 @@ public class ComponentMaker : MonoBehaviour
             Vector3 end;
             LineRenderer lr = new LineRenderer();
             Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
-            for (float j = (-length / 2) ; j <= (length / 2); j = j + length)
+            for (float j = (-length / 2); j <= (length / 2); j = j + length)
             {
-                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j + offset);
-                end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j + offset);
+                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
+                end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j );
                 lines[lineIndex] = new GameObject();
                 lines[lineIndex].transform.position = start;
                 lines[lineIndex].AddComponent<LineRenderer>();
@@ -100,8 +100,8 @@ public class ComponentMaker : MonoBehaviour
                 lineIndex++;
                 if (innerR != 0)
                 {
-                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j + offset);
-                    end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), j + offset);
+                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
+                    end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), j );
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].transform.position = start;
                     lines[lineIndex].AddComponent<LineRenderer>();
@@ -114,8 +114,8 @@ public class ComponentMaker : MonoBehaviour
                     if (sides <= 50)
                     {
                         Debug.Log("Test " + j);
-                        start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j + offset);
-                        end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j + offset);
+                        start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
+                        end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
                         lines[lineIndex] = new GameObject();
                         lines[lineIndex].transform.position = start;
                         lines[lineIndex].AddComponent<LineRenderer>();
@@ -131,8 +131,8 @@ public class ComponentMaker : MonoBehaviour
             }
             if (sides <= 50)
             {
-                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2) + offset);
-                end = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2) + offset);
+                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2) );
+                end = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2) );
                 lines[lineIndex] = new GameObject();
                 lines[lineIndex].transform.position = start;
                 lines[lineIndex].AddComponent<LineRenderer>();
@@ -145,8 +145,8 @@ public class ComponentMaker : MonoBehaviour
                 float lineOffset = lineThickness / 2f;
                 if (innerR >= 0.06f)
                 {
-                    start = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (-length / 2) + offset);
-                    end = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (length / 2) + offset);
+                    start = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (-length / 2) );
+                    end = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (length / 2) );
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].transform.position = start;
                     lines[lineIndex].AddComponent<LineRenderer>();
@@ -235,28 +235,35 @@ public class ComponentMaker : MonoBehaviour
         Mesh mesh = new Mesh();
 
         mesh.vertices = vertices;
-
         mesh.triangles = triangles;
 
         GameObject gameObject = new GameObject("Detector Piece", typeof(MeshFilter), typeof(MeshRenderer));
+        gameObject.tag = "Detector";
         gameObject.GetComponent<MeshFilter>().mesh = mesh;
+
+
         for (int i = 0; i < lines.Length; i++)
         {
             if (lines[i] != null)
             {
+                
                 lines[i].transform.parent = gameObject.transform;
-            }          
+                lines[i].GetComponent<LineRenderer>().useWorldSpace = false;
+                lines[i].transform.position = new Vector3(0, 0, 0);
+                //lines[i].tag = "Detector";
+            }
         }
 
         Material material = new Material(Shader.Find("Transparent/Diffuse"));
         Color color = new Color(r / 255f, g / 255f, b / 255f);
-        
+
 
         color.a = alpha;
         material.color = color;
 
         gameObject.GetComponent<MeshRenderer>().material = material;
 
-
+        gameObject.transform.position = new Vector3(0, 0, offset);
+        
     }
 }
