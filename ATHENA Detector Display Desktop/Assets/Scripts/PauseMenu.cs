@@ -111,12 +111,24 @@ public class PauseMenu : MonoBehaviour
         for (var i = 0; i < detectorParts.Length; i++)
         {
             Vector3 lastPosition = detectorParts[i].transform.position;
-            Debug.Log(lastPosition.z);
             detectorParts[i].transform.localPosition = new Vector3(lastPosition.x, lastPosition.y, (lastPosition.z/lastSliderValue)*newValue);
         }
         
         lastSliderValue = newValue;
     }
+    public void XYScale(float newValue)
+    {
+        GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
+        Vector3 newScale = new Vector3(newValue, newValue, 1);
+
+        for (var i = 0; i < detectorParts.Length; i++)
+        {
+            detectorParts[i].transform.localScale = newScale;
+        }
+
+
+    }
+
 
     public void ChangeDetectorOpacity(float alpha)
     {
@@ -128,6 +140,7 @@ public class PauseMenu : MonoBehaviour
             Color newColor = oldMaterial.color;
             newColor.a = alpha;
             newMaterial.color = newColor;
+            newMaterial.renderQueue = oldMaterial.renderQueue;
 
            detectorParts[i].GetComponent<MeshRenderer>().material = newMaterial;
 
@@ -226,6 +239,7 @@ public class PauseMenu : MonoBehaviour
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
+            material.renderQueue = 1000;
 
             hits[i].GetComponent<Renderer>().material = material;
             

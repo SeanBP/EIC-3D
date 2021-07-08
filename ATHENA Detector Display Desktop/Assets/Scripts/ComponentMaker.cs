@@ -18,26 +18,26 @@ public class ComponentMaker : MonoBehaviour
         //Color color = new Color(255f / 255f, 196f / 255f, 47f / 255f);
         
         //HCAL Barrel
-        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.03f, 9, 130, 250, 0.2f);
+        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.03f, 9, 130, 250, 0);
         //HCAL EndcapP
-        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.03f, 9, 130, 250, 0.2f);
+        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.03f, 9, 130, 250, 0);
         //HCAL EndcapN
-        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.03f, 9, 130, 250, 0.2f);
+        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.03f, 9, 130, 250, 0);
 
 
         //ECAL Barrel
-        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.03f, 146, 208, 80, 0.2f);
+        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.03f, 146, 208, 80, 2);
         //ECAL EndcapP
-        MakeComponent(12, .2f, 2.24f, 0.48f, 2.53f + (0.48f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
+        MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.03f, 146, 208, 80, 2);
         
         //ECAL EndcapN
-        MakeComponent(12, .3f, 1.6f, 0.41f, -1.555f - (0.41f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
+        MakeComponent(12, .3f, 0.955f / (float)Math.Cos(Math.PI / 12), 0.41f, -1.555f - (0.41f / 2f), 0, 0.03f, 146, 208, 80, 2);
 
         //Tracker Barrel
         //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
         
         //Solenoid
-        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 0.2f);
+        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
 
     }
 
@@ -47,7 +47,7 @@ public class ComponentMaker : MonoBehaviour
         
     }
 
-    void MakeComponent(int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, float alpha)
+    void MakeComponent(int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, int renderQueue)
     {
         innerR = innerR / (float)Math.Cos(Math.PI / sides);
 
@@ -94,6 +94,7 @@ public class ComponentMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
                 lr.SetWidth(lineThickness, lineThickness);
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
@@ -107,6 +108,7 @@ public class ComponentMaker : MonoBehaviour
                     lines[lineIndex].AddComponent<LineRenderer>();
                     lr = lines[lineIndex].GetComponent<LineRenderer>();
                     lr.material = whiteDiffuseMat;
+                    lr.material.renderQueue = 100;
                     lr.SetWidth(lineThickness, lineThickness);
                     lr.SetPosition(0, start);
                     lr.SetPosition(1, end);
@@ -121,6 +123,7 @@ public class ComponentMaker : MonoBehaviour
                         lines[lineIndex].AddComponent<LineRenderer>();
                         lr = lines[lineIndex].GetComponent<LineRenderer>();
                         lr.material = whiteDiffuseMat;
+                        lr.material.renderQueue = 100;
                         lr.SetWidth(lineThickness, lineThickness);
                         lr.SetPosition(0, start);
                         lr.SetPosition(1, end);
@@ -138,11 +141,13 @@ public class ComponentMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
                 lr.SetWidth(lineThickness, lineThickness);
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
                 lineIndex++;
-                float lineOffset = lineThickness / 2f;
+                //float lineOffset = lineThickness / 2f;
+                float lineOffset = 0f;
                 if (innerR >= 0.06f)
                 {
                     start = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (-length / 2) );
@@ -152,6 +157,7 @@ public class ComponentMaker : MonoBehaviour
                     lines[lineIndex].AddComponent<LineRenderer>();
                     lr = lines[lineIndex].GetComponent<LineRenderer>();
                     lr.material = whiteDiffuseMat;
+                    lr.material.renderQueue = 100;
                     lr.SetWidth(lineThickness, lineThickness);
                     lr.SetPosition(0, start);
                     lr.SetPosition(1, end);
@@ -258,8 +264,9 @@ public class ComponentMaker : MonoBehaviour
         Color color = new Color(r / 255f, g / 255f, b / 255f);
 
 
-        color.a = alpha;
+        color.a = 0.3f;
         material.color = color;
+        material.renderQueue = renderQueue;
 
         gameObject.GetComponent<MeshRenderer>().material = material;
 
