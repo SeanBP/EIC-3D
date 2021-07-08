@@ -19,17 +19,25 @@ public class ComponentMaker : MonoBehaviour
 
         //HCAL Barrel
         MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.03f, 9, 130, 250, 0.2f);
-        
-        //ECAL EndcapP
-        MakeComponent(12, .2f, 2.24f, 0.48f, 2.53f + (0.48f/2f), 0, 0.03f, 146, 208, 80, 0.2f);
-        //ECAL EndcapN
-        //MakeComponent(12, .3f, f, 0.48f, 2.53f + (0.48f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
+        //HCAL EndcapP
+        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.03f, 9, 130, 250, 0.2f);
+        //HCAL EndcapN
+        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.03f, 9, 130, 250, 0.2f);
+
 
         //ECAL Barrel
         MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.03f, 146, 208, 80, 0.2f);
+        //ECAL EndcapP
+        MakeComponent(12, .2f, 2.24f, 0.48f, 2.53f + (0.48f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
+
+        //ECAL EndcapN
+        MakeComponent(12, .3f, 1.6f, 0.41f, -1.555f - (0.41f / 2f), 0, 0.03f, 146, 208, 80, 0.2f);
 
         //Tracker Barrel
-        //MakeComponent(100, 0.2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
+        //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
+
+        //Solenoid
+        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 0.2f);
 
     }
 
@@ -86,7 +94,7 @@ public class ComponentMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
-                lr.SetWidth(0.03f, 0.03f);
+                lr.SetWidth(lineThickness, lineThickness);
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
                 lineIndex++;

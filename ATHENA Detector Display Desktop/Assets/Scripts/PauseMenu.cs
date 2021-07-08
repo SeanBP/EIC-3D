@@ -128,7 +128,7 @@ public class PauseMenu : MonoBehaviour
         source.Close();
         var lines = fileContents.Split("\n"[0]);
         int size = lines.Length;
-
+        float largestZ = 0;
         hits = new GameObject[size];
         float x = 0f;
         float y = 0f;
@@ -157,6 +157,10 @@ public class PauseMenu : MonoBehaviour
                 if (j == 3)
                 {
                     z = float.Parse(coords[j]);
+                    if(z > largestZ)
+                    {
+                        largestZ = z;
+                    }
                     
                 }
                 if (j == 4)
@@ -195,6 +199,7 @@ public class PauseMenu : MonoBehaviour
         }
 
         animating = true;
+        Debug.Log(largestZ);
         
     }
 
