@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
 
     public bool GameIsPaused = false;
     public GameObject pauseMenuUI;
+    public GameObject credits;
     //private bool EventLoaded = false;
     private GameObject[] hits = null;
     private bool animating = false;
@@ -102,6 +103,18 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
         //Cursor.lockState = CursorLockMode.Confined;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Credits()
+    {
+        if (credits.active)
+        {
+            credits.SetActive(false);
+        }
+        else
+        {
+            credits.SetActive(true);
+        }
     }
 
     public void ExpandZ(float newValue)
