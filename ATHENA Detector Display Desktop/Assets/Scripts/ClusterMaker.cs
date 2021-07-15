@@ -56,14 +56,7 @@ public class ClusterMaker : MonoBehaviour
             var coords = lines[i].Split(" "[0]);
             Color color = new Color(0,0,0);
 
-            if (string.Equals(coords[0], "Ecal"))
-            {
-                color = new Color(0, 1, 0);
-            }
-            if (string.Equals(coords[0], "Hcal"))
-            {
-                color = new Color(0, 0, 1);
-            }
+            
 
 
             x = float.Parse(coords[2]);
@@ -82,11 +75,26 @@ public class ClusterMaker : MonoBehaviour
             hits[i-start].GetComponent<Collider>().enabled = false;
             hits[i-start].GetComponent<Renderer>().enabled = true;
             hits[i-start].tag = "Cluster";
+            hits[i - start].layer = 3;
             float length = (energyList[i-start] - minE) / (maxE - minE);
-            Material material = new Material(Shader.Find("Diffuse"));
-            material.color = color;
-            material.renderQueue = 1001;
-            hits[i-start].GetComponent<Renderer>().material = material;
+            //Material material = new Material(Shader.Find("Diffuse"));
+            //Material material = hits[i - start].GetComponent<MeshRenderer>().sharedMaterial;
+            var cubeRenderer = hits[i - start].GetComponent<Renderer>();
+            if (string.Equals(coords[0], "Ecal"))
+            {
+                cubeRenderer.material.SetColor("_Color", Color.green);
+                //color = new Color(0, 1, 0);
+                //material.color = color;
+            }
+            if (string.Equals(coords[0], "Hcal"))
+            {
+                cubeRenderer.material.SetColor("_Color", Color.blue);
+                //color = new Color(0, 1, 0);
+                //material.color = color;
+            }
+            
+            //material.renderQueue = 1001;
+            //hits[i-start].GetComponent<Renderer>().material = material;
             hits[i-start].transform.localScale = new Vector3(0.05f, 0.05f, 1f * length + 0.01f);
 
 
