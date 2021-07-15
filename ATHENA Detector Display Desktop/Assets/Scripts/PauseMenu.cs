@@ -181,14 +181,22 @@ public class PauseMenu : MonoBehaviour
 
     void LoadHits()
     {
-        var filename = "Collision1.txt";
+        var filename = "Event10.txt";
         var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
         var fileContents = source.ReadToEnd();
         source.Close();
         var lines = fileContents.Split("\n"[0]);
         int size = lines.Length;
+        for(int i = 1; i < size; i++)
+        {
+            var coords = lines[i].Split(" "[0]);
+            if (string.Equals(coords[0], "Clusters"))
+            {
+                size = i-1;
+            }
+        }
         float largestZ = 0;
-        hits = new GameObject[size];
+        hits = new GameObject[size-1];
         float x = 0f;
         float y = 0f;
         float z = 0f;
@@ -196,14 +204,14 @@ public class PauseMenu : MonoBehaviour
         float maxE = 0f;
         float[] energyList = new float[size];
         timeList = new float[size];
-        for (int i = 0; i < lines.Length; i++)
+        for (int i = 1; i < size; i++)
         {
             var coords = lines[i].Split(" "[0]);
             for (int j = 0; j < coords.Length; j++)
             {
                 if (j == 0)
                 { 
-                    timeList[i] = float.Parse(coords[j]) / 8.0f;
+                    timeList[i-1] = float.Parse(coords[j]) / 8.0f;
                 }
                 if (j == 1)
                 {
@@ -232,18 +240,18 @@ public class PauseMenu : MonoBehaviour
                     {
                         maxE = (float)Math.Log(float.Parse(coords[j]), 10);
                     }
-                    energyList[i] = (float)Math.Log(float.Parse(coords[j]),10f);       
+                    energyList[i-1] = (float)Math.Log(float.Parse(coords[j]),10f);       
                 }
             }
-            hits[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            hits[i].transform.position = new Vector3(x, y, z);
-            hits[i].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-            hits[i].GetComponent<Collider>().enabled = false;
-            hits[i].GetComponent<Renderer>().enabled = false;
-            hits[i].tag = "Hit";
+            hits[i-1] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            hits[i-1].transform.position = new Vector3(x, y, z);
+            hits[i-1].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+            hits[i-1].GetComponent<Collider>().enabled = false;
+            hits[i-1].GetComponent<Renderer>().enabled = false;
+            hits[i-1].tag = "Hit";
         }
 
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < hits.Length; i++)
         {
             float redness = (energyList[i] - minE) / (maxE - minE);
             float blueness = 1f - redness;
@@ -253,13 +261,12 @@ public class PauseMenu : MonoBehaviour
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
             material.renderQueue = 1000;
-
             hits[i].GetComponent<Renderer>().material = material;
             
         }
 
         animating = true;
-        Debug.Log(largestZ);
+        
         
     }
 
