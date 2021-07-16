@@ -18,27 +18,27 @@ public class ComponentMaker : MonoBehaviour
         //Color color = new Color(255f / 255f, 196f / 255f, 47f / 255f);
         
         //HCAL Barrel
-        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0, 9, 130, 250, 0);
+        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
         //HCAL EndcapP
-        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0, 9, 130, 250, 0);
+        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
         //HCAL EndcapN
-        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0, 9, 130, 250, 0);
+        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
 
         //0.02
 
         //ECAL Barrel
-        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0, 146, 208, 80, 2);
+        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
         //ECAL EndcapP
-        MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0, 146, 208, 80, 2);
+        MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
         
         //ECAL EndcapN
-        MakeComponent(12, .3f, 0.955f / (float)Math.Cos(Math.PI / 12), 0.41f, -1.555f - (0.41f / 2f), 0, 0, 146, 208, 80, 2);
+        MakeComponent(12, .3f, 0.955f / (float)Math.Cos(Math.PI / 12), 0.41f, -1.555f - (0.41f / 2f), 0, 0.02f, 146, 208, 80, 2);
 
         //Tracker Barrel
         //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
         
         //Solenoid
-        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0, 127, 127, 127, 1);
+        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
 
     }
 
@@ -46,6 +46,39 @@ public class ComponentMaker : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ToggleLines()
+    {
+        GameObject[] components = GameObject.FindGameObjectsWithTag("Detector");
+
+        for(int i = 0; i < components.Length; i++)
+        {
+            
+            List<GameObject> lines = new List<GameObject>();
+            
+            for (int j = 0; j < components[i].transform.childCount; j++)
+            {
+                var child = components[i].transform.GetChild(j);
+                if (child.tag == "Line")
+                {
+                    //lines.Add(child.gameObject);
+                    if (child.gameObject.activeSelf)
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                }
+                
+            }
+ 
+        }
+
+        
+
     }
 
     void MakeComponent(int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, int renderQueue)
@@ -91,6 +124,7 @@ public class ComponentMaker : MonoBehaviour
                 start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
                 end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j );
                 lines[lineIndex] = new GameObject();
+                lines[lineIndex].tag = "Line";
                 lines[lineIndex].transform.position = start;
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
@@ -105,6 +139,7 @@ public class ComponentMaker : MonoBehaviour
                     start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
                     end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), j );
                     lines[lineIndex] = new GameObject();
+                    lines[lineIndex].tag = "Line";
                     lines[lineIndex].transform.position = start;
                     lines[lineIndex].AddComponent<LineRenderer>();
                     lr = lines[lineIndex].GetComponent<LineRenderer>();
@@ -119,6 +154,7 @@ public class ComponentMaker : MonoBehaviour
                         start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
                         end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
                         lines[lineIndex] = new GameObject();
+                        lines[lineIndex].tag = "Line";
                         lines[lineIndex].transform.position = start;
                         lines[lineIndex].AddComponent<LineRenderer>();
                         lr = lines[lineIndex].GetComponent<LineRenderer>();
@@ -137,6 +173,7 @@ public class ComponentMaker : MonoBehaviour
                 start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2) );
                 end = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2) );
                 lines[lineIndex] = new GameObject();
+                lines[lineIndex].tag = "Line";
                 lines[lineIndex].transform.position = start;
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
@@ -153,6 +190,7 @@ public class ComponentMaker : MonoBehaviour
                     start = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (-length / 2) );
                     end = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (length / 2) );
                     lines[lineIndex] = new GameObject();
+                    lines[lineIndex].tag = "Line";
                     lines[lineIndex].transform.position = start;
                     lines[lineIndex].AddComponent<LineRenderer>();
                     lr = lines[lineIndex].GetComponent<LineRenderer>();
@@ -256,7 +294,8 @@ public class ComponentMaker : MonoBehaviour
                 lines[i].transform.parent = gameObject.transform;
                 lines[i].GetComponent<LineRenderer>().useWorldSpace = false;
                 lines[i].transform.position = new Vector3(0, 0, 0);
-                //lines[i].tag = "Detector";
+                lines[i].tag = "Line";
+                lines[i].SetActive(false);
             }
         }
 

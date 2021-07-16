@@ -8,6 +8,7 @@ TagManager:
   - Hit
   - Detector
   - Cluster
+  - Line
   layers:
   - Default
   - TransparentFX
