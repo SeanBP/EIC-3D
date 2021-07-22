@@ -16,7 +16,7 @@ public class EventMaker : MonoBehaviour
     private bool clearing = false;
     private bool duration = false;
     public string filename = "Test.txt";
-    public int iEvt;
+    public int iEvt = 2;
 
     // Update is called once per frame
 
@@ -65,6 +65,49 @@ public class EventMaker : MonoBehaviour
             start_time = Time.time;
         }
     } 
+
+    public void NextEvent()
+    {
+        iEvt++;
+        if(iEvt == 101)
+        {
+            iEvt = 2;
+        }
+        clusters = GameObject.FindGameObjectsWithTag("Cluster");
+        if(clusters.Length != 0)
+        {
+            ClearClusters();
+            LoadClusters();
+        }
+        hits = GameObject.FindGameObjectsWithTag("Hit");
+        if (hits.Length != 0)
+        {
+            ClearHits();
+            LoadHits();
+        }
+
+        
+    }
+    public void PreviousEvent()
+    {
+        iEvt--;
+        if (iEvt == 1)
+        {
+            iEvt = 100;
+        }
+        clusters = GameObject.FindGameObjectsWithTag("Cluster");
+        if (clusters.Length != 0)
+        {
+            ClearClusters();
+            LoadClusters();
+        }
+        hits = GameObject.FindGameObjectsWithTag("Hit");
+        if (hits.Length != 0)
+        {
+            ClearHits();
+            LoadHits();
+        }
+    }
 
     public void ClearHits()
     {
