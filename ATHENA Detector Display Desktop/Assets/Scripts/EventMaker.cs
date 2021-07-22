@@ -15,7 +15,8 @@ public class EventMaker : MonoBehaviour
     private float start_time = 0f;
     private bool clearing = false;
     private bool duration = false;
-    public string filename = "Event11.txt";
+    public string filename = "Test.txt";
+    public int iEvt;
 
     // Update is called once per frame
 
@@ -94,17 +95,39 @@ public class EventMaker : MonoBehaviour
         var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
         var fileContents = source.ReadToEnd();
         source.Close();
-        var lines = fileContents.Split("\n"[0]);
-        int size = lines.Length;
-        int start = 0;
-        for (int i = 0; i < size; i++)
+        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
+        var prelines = events[iEvt].Split("\n"[0]);
+        var size = 0;
+        for (var i = 1; i < prelines.Length; i++)
         {
-            var coords = lines[i].Split(" "[0]);
-            if (string.Equals(coords[0], "Clusters"))
+            if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
             {
-                start = i + 1;
+                size++;
             }
         }
+
+        String[] lines = new string[size];
+        int index = 0;
+        for (var i = 1; i < prelines.Length; i++)
+        {
+            if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+            {
+                lines[index] = prelines[i];
+                index++;
+            }
+        }
+     
+
+        var start = 0;
+        for (var i = 0; i < size; i++)
+        {
+            var coords = lines[i].Split(" "[0]);
+            if (string.Equals(coords[0].TrimEnd('\r','\n'), "Clusters"))
+            {
+                start = i + 1;                
+            }
+        }
+        
         size = size - start;
 
         clusters = new GameObject[size];
@@ -115,7 +138,7 @@ public class EventMaker : MonoBehaviour
         float maxE = 0f;
         float[] energyList = new float[size];
 
-        for (int i = start; i < lines.Length; i++)
+        for (var i = start; i < lines.Length; i++)
         {
             var coords = lines[i].Split(" "[0]);
 
@@ -131,7 +154,7 @@ public class EventMaker : MonoBehaviour
 
         }
 
-        for (int i = start; i < lines.Length; i++)
+        for (var i = start; i < lines.Length; i++)
         {
             var coords = lines[i].Split(" "[0]);
             Color color = new Color(0, 0, 0);
@@ -189,16 +212,24 @@ public class EventMaker : MonoBehaviour
                     xmag = (x / (float)Math.Abs(x));
                 }
                 float angle2 = (float)(180 / Math.PI) * (float)Math.Atan(y / x);
-                int side = Convert.ToInt32(Math.Round(angle2 / (360f / 12f)));
+                if (!(x == 0 && y == 0))
+                {
 
-                float desiredAngle = side * (360f / 12f);
+                    int side = Convert.ToInt32(Math.Round(angle2 / (360f / 12f)));
 
-                clusters[i - start].transform.RotateAround(pivot.transform.position, new Vector3(0, 0, 1), desiredAngle);
+                    float desiredAngle = side * (360f / 12f);
 
-                float magnitude = (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
-                float newX = xmag * (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Cos(Math.PI * desiredAngle / 180.0f);
-                float newY = (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Sin(Math.PI * desiredAngle / 180.0f);
-                clusters[i - start].transform.position = new Vector3(newX, xmag * newY, z);
+                    clusters[i - start].transform.RotateAround(pivot.transform.position, new Vector3(0, 0, 1), desiredAngle);
+
+                    float magnitude = (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
+                    float newX = xmag * (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Cos(Math.PI * desiredAngle / 180.0f);
+                    float newY = (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Sin(Math.PI * desiredAngle / 180.0f);
+                    clusters[i - start].transform.position = new Vector3(newX, xmag * newY, z);
+                }
+                else
+                {
+                    clusters[i - start].SetActive(false);
+                }
                 Destroy(pivot);
             }
         }
@@ -212,8 +243,26 @@ public class EventMaker : MonoBehaviour
         var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
         var fileContents = source.ReadToEnd();
         source.Close();
-        var lines = fileContents.Split("\n"[0]);
-        int size = lines.Length;
+        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
+        var prelines = events[iEvt].Split("\n"[0]);
+        int size = 0;
+        for (var i = 1; i < prelines.Length; i++)
+        {
+            if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+            {
+                size++;
+            }
+        }
+        String[] lines = new string[size];
+        int index = 0;
+        for (var i = 1; i < prelines.Length; i++)
+        {
+            if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+            {
+                lines[index] = prelines[i];
+                index++;
+            }
+        }
         for (int i = 1; i < size; i++)
         {
             var coords = lines[i].Split(" "[0]);
@@ -222,7 +271,7 @@ public class EventMaker : MonoBehaviour
                 size = i - 1;
             }
         }
-        float largestZ = 0;
+        
         hits = new GameObject[size - 1];
         float x = 0f;
         float y = 0f;
@@ -251,10 +300,7 @@ public class EventMaker : MonoBehaviour
                 if (j == 3)
                 {
                     z = float.Parse(coords[j]);
-                    if (z > largestZ)
-                    {
-                        largestZ = z;
-                    }
+                    
 
                 }
                 if (j == 4)

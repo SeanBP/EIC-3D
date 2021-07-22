@@ -32,11 +32,6 @@ public class PlayerController : MonoBehaviour
             moveDirection = moveDirection * moveSpeed;
         }
         
-
-        if (Input.GetButtonDown("Cancel"))
-        {
-            Application.Quit();
-        }
         controller.Move(moveDirection * Time.deltaTime);
     }
 }

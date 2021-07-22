@@ -2,12 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class ComponentMaker : MonoBehaviour
 {
+    private bool menagerieActive = false;
+    GameObject[] menagerie;
+    public Slider zSlider;
+    public Slider xySlider;
     // Start is called before the first frame update
     void Start()
     {
+        menagerie = GameObject.FindGameObjectsWithTag("Menagerie");
+        for (int i = 0; i < menagerie.Length; i++)
+        {
+           menagerie[i].SetActive(false);
+        }
         //blue
         //Color color = new Color(9f / 255f, 130f / 255f, 250f / 255f);
 
@@ -16,15 +26,13 @@ public class ComponentMaker : MonoBehaviour
 
         //yellow
         //Color color = new Color(255f / 255f, 196f / 255f, 47f / 255f);
-        
+
         //HCAL Barrel
         MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
         //HCAL EndcapP
         MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
         //HCAL EndcapN
         MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
-
-        //0.02
 
         //ECAL Barrel
         MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
@@ -40,6 +48,72 @@ public class ComponentMaker : MonoBehaviour
         //Solenoid
         MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
 
+    }
+    public void ToggleMenagerie()
+    {
+        zSlider.value = 1f;
+        xySlider.value = 1f;
+        GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
+        if (!menagerieActive)
+        {
+            for (int i = 0; i < detectorParts.Length; i++)
+            {
+                Destroy(detectorParts[i]);
+            }
+            for (int i = 0; i < menagerie.Length; i++)
+            {
+                menagerie[i].SetActive(true);
+                
+            }
+            menagerieActive = true;
+            
+        }
+        else
+        {
+            for (int i = 0; i < menagerie.Length; i++)
+            {
+                menagerie[i].SetActive(false);
+            }
+            buildSimModel();
+            
+            menagerieActive = false;
+
+        }
+        
+    }
+    public void buildSimModel()
+    {
+        GameObject[] components = GameObject.FindGameObjectsWithTag("Detector");
+        GameObject[] menagerie = GameObject.FindGameObjectsWithTag("Menagerie");
+        for(int i = 0; i < components.Length; i++)
+        {
+            Destroy(components[i]);
+        }
+        for(int i = 0; i < menagerie.Length; i++)
+        {
+            menagerie[i].SetActive(false);
+        }
+
+        //HCAL Barrel
+        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
+        //HCAL EndcapP
+        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
+        //HCAL EndcapN
+        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
+
+        //ECAL Barrel
+        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
+        //ECAL EndcapP
+        MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
+
+        //ECAL EndcapN
+        MakeComponent(12, .3f, 0.955f / (float)Math.Cos(Math.PI / 12), 0.41f, -1.555f - (0.41f / 2f), 0, 0.02f, 146, 208, 80, 2);
+
+        //Tracker Barrel
+        //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
+
+        //Solenoid
+        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
     }
 
     // Update is called once per frame
@@ -295,7 +369,7 @@ public class ComponentMaker : MonoBehaviour
                 lines[i].GetComponent<LineRenderer>().useWorldSpace = false;
                 lines[i].transform.position = new Vector3(0, 0, 0);
                 lines[i].tag = "Line";
-                lines[i].SetActive(false);
+                //lines[i].SetActive(false);
             }
         }
 

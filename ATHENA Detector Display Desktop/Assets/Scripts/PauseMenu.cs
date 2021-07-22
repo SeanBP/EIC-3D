@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject credits;
     public GameObject eventMenu;
     public GameObject detectorMenu;
+    public GameObject controls;
     //private bool EventLoaded = false;
     private GameObject[] hits = null;
     private bool animating = false;
@@ -20,11 +21,14 @@ public class PauseMenu : MonoBehaviour
     private bool clearing = false;
     private bool duration = false;
     private float lastSliderValue = 1;
+    GameObject[] menagerie;
+    
 
     // Update is called once per frame
 
     void Start()
     {
+        menagerie = GameObject.FindGameObjectsWithTag("Menagerie");    
         Resume();
     }
     void Update()
@@ -66,6 +70,8 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    
+
     public void EventMenu()
     {
         eventMenu.SetActive(true);
@@ -87,6 +93,11 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
     }
 
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     public void Credits()
     {
         if (credits.active)
@@ -99,26 +110,54 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void Controls()
+    {
+        if (controls.active)
+        {
+            controls.SetActive(false);
+        }
+        else
+        {
+            controls.SetActive(true);
+        }
+    }
+
     public void ExpandZ(float newValue)
     {
         GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
-        
-        for (var i = 0; i < detectorParts.Length; i++)
+        if (detectorParts.Length != 0)
         {
-            Vector3 lastPosition = detectorParts[i].transform.position;
-            detectorParts[i].transform.localPosition = new Vector3(lastPosition.x, lastPosition.y, (lastPosition.z/lastSliderValue)*newValue);
+            for (int i = 0; i < detectorParts.Length; i++)
+            {
+                Vector3 lastPosition = detectorParts[i].transform.position;
+                detectorParts[i].transform.localPosition = new Vector3(lastPosition.x, lastPosition.y, (lastPosition.z / lastSliderValue) * newValue);
+
+            }
+            lastSliderValue = newValue;
         }
+
+        Vector3 newScale = new Vector3(menagerie[0].transform.localScale.x, menagerie[0].transform.localScale.y, newValue);
+        for (int i = 0; i < menagerie.Length; i++)
+        {
+            Vector3 lastPosition = menagerie[i].transform.position;
+            menagerie[i].transform.localScale = newScale;
+        }
+
         
-        lastSliderValue = newValue;
     }
     public void XYScale(float newValue)
     {
         GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
         Vector3 newScale = new Vector3(newValue, newValue, 1);
 
-        for (var i = 0; i < detectorParts.Length; i++)
+        for (int i = 0; i < detectorParts.Length; i++)
         {
             detectorParts[i].transform.localScale = newScale;
+        }
+        newScale = new Vector3(newValue, newValue, menagerie[0].transform.localScale.z);
+        for(int i = 0; i < menagerie.Length; i++)
+        {
+            menagerie[i].transform.localScale = newScale;
         }
 
 

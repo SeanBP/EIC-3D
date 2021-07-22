@@ -9,6 +9,7 @@ TagManager:
   - Detector
   - Cluster
   - Line
+  - Menagerie
   layers:
   - Default
   - TransparentFX
