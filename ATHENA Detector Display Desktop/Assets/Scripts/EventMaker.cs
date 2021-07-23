@@ -412,7 +412,7 @@ public class EventMaker : MonoBehaviour
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
-            material.renderQueue = 1001;
+            material.renderQueue = 10000;
             hits[i].GetComponent<MeshRenderer>().sharedMaterial = material;
 
         }
