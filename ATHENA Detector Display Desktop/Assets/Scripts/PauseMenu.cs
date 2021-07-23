@@ -13,13 +13,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject eventMenu;
     public GameObject detectorMenu;
     public GameObject controls;
-    //private bool EventLoaded = false;
-    private GameObject[] hits = null;
-    private bool animating = false;
     private float[] timeList;
-    private float start_time = 0f;
-    private bool clearing = false;
-    private bool duration = false;
+
+ 
     private float lastSliderValue = 1;
     GameObject[] menagerie;
     

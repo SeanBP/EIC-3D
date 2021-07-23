@@ -381,7 +381,7 @@ public class ComponentMaker : MonoBehaviour
         material.color = color;
         material.renderQueue = renderQueue;
 
-        gameObject.GetComponent<MeshRenderer>().material = material;
+        gameObject.GetComponent<MeshRenderer>().sharedMaterial = material;
 
         gameObject.transform.position = new Vector3(0, 0, offset);
         

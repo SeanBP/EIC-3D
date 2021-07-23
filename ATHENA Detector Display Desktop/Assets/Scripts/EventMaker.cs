@@ -8,6 +8,7 @@ public class EventMaker : MonoBehaviour
 {
 
     //private bool EventLoaded = false;
+    public GameObject text;
     private GameObject[] hits = null;
     private GameObject[] clusters = null;
     private bool animating = false;
@@ -15,11 +16,14 @@ public class EventMaker : MonoBehaviour
     private float start_time = 0f;
     private bool clearing = false;
     private bool duration = false;
-    public string filename = "Test.txt";
+    public string filename = "Rec_Mine_Events.txt";
     public int iEvt = 2;
 
     // Update is called once per frame
-
+    void Start()
+    {
+        
+    }
 
     void Update()
     {
@@ -135,150 +139,182 @@ public class EventMaker : MonoBehaviour
     public void LoadClusters()
     {
         ClearClusters();
-        var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
-        var fileContents = source.ReadToEnd();
-        source.Close();
-        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
-        var prelines = events[iEvt].Split("\n"[0]);
-        var size = 0;
-        for (var i = 1; i < prelines.Length; i++)
+
+        try
         {
-            if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+            
+            var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
+            /*
+            GameObject cube4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Material material4 = new Material(Shader.Find("Transparent/Diffuse"));
+            material4.color = Color.green;
+            cube4.GetComponent<MeshRenderer>().sharedMaterial = material4;
+            */
+
+            var fileContents = source.ReadToEnd();
+            source.Close();
+
+            var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
+            var prelines = events[iEvt].Split("\n"[0]);
+            var size = 0;
+
+            for (var i = 1; i < prelines.Length; i++)
             {
-                size++;
+                if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+                {
+                    size++;
+                }
+            }
+
+            String[] lines = new string[size];
+            int index = 0;
+            for (var i = 1; i < prelines.Length; i++)
+            {
+                if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+                {
+                    lines[index] = prelines[i];
+                    index++;
+                }
+            }
+
+
+            var start = 0;
+            for (var i = 0; i < size; i++)
+            {
+                var coords = lines[i].Split(" "[0]);
+                if (string.Equals(coords[0].TrimEnd('\r', '\n'), "Clusters"))
+                {
+                    start = i + 1;
+                }
+            }
+
+            size = size - start;
+
+
+            clusters = new GameObject[size];
+            float x = 0f;
+            float y = 0f;
+            float z = 0f;
+            float minE = 1000f;
+            float maxE = 0f;
+            float[] energyList = new float[size];
+
+            for (var i = start; i < lines.Length; i++)
+            {
+                var coords = lines[i].Split(" "[0]);
+
+                if (float.Parse(coords[5]) < minE)
+                {
+                    minE = float.Parse(coords[5]);
+                }
+                if (float.Parse(coords[5]) > maxE)
+                {
+                    maxE = float.Parse(coords[5]);
+                }
+                energyList[i - start] = float.Parse(coords[5]);
+
+            }
+
+            for (var i = start; i < lines.Length; i++)
+            {
+                var coords = lines[i].Split(" "[0]);
+                Color color = new Color(0, 0, 0);
+
+                x = float.Parse(coords[2]);
+
+                y = float.Parse(coords[3]);
+
+                z = float.Parse(coords[4]);
+
+                clusters[i - start] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+                clusters[i - start].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                clusters[i - start].GetComponent<Collider>().enabled = false;
+                clusters[i - start].GetComponent<Renderer>().enabled = true;
+                clusters[i - start].tag = "Cluster";
+                clusters[i - start].layer = 3;
+                
+                float length = (energyList[i - start] - minE) / (maxE - minE);
+
+                //var cubeRenderer = clusters[i - start].GetComponent<MeshRenderer>();
+                if (string.Equals(coords[0], "Ecal"))
+                {
+                    Material material = new Material(Shader.Find("Standard"));
+                    material.color = Color.green;
+                    material.renderQueue = 999;
+                    clusters[i - start].GetComponent<MeshRenderer>().sharedMaterial = material;
+
+                }
+                if (string.Equals(coords[0], "Hcal"))
+                {
+                    Material material = new Material(Shader.Find("Standard"));
+                    material.color = Color.blue;
+                    material.renderQueue = 1000;
+                    clusters[i - start].GetComponent<MeshRenderer>().sharedMaterial = material;
+                    //cubeRenderer.sharedMaterial.SetColor("_Color", Color.blue);
+                }
+
+
+                if (string.Equals(coords[1], "Endcap"))
+                {
+                    clusters[i - start].transform.localScale = new Vector3(0.05f, 0.05f, 1f * length + 0.01f);
+                    if (z < 0)
+                    {
+                        clusters[i - start].transform.position = new Vector3(x, y, z - (length + 0.01f) / 2);
+                    }
+                    else
+                    {
+                        clusters[i - start].transform.position = new Vector3(x, y, z + (length + 0.01f) / 2);
+                    }
+                }
+                else
+                {
+                    int sides = 12;
+                    GameObject pivot = new GameObject();
+                    clusters[i - start].transform.localScale = new Vector3((length + 0.01f), 0.05f, 0.05f);
+                    pivot.transform.localPosition = new Vector3(x, y, z);
+                    clusters[i - start].transform.localPosition = new Vector3(x, y, z);
+                    float angle = (float)Math.Atan(y / x);
+                    float xmag = 1;
+                    if (x != 0)
+                    {
+                        xmag = (x / (float)Math.Abs(x));
+                    }
+                    float angle2 = (float)(180 / Math.PI) * (float)Math.Atan(y / x);
+                    if (!(x == 0 && y == 0))
+                    {
+
+                        int side = Convert.ToInt32(Math.Round(angle2 / (360f / (float)sides)));
+
+                        float desiredAngle = side * (360f / 12f);
+
+                        clusters[i - start].transform.RotateAround(pivot.transform.position, new Vector3(0, 0, 1), desiredAngle);
+
+                        float magnitude = (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
+                        float newX = xmag * (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Cos(Math.PI * desiredAngle / 180.0f);
+                        float newY = (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Sin(Math.PI * desiredAngle / 180.0f);
+                        clusters[i - start].transform.position = new Vector3(newX, xmag * newY, z);
+                    }
+                    else
+                    {
+                        clusters[i - start].SetActive(false);
+                    }
+                    Destroy(pivot);
+                }
             }
         }
-
-        String[] lines = new string[size];
-        int index = 0;
-        for (var i = 1; i < prelines.Length; i++)
+        catch(Exception e)
         {
-            if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
-            {
-                lines[index] = prelines[i];
-                index++;
-            }
-        }
-     
-
-        var start = 0;
-        for (var i = 0; i < size; i++)
-        {
-            var coords = lines[i].Split(" "[0]);
-            if (string.Equals(coords[0].TrimEnd('\r','\n'), "Clusters"))
-            {
-                start = i + 1;                
-            }
+            Debug.Log(e.Message);
+            text.GetComponent<UnityEngine.UI.Text>().text = e.Message;
+            GameObject cube1 = new GameObject();
+            cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Material material2 = new Material(Shader.Find("Transparent/Diffuse"));
+            material2.color = Color.red;
+            cube1.GetComponent<MeshRenderer>().sharedMaterial = material2;
         }
         
-        size = size - start;
-
-        clusters = new GameObject[size];
-        float x = 0f;
-        float y = 0f;
-        float z = 0f;
-        float minE = 1000f;
-        float maxE = 0f;
-        float[] energyList = new float[size];
-
-        for (var i = start; i < lines.Length; i++)
-        {
-            var coords = lines[i].Split(" "[0]);
-
-            if (float.Parse(coords[5]) < minE)
-            {
-                minE = float.Parse(coords[5]);
-            }
-            if (float.Parse(coords[5]) > maxE)
-            {
-                maxE = float.Parse(coords[5]);
-            }
-            energyList[i - start] = float.Parse(coords[5]);
-
         }
-
-        for (var i = start; i < lines.Length; i++)
-        {
-            var coords = lines[i].Split(" "[0]);
-            Color color = new Color(0, 0, 0);
-
-            x = float.Parse(coords[2]);
-
-            y = float.Parse(coords[3]);
-
-            z = float.Parse(coords[4]);
-
-            clusters[i - start] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-            clusters[i - start].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-            clusters[i - start].GetComponent<Collider>().enabled = false;
-            clusters[i - start].GetComponent<Renderer>().enabled = true;
-            clusters[i - start].tag = "Cluster";
-            clusters[i - start].layer = 3;
-            float length = (energyList[i - start] - minE) / (maxE - minE);
-
-            var cubeRenderer = clusters[i - start].GetComponent<Renderer>();
-            if (string.Equals(coords[0], "Ecal"))
-            {
-                cubeRenderer.material.SetColor("_Color", Color.green);
-
-            }
-            if (string.Equals(coords[0], "Hcal"))
-            {
-                cubeRenderer.material.SetColor("_Color", Color.blue);
-            }
-
-
-            if (string.Equals(coords[1], "Endcap"))
-            {
-                clusters[i - start].transform.localScale = new Vector3(0.05f, 0.05f, 1f * length + 0.01f);
-                if (z < 0)
-                {
-                    clusters[i - start].transform.position = new Vector3(x, y, z - (length + 0.01f) / 2);
-                }
-                else
-                {
-                    clusters[i - start].transform.position = new Vector3(x, y, z + (length + 0.01f) / 2);
-                }
-            }
-            else
-            {
-                int sides = 12;
-                GameObject pivot = new GameObject();
-                clusters[i - start].transform.localScale = new Vector3((length + 0.01f), 0.05f, 0.05f);
-                pivot.transform.localPosition = new Vector3(x, y, z);
-                clusters[i - start].transform.localPosition = new Vector3(x, y, z);
-                float angle = (float)Math.Atan(y / x);
-                float xmag = 1;
-                if (x != 0)
-                {
-                    xmag = (x / (float)Math.Abs(x));
-                }
-                float angle2 = (float)(180 / Math.PI) * (float)Math.Atan(y / x);
-                if (!(x == 0 && y == 0))
-                {
-
-                    int side = Convert.ToInt32(Math.Round(angle2 / (360f / 12f)));
-
-                    float desiredAngle = side * (360f / 12f);
-
-                    clusters[i - start].transform.RotateAround(pivot.transform.position, new Vector3(0, 0, 1), desiredAngle);
-
-                    float magnitude = (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
-                    float newX = xmag * (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Cos(Math.PI * desiredAngle / 180.0f);
-                    float newY = (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Sin(Math.PI * desiredAngle / 180.0f);
-                    clusters[i - start].transform.position = new Vector3(newX, xmag * newY, z);
-                }
-                else
-                {
-                    clusters[i - start].SetActive(false);
-                }
-                Destroy(pivot);
-            }
-        }
-
-
-    }
 
     void LoadHits()
     {
@@ -376,8 +412,8 @@ public class EventMaker : MonoBehaviour
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
-            material.renderQueue = 1000;
-            hits[i].GetComponent<Renderer>().material = material;
+            material.renderQueue = 1001;
+            hits[i].GetComponent<MeshRenderer>().sharedMaterial = material;
 
         }
         animating = true;
