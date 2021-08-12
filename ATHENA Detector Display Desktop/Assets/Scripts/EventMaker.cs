@@ -16,13 +16,18 @@ public class EventMaker : MonoBehaviour
     private float start_time = 0f;
     private bool clearing = false;
     private bool duration = false;
-    public string filename = "Rec_Mine_Events.txt";
-    public int iEvt = 2;
+    public string filename = "Events.txt";
+    public int iEvt = 1;
+    private int maxiEvt = 1;
 
     // Update is called once per frame
     void Start()
     {
-        
+        var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
+        var fileContents = source.ReadToEnd();
+        source.Close();
+        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
+        maxiEvt = events.Length - 1;
     }
 
     void Update()
@@ -73,9 +78,9 @@ public class EventMaker : MonoBehaviour
     public void NextEvent()
     {
         iEvt++;
-        if(iEvt == 101)
+        if(iEvt == maxiEvt+1)
         {
-            iEvt = 2;
+            iEvt = 1;
         }
         clusters = GameObject.FindGameObjectsWithTag("Cluster");
         if(clusters.Length != 0)
@@ -95,9 +100,9 @@ public class EventMaker : MonoBehaviour
     public void PreviousEvent()
     {
         iEvt--;
-        if (iEvt == 1)
+        if (iEvt == 0)
         {
-            iEvt = 100;
+            iEvt = maxiEvt;
         }
         clusters = GameObject.FindGameObjectsWithTag("Cluster");
         if (clusters.Length != 0)
@@ -143,13 +148,12 @@ public class EventMaker : MonoBehaviour
         try
         {
             
-            var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
-            /*
-            GameObject cube4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Material material4 = new Material(Shader.Find("Transparent/Diffuse"));
-            material4.color = Color.green;
-            cube4.GetComponent<MeshRenderer>().sharedMaterial = material4;
-            */
+            var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
+            
+            GameObject clusterSig = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            clusterSig.tag = "Cluster";
+            clusterSig.GetComponent<Collider>().enabled = false;
+            clusterSig.GetComponent<Renderer>().enabled = false;
 
             var fileContents = source.ReadToEnd();
             source.Close();
@@ -233,12 +237,20 @@ public class EventMaker : MonoBehaviour
                 clusters[i - start].GetComponent<Renderer>().enabled = true;
                 clusters[i - start].tag = "Cluster";
                 clusters[i - start].layer = 3;
-                
-                float length = (energyList[i - start] - minE) / (maxE - minE);
-
+                float length = 0f;
+                if (maxE - minE != 0)
+                {
+                    length = (energyList[i - start] - minE) / (maxE - minE);
+                }
+                else
+                {
+                    length = 1f;
+                }
+                float granularity = 0f;
                 //var cubeRenderer = clusters[i - start].GetComponent<MeshRenderer>();
                 if (string.Equals(coords[0], "Ecal"))
                 {
+                    granularity = 0.025f;
                     Material material = new Material(Shader.Find("Standard"));
                     material.color = Color.green;
                     material.renderQueue = 999;
@@ -247,6 +259,7 @@ public class EventMaker : MonoBehaviour
                 }
                 if (string.Equals(coords[0], "Hcal"))
                 {
+                    granularity = 0.1f;
                     Material material = new Material(Shader.Find("Standard"));
                     material.color = Color.blue;
                     material.renderQueue = 1000;
@@ -257,7 +270,7 @@ public class EventMaker : MonoBehaviour
 
                 if (string.Equals(coords[1], "Endcap"))
                 {
-                    clusters[i - start].transform.localScale = new Vector3(0.05f, 0.05f, 1f * length + 0.01f);
+                    clusters[i - start].transform.localScale = new Vector3(granularity, granularity, 1f * length + 0.01f);
                     if (z < 0)
                     {
                         clusters[i - start].transform.position = new Vector3(x, y, z - (length + 0.01f) / 2);
@@ -271,7 +284,7 @@ public class EventMaker : MonoBehaviour
                 {
                     int sides = 12;
                     GameObject pivot = new GameObject();
-                    clusters[i - start].transform.localScale = new Vector3((length + 0.01f), 0.05f, 0.05f);
+                    clusters[i - start].transform.localScale = new Vector3((length + 0.01f), granularity, granularity);
                     pivot.transform.localPosition = new Vector3(x, y, z);
                     clusters[i - start].transform.localPosition = new Vector3(x, y, z);
                     float angle = (float)Math.Atan(y / x);
@@ -319,7 +332,14 @@ public class EventMaker : MonoBehaviour
     void LoadHits()
     {
         ClearHits();
-        var source = new StreamReader(Application.dataPath + "/Collision Data/" + filename);
+
+        GameObject hitSig = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        hitSig.tag = "Hit";
+        hitSig.GetComponent<Collider>().enabled = false;
+        hitSig.GetComponent<Renderer>().enabled = false;
+
+
+        var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
         var fileContents = source.ReadToEnd();
         source.Close();
         var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);

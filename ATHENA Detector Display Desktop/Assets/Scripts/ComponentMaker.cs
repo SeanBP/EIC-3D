@@ -40,7 +40,7 @@ public class ComponentMaker : MonoBehaviour
         MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
         
         //ECAL EndcapN
-        MakeComponent(12, .3f, 0.955f / (float)Math.Cos(Math.PI / 12), 0.41f, -1.555f - (0.41f / 2f), 0, 0.02f, 146, 208, 80, 2);
+        MakeComponent(100, .3f, 0.955f / (float)Math.Cos(Math.PI / 100), 0.41f, -1.555f - (0.41f / 2f), 0, 0.01f, 146, 208, 80, 2);
 
         //Tracker Barrel
         //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
@@ -107,7 +107,7 @@ public class ComponentMaker : MonoBehaviour
         MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
 
         //ECAL EndcapN
-        MakeComponent(12, .3f, 0.955f / (float)Math.Cos(Math.PI / 12), 0.41f, -1.555f - (0.41f / 2f), 0, 0.02f, 146, 208, 80, 2);
+        MakeComponent(100, .3f, 0.955f / (float)Math.Cos(Math.PI / 100), 0.41f, -1.555f - (0.41f / 2f), 0, 0.01f, 146, 208, 80, 2);
 
         //Tracker Barrel
         //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
@@ -369,7 +369,7 @@ public class ComponentMaker : MonoBehaviour
                 lines[i].GetComponent<LineRenderer>().useWorldSpace = false;
                 lines[i].transform.position = new Vector3(0, 0, 0);
                 lines[i].tag = "Line";
-                //lines[i].SetActive(false);
+                lines[i].SetActive(false);
             }
         }
 

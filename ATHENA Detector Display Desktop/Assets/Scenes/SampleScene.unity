@@ -4400,8 +4400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 228658135}
-  filename: Rec_Mine_Events.txt
-  iEvt: 2
+  filename: Events.txt
+  iEvt: 1
 --- !u!1 &664979949
 GameObject:
   m_ObjectHideFlags: 0
