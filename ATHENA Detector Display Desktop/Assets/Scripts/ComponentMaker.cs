@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 using UnityEngine.UI;
 
 public class ComponentMaker : MonoBehaviour
@@ -10,6 +11,7 @@ public class ComponentMaker : MonoBehaviour
     GameObject[] menagerie;
     public Slider zSlider;
     public Slider xySlider;
+    public string filename = "Detector.txt";
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,7 @@ public class ComponentMaker : MonoBehaviour
         {
            menagerie[i].SetActive(false);
         }
+        /*
         //blue
         //Color color = new Color(9f / 255f, 130f / 255f, 250f / 255f);
 
@@ -47,6 +50,8 @@ public class ComponentMaker : MonoBehaviour
         
         //Solenoid
         MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
+        */
+        buildSimModel();
 
     }
     public void ToggleMenagerie()
@@ -94,26 +99,64 @@ public class ComponentMaker : MonoBehaviour
             menagerie[i].SetActive(false);
         }
 
+        var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
+        var fileContents = source.ReadToEnd();
+        source.Close();
+        var parts = fileContents.Split("\n"[0]);
+        for(int i = 1; i < parts.Length; i = i+2)
+        {
+            var dparams = parts[i].Split(" "[0]);
+            MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]), 
+                float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), int.Parse(dparams[7]), 
+                int.Parse(dparams[8]), int.Parse(dparams[9]), int.Parse(dparams[10]));
+
+        }
+
+
+        /*
+
+
+
+        //int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, int renderQueue
+
         //HCAL Barrel
-        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
+        MakeComponent(24, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
         //HCAL EndcapP
-        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
+        MakeComponent(24, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
         //HCAL EndcapN
-        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
+        MakeComponent(24, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
 
         //ECAL Barrel
-        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
+        MakeComponent(24, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
         //ECAL EndcapP
-        MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
+        MakeComponent(100, .2f, 2.24f / (float)Math.Cos(Math.PI / 100), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
 
         //ECAL EndcapN
-        MakeComponent(100, .3f, 0.955f / (float)Math.Cos(Math.PI / 100), 0.41f, -1.555f - (0.41f / 2f), 0, 0.01f, 146, 208, 80, 2);
+        MakeComponent(24, .3f, 0.955f / (float)Math.Cos(Math.PI / 24), 0.41f, -1.555f - (0.41f / 2f), 0, 0.01f, 146, 208, 80, 2);
+
+
+        
+        //Tracker Barrel
+        //Inner
+        MakeComponent(100, .21f, .393f, 0.6f, 0f, 0f, 0.01f, 255, 196, 47, 3);
+        //Outer
+        MakeComponent(100, .393f, .78f, 2.6f, 0f, 0f, 0.01f, 255, 196, 47, 3);
+
+        //Tracker Endcap Inner
+        MakeComponent(100, 0.03f, 0.388f, 0.27f, 0.435f, 0f, 0.01f, 255, 196, 47, 3);
+
+        //Tracker Endcap Outer
+        MakeComponent(100, 0.0318f, 0.4323f, 0.72f, 0.93f, 0f, 0.01f, 255, 196, 47, 3);
+        
 
         //Tracker Barrel
-        //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
+        MakeComponent(100, .03f, .78f, 2.6f, 0f, 0f, 0.01f, 255, 196, 47, 3);
+
+        
 
         //Solenoid
-        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
+        MakeComponent(24, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
+        */
     }
 
     // Update is called once per frame
@@ -157,7 +200,7 @@ public class ComponentMaker : MonoBehaviour
 
     void MakeComponent(int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, int renderQueue)
     {
-        innerR = innerR / (float)Math.Cos(Math.PI / sides);
+        //innerR = innerR / (float)Math.Cos(Math.PI / sides);
 
         if (sides % 2 == 0)
         {

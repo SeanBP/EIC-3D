@@ -19,6 +19,8 @@ public class EventMaker : MonoBehaviour
     public string filename = "Events.txt";
     public int iEvt = 1;
     private int maxiEvt = 1;
+    GameObject proton;
+    GameObject electron;
 
     // Update is called once per frame
     void Start()
@@ -28,6 +30,30 @@ public class EventMaker : MonoBehaviour
         source.Close();
         var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
         maxiEvt = events.Length - 1;
+
+        proton = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        proton.transform.position = new Vector3(0, 0, 0);
+        proton.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+        proton.GetComponent<Collider>().enabled = false;
+        proton.GetComponent<Renderer>().enabled = false;
+      
+        Color pcolor = new Color(1f, 0f, 0f);
+        Material pmaterial = new Material(Shader.Find("Transparent/Diffuse"));
+        pmaterial.color = pcolor;
+        pmaterial.renderQueue = 10000;
+        proton.GetComponent<MeshRenderer>().sharedMaterial = pmaterial;
+
+        electron = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        electron.transform.position = new Vector3(0, 0, 0);
+        electron.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        electron.GetComponent<Collider>().enabled = false;
+        electron.GetComponent<Renderer>().enabled = false;
+
+        Color ecolor = new Color(0f, 0f, 1f);
+        Material ematerial = new Material(Shader.Find("Transparent/Diffuse"));
+        ematerial.color = ecolor;
+        ematerial.renderQueue = 10000;
+        electron.GetComponent<MeshRenderer>().sharedMaterial = ematerial;
     }
 
     void Update()
@@ -50,7 +76,7 @@ public class EventMaker : MonoBehaviour
             {
                 if (duration == true)
                 {
-                    if (timeList[i] + 0.1f <= Time.time - start_time)
+                    if (timeList[i] + 3f <= Time.time - start_time)
                     {
                         hits[i].GetComponent<Renderer>().enabled = true;
                     }
@@ -58,6 +84,21 @@ public class EventMaker : MonoBehaviour
                     {
                         hitsLeft = true;
                     }
+
+                    if (Time.time - start_time < 3f)
+                    {
+                        proton.GetComponent<Renderer>().enabled = true;
+                        electron.GetComponent<Renderer>().enabled = true;
+                        proton.transform.position = new Vector3(0, 0, -9 + 3 * (Time.time - start_time));
+                        electron.transform.position = new Vector3(0, 0, 9 - 3 * (Time.time - start_time));
+                    }
+                    else
+                    {
+                        proton.GetComponent<Renderer>().enabled = false;
+                        electron.GetComponent<Renderer>().enabled = false;
+                    }
+
+
                 }
                 else
                 {
@@ -94,8 +135,9 @@ public class EventMaker : MonoBehaviour
             ClearHits();
             LoadHits();
         }
+        start_time = Time.time;
 
-        
+
     }
     public void PreviousEvent()
     {
@@ -116,6 +158,7 @@ public class EventMaker : MonoBehaviour
             ClearHits();
             LoadHits();
         }
+        start_time = Time.time;
     }
 
     public void ClearHits()
@@ -386,7 +429,7 @@ public class EventMaker : MonoBehaviour
             {
                 if (j == 0)
                 {
-                    timeList[i - 1] = float.Parse(coords[j]) / 8.0f;
+                    timeList[i - 1] = float.Parse(coords[j]) / 10.0f;
                 }
                 if (j == 1)
                 {
