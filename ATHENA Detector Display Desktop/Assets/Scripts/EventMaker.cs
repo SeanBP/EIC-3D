@@ -16,6 +16,7 @@ public class EventMaker : MonoBehaviour
     private float start_time = 0f;
     private bool clearing = false;
     private bool duration = false;
+    private bool looping = false;
     public string filename = "Events.txt";
     public int iEvt = 1;
     private int maxiEvt = 1;
@@ -97,7 +98,13 @@ public class EventMaker : MonoBehaviour
                         proton.GetComponent<Renderer>().enabled = false;
                         electron.GetComponent<Renderer>().enabled = false;
                     }
-
+                    if (looping == true)
+                    {
+                        if (Time.time - start_time >= 7)
+                        {
+                            NextEvent();
+                        }
+                    }
 
                 }
                 else
@@ -115,6 +122,21 @@ public class EventMaker : MonoBehaviour
             start_time = Time.time;
         }
     } 
+
+    public void LoopAnimation()
+    {
+        if(looping == true)
+        {
+            looping = false;
+        }
+        else
+        {
+            looping = true;
+            AnimateHits();
+        }
+        
+
+    }
 
     public void NextEvent()
     {
@@ -375,6 +397,8 @@ public class EventMaker : MonoBehaviour
     void LoadHits()
     {
         ClearHits();
+        proton.GetComponent<Renderer>().enabled = false;
+        electron.GetComponent<Renderer>().enabled = false;
 
         GameObject hitSig = GameObject.CreatePrimitive(PrimitiveType.Cube);
         hitSig.tag = "Hit";
