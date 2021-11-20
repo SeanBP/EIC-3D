@@ -72,6 +72,8 @@ public class PauseMenu : MonoBehaviour
     {
         eventMenu.SetActive(true);
         pauseMenuUI.SetActive(false);
+        credits.SetActive(false);
+        controls.SetActive(false);
     }
     public void EventMenuBack()
     {
@@ -82,6 +84,8 @@ public class PauseMenu : MonoBehaviour
     {
         detectorMenu.SetActive(true);
         pauseMenuUI.SetActive(false);
+        credits.SetActive(false);
+        controls.SetActive(false);
     }
     public void DetectorMenuBack()
     {
@@ -96,6 +100,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Credits()
     {
+        Debug.Log("TEST");
+        controls.SetActive(false);
         if (credits.active)
         {
             credits.SetActive(false);
@@ -108,6 +114,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Controls()
     {
+        credits.SetActive(false);
         if (controls.active)
         {
             controls.SetActive(false);

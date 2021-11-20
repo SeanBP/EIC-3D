@@ -20,37 +20,7 @@ public class ComponentMaker : MonoBehaviour
         {
            menagerie[i].SetActive(false);
         }
-        /*
-        //blue
-        //Color color = new Color(9f / 255f, 130f / 255f, 250f / 255f);
-
-        //green
-        //Color color = new Color(146f / 255f, 208f / 255f, 80f / 255f);
-
-        //yellow
-        //Color color = new Color(255f / 255f, 196f / 255f, 47f / 255f);
-
-        //HCAL Barrel
-        MakeComponent(12, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
-        //HCAL EndcapP
-        MakeComponent(12, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
-        //HCAL EndcapN
-        MakeComponent(12, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
-
-        //ECAL Barrel
-        MakeComponent(12, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
-        //ECAL EndcapP
-        MakeComponent(12, .2f, 2.24f / (float)Math.Cos(Math.PI / 12), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
         
-        //ECAL EndcapN
-        MakeComponent(100, .3f, 0.955f / (float)Math.Cos(Math.PI / 100), 0.41f, -1.555f - (0.41f / 2f), 0, 0.01f, 146, 208, 80, 2);
-
-        //Tracker Barrel
-        //MakeComponent(100, .2f, .78f, 2.6f, 0.005f, 0, 0.03f, 255, 196, 47, 0.2f);
-        
-        //Solenoid
-        MakeComponent(100, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
-        */
         buildSimModel();
 
     }
@@ -111,58 +81,12 @@ public class ComponentMaker : MonoBehaviour
                 int.Parse(dparams[8]), int.Parse(dparams[9]), int.Parse(dparams[10]));
 
         }
-
-
-        /*
-
-
-
-        //int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, int renderQueue
-
-        //HCAL Barrel
-        MakeComponent(24, 2.24f, 3.24f, 4.975f, 0.5225f, 0, 0.02f, 9, 130, 250, 0);
-        //HCAL EndcapP
-        MakeComponent(24, 0.2f, 3.24f, 1f, 3.01f + (1f / 2f), 0, 0.02f, 9, 130, 250, 0);
-        //HCAL EndcapN
-        MakeComponent(24, 0.3f, 3.24f, 0.75f, -1.965f - (0.75f / 2f), 0, 0.02f, 9, 130, 250, 0);
-
-        //ECAL Barrel
-        MakeComponent(24, 0.955f, 1.34772f, 3.14772f, -0.23636f, 0, 0.02f, 146, 208, 80, 2);
-        //ECAL EndcapP
-        MakeComponent(100, .2f, 2.24f / (float)Math.Cos(Math.PI / 100), 0.48f, 2.53f + (0.48f / 2f), 0, 0.02f, 146, 208, 80, 2);
-
-        //ECAL EndcapN
-        MakeComponent(24, .3f, 0.955f / (float)Math.Cos(Math.PI / 24), 0.41f, -1.555f - (0.41f / 2f), 0, 0.01f, 146, 208, 80, 2);
-
-
         
-        //Tracker Barrel
-        //Inner
-        MakeComponent(100, .21f, .393f, 0.6f, 0f, 0f, 0.01f, 255, 196, 47, 3);
-        //Outer
-        MakeComponent(100, .393f, .78f, 2.6f, 0f, 0f, 0.01f, 255, 196, 47, 3);
-
-        //Tracker Endcap Inner
-        MakeComponent(100, 0.03f, 0.388f, 0.27f, 0.435f, 0f, 0.01f, 255, 196, 47, 3);
-
-        //Tracker Endcap Outer
-        MakeComponent(100, 0.0318f, 0.4323f, 0.72f, 0.93f, 0f, 0.01f, 255, 196, 47, 3);
-        
-
-        //Tracker Barrel
-        MakeComponent(100, .03f, .78f, 2.6f, 0f, 0f, 0.01f, 255, 196, 47, 3);
-
-        
-
-        //Solenoid
-        MakeComponent(24, 1.6f, 2.24f, 3.84f, 0f, 0, 0.01f, 127, 127, 127, 1);
-        */
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ToggleLines()
@@ -198,9 +122,19 @@ public class ComponentMaker : MonoBehaviour
 
     }
 
-    void MakeComponent(int sides, float innerR, float outerR, float length, float offset, float rotate, float lineThickness, int r, int g, int b, int renderQueue)
+    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float length, float offset, int r, int g, int b, int renderQueue)
     {
-        //innerR = innerR / (float)Math.Cos(Math.PI / sides);
+        float lineThickness = 0f;
+        float rotate = 0f;
+
+        if(sides >= 100)
+        {
+            lineThickness = 0.01f;
+        }
+        else
+        {
+            lineThickness = 0.02f;
+        }
 
         if (sides % 2 == 0)
         {
@@ -224,9 +158,9 @@ public class ComponentMaker : MonoBehaviour
             index++;
             vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2));
             index++;
-            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2));
+            vertices[index] = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), (length / 2));
             index++;
-            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (length / 2));
+            vertices[index] = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (length / 2));
             index++;
 
 
@@ -238,8 +172,14 @@ public class ComponentMaker : MonoBehaviour
             Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
             for (float j = (-length / 2); j <= (length / 2); j = j + length)
             {
+                
                 start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
                 end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j );
+                if(j > 0)
+                {
+                    start = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), j);
+                    end = new Vector3(outerR2 * (float)Math.Cos(theta2), outerR2 * (float)Math.Sin(theta2), j);
+                }
                 lines[lineIndex] = new GameObject();
                 lines[lineIndex].tag = "Line";
                 lines[lineIndex].transform.position = start;
@@ -255,6 +195,11 @@ public class ComponentMaker : MonoBehaviour
                 {
                     start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
                     end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), j );
+                    if (j > 0)
+                    {
+                        start = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), j);
+                        end = new Vector3(innerR2 * (float)Math.Cos(theta2), innerR2 * (float)Math.Sin(theta2), j);
+                    }
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].tag = "Line";
                     lines[lineIndex].transform.position = start;
@@ -270,6 +215,11 @@ public class ComponentMaker : MonoBehaviour
                     {
                         start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
                         end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
+                        if (j > 0)
+                        {
+                            start = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), j);
+                            end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), j);
+                        }
                         lines[lineIndex] = new GameObject();
                         lines[lineIndex].tag = "Line";
                         lines[lineIndex].transform.position = start;
@@ -284,11 +234,13 @@ public class ComponentMaker : MonoBehaviour
                     }
 
                 }
+                
             }
             if (sides <= 50)
             {
                 start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2) );
-                end = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (length / 2) );
+                end = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), (length / 2) );
+                
                 lines[lineIndex] = new GameObject();
                 lines[lineIndex].tag = "Line";
                 lines[lineIndex].transform.position = start;
@@ -300,12 +252,12 @@ public class ComponentMaker : MonoBehaviour
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
                 lineIndex++;
-                //float lineOffset = lineThickness / 2f;
-                float lineOffset = 0f;
-                if (innerR >= 0.06f)
+                
+                
+                if (innerR >= 1f && innerR2 >= 1f)
                 {
-                    start = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (-length / 2) );
-                    end = new Vector3((innerR - lineOffset) * (float)Math.Cos(theta), (innerR - lineOffset) * (float)Math.Sin(theta), (length / 2) );
+                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2) );
+                    end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (length / 2) );
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].tag = "Line";
                     lines[lineIndex].transform.position = start;
