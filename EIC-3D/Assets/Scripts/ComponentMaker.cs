@@ -79,7 +79,7 @@ public class ComponentMaker : MonoBehaviour
             
             MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]), 
                 float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), float.Parse(dparams[7]), float.Parse(dparams[8]),
-                float.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]), int.Parse(dparams[12]), int.Parse(dparams[13]));
+                float.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]), int.Parse(dparams[12]), parts.Length - i);
 
         }
         
