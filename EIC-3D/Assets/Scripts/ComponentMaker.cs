@@ -77,10 +77,11 @@ public class ComponentMaker : MonoBehaviour
         {
             var dparams = parts[i].Split(" "[0]);
             MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]), 
-                float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), int.Parse(dparams[7]), 
-                int.Parse(dparams[8]), int.Parse(dparams[9]), int.Parse(dparams[10]));
+                float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), float.Parse(dparams[7]), 
+                int.Parse(dparams[8]), int.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]));
 
         }
+        ToggleLines();
         
     }
 
@@ -122,23 +123,24 @@ public class ComponentMaker : MonoBehaviour
 
     }
 
-    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float length, float offset, int r, int g, int b, int renderQueue)
+    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float length, float offset, float rotate, int r, int g, int b, int renderQueue)
     {
         float lineThickness = 0f;
-        float rotate = 0f;
 
-        if(sides >= 100)
+      
+        lineThickness = 0.01f;
+        if(outerR < 1)
         {
-            lineThickness = 0.01f;
+            lineThickness = 0.005f;
         }
-        else
+        if (outerR < 0.5)
         {
-            lineThickness = 0.02f;
+            lineThickness = 0.002f;
         }
 
         if (sides % 2 == 0)
         {
-            rotate = rotate + (360 / (sides * 2));
+            rotate = rotate + (360 / (sides * 2)) + 90;
         }
         else
         {
