@@ -10,6 +10,9 @@ TagManager:
   - Cluster
   - Line
   - Menagerie
+  - FineGrid
+  - LargeGrid
+  - Facility
   layers:
   - Default
   - TransparentFX

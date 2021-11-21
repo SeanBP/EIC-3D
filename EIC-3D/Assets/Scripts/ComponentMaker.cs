@@ -11,6 +11,7 @@ public class ComponentMaker : MonoBehaviour
     GameObject[] menagerie;
     public Slider zSlider;
     public Slider xySlider;
+    public GameObject pauseMenuUI;
     public string filename = "Detector.txt";
     // Start is called before the first frame update
     void Start()
@@ -18,9 +19,9 @@ public class ComponentMaker : MonoBehaviour
         menagerie = GameObject.FindGameObjectsWithTag("Menagerie");
         for (int i = 0; i < menagerie.Length; i++)
         {
-           menagerie[i].SetActive(false);
+            menagerie[i].SetActive(false);
         }
-        
+
         buildSimModel();
 
     }
@@ -38,10 +39,10 @@ public class ComponentMaker : MonoBehaviour
             for (int i = 0; i < menagerie.Length; i++)
             {
                 menagerie[i].SetActive(true);
-                
+
             }
             menagerieActive = true;
-            
+
         }
         else
         {
@@ -50,21 +51,21 @@ public class ComponentMaker : MonoBehaviour
                 menagerie[i].SetActive(false);
             }
             buildSimModel();
-            
+
             menagerieActive = false;
 
         }
-        
+
     }
     public void buildSimModel()
     {
         GameObject[] components = GameObject.FindGameObjectsWithTag("Detector");
         GameObject[] menagerie = GameObject.FindGameObjectsWithTag("Menagerie");
-        for(int i = 0; i < components.Length; i++)
+        for (int i = 0; i < components.Length; i++)
         {
             Destroy(components[i]);
         }
-        for(int i = 0; i < menagerie.Length; i++)
+        for (int i = 0; i < menagerie.Length; i++)
         {
             menagerie[i].SetActive(false);
         }
@@ -73,17 +74,58 @@ public class ComponentMaker : MonoBehaviour
         var fileContents = source.ReadToEnd();
         source.Close();
         var parts = fileContents.Split("\n"[0]);
-        for(int i = 1; i < parts.Length; i = i+2)
+        for (int i = 1; i < parts.Length; i = i + 2)
         {
             var dparams = parts[i].Split(" "[0]);
-            
-            MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]), 
+
+            MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]),
                 float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), float.Parse(dparams[7]), float.Parse(dparams[8]),
                 float.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]), int.Parse(dparams[12]), parts.Length - i);
 
         }
-        
-        
+        MakeLargeGrid();
+    }
+    public void OneMGrid()
+    {
+        GameObject[] grid = GameObject.FindGameObjectsWithTag("FineGrid");
+        if (grid.Length > 0)
+        {
+            for (int i = 0; i < grid.Length; i++)
+            {
+                Destroy(grid[i]);
+            }
+        }
+        else
+        {
+            MakeFineGrid();
+        }
+        grid = GameObject.FindGameObjectsWithTag("LargeGrid");
+        for (int i = 0; i < grid.Length; i++)
+        {
+            Destroy(grid[i]);
+        }
+
+    }
+    public void FiveMGrid()
+    {
+        GameObject[] grid = GameObject.FindGameObjectsWithTag("LargeGrid");
+        if (grid.Length > 0)
+        {
+            for (int i = 0; i < grid.Length; i++)
+            {
+                Destroy(grid[i]);
+            }
+        }
+        else
+        {
+            MakeLargeGrid();
+        }
+        grid = GameObject.FindGameObjectsWithTag("FineGrid");
+        for (int i = 0; i < grid.Length; i++)
+        {
+            Destroy(grid[i]);
+        }
+
     }
 
     void Update()
@@ -118,9 +160,153 @@ public class ComponentMaker : MonoBehaviour
                 
             }
  
+        }     
+    }
+
+    void MakeFineGrid()
+    {
+        float smallLine = 0.01f;
+        int length = 8;
+        GameObject[] smallLines = new GameObject[(int)Math.Pow(length*2 +1, 2)*3];
+        Vector3 start;
+        Vector3 end;
+        LineRenderer lr = new LineRenderer();
+        Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
+        int lineIndex = 0;
+        
+        for (int i = -length; i <= length; i++)
+        {
+            for (int j = -length; j <= length; j++)
+            {
+                start = new Vector3(j, -length, i);
+                end = new Vector3(j, length, i);
+
+                smallLines[lineIndex] = new GameObject();
+                smallLines[lineIndex].tag = "FineGrid";
+                smallLines[lineIndex].transform.position = start;
+                smallLines[lineIndex].AddComponent<LineRenderer>();
+                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
+                lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
+                lr.SetWidth(smallLine, smallLine);
+                lr.SetPosition(0, start);
+                lr.SetPosition(1, end);
+                lineIndex++;
+            }
+        }
+        for (int i = -length; i <= length; i++)
+        {
+            for (int j = -length; j <= length; j++)
+            {
+                start = new Vector3(-length, j, i);
+                end = new Vector3(length, j, i);
+
+                smallLines[lineIndex] = new GameObject();
+                smallLines[lineIndex].tag = "FineGrid";
+                smallLines[lineIndex].transform.position = start;
+                smallLines[lineIndex].AddComponent<LineRenderer>();
+                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
+                lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
+                lr.SetWidth(smallLine, smallLine);
+                lr.SetPosition(0, start);
+                lr.SetPosition(1, end);
+                lineIndex++;
+            }
+        }
+        for (int i = -length; i <= length; i++)
+        {
+            for (int j = -length; j <= length; j++)
+            {
+                start = new Vector3(j, i, -length);
+                end = new Vector3(j, i, length);
+
+                smallLines[lineIndex] = new GameObject();
+                smallLines[lineIndex].tag = "FineGrid";
+                smallLines[lineIndex].transform.position = start;
+                smallLines[lineIndex].AddComponent<LineRenderer>();
+                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
+                lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
+                lr.SetWidth(smallLine, smallLine);
+                lr.SetPosition(0, start);
+                lr.SetPosition(1, end);
+                lineIndex++;
+            }
         }
 
-        
+    }
+
+    void MakeLargeGrid()
+    {
+        float smallLine = 0.01f;
+        int length = 20;
+        GameObject[] smallLines = new GameObject[(int)Math.Pow(length * 2 + 1, 2) * 3];
+        Vector3 start;
+        Vector3 end;
+        LineRenderer lr = new LineRenderer();
+        Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
+        int lineIndex = 0;
+        for (int i = -length; i <= length; i = i + 5)
+        {
+            for (int j = -length; j <= length; j = j + 5)
+            {
+                start = new Vector3(j, -length, i);
+                end = new Vector3(j, length, i);
+
+                smallLines[lineIndex] = new GameObject();
+                smallLines[lineIndex].tag = "LargeGrid";
+                smallLines[lineIndex].transform.position = start;
+                smallLines[lineIndex].AddComponent<LineRenderer>();
+                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
+                lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
+                lr.SetWidth(smallLine, smallLine);
+                lr.SetPosition(0, start);
+                lr.SetPosition(1, end);
+                lineIndex++;
+            }
+        }
+        for (int i = -length; i <= length; i = i + 5)
+        {
+            for (int j = -length; j <= length; j = j + 5)
+            {
+                start = new Vector3(-length, j, i);
+                end = new Vector3(length, j, i);
+
+                smallLines[lineIndex] = new GameObject();
+                smallLines[lineIndex].tag = "LargeGrid";
+                smallLines[lineIndex].transform.position = start;
+                smallLines[lineIndex].AddComponent<LineRenderer>();
+                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
+                lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
+                lr.SetWidth(smallLine, smallLine);
+                lr.SetPosition(0, start);
+                lr.SetPosition(1, end);
+                lineIndex++;
+            }
+        }
+        for (int i = -length; i <= length; i = i + 5)
+        {
+            for (int j = -length; j <= length; j = j + 5)
+            {
+                start = new Vector3(j, i, -length);
+                end = new Vector3(j, i, length);
+
+                smallLines[lineIndex] = new GameObject();
+                smallLines[lineIndex].tag = "LargeGrid";
+                smallLines[lineIndex].transform.position = start;
+                smallLines[lineIndex].AddComponent<LineRenderer>();
+                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
+                lr.material = whiteDiffuseMat;
+                lr.material.renderQueue = 100;
+                lr.SetWidth(smallLine, smallLine);
+                lr.SetPosition(0, start);
+                lr.SetPosition(1, end);
+                lineIndex++;
+            }
+        }
 
     }
 
