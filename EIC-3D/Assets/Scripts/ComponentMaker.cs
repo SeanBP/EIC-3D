@@ -76,12 +76,13 @@ public class ComponentMaker : MonoBehaviour
         for(int i = 1; i < parts.Length; i = i+2)
         {
             var dparams = parts[i].Split(" "[0]);
+            
             MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]), 
-                float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), float.Parse(dparams[7]), 
-                int.Parse(dparams[8]), int.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]));
+                float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), float.Parse(dparams[7]), float.Parse(dparams[8]),
+                float.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]), int.Parse(dparams[12]), int.Parse(dparams[13]));
 
         }
-        ToggleLines();
+        
         
     }
 
@@ -123,19 +124,17 @@ public class ComponentMaker : MonoBehaviour
 
     }
 
-    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float length, float offset, float rotate, int r, int g, int b, int renderQueue)
+    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float lengthOut, float lengthIn, float offset, float offsetIn, float rotate, int r, int g, int b, int renderQueue)
     {
-        float lineThickness = 0f;
-
-      
-        lineThickness = 0.01f;
+ 
+        float lineThickness = 0.02f;
         if(outerR < 1)
         {
-            lineThickness = 0.005f;
+            lineThickness = 0.01f;
         }
         if (outerR < 0.5)
         {
-            lineThickness = 0.002f;
+            lineThickness = 0.004f;
         }
 
         if (sides % 2 == 0)
@@ -156,13 +155,13 @@ public class ComponentMaker : MonoBehaviour
         {
             float angle = (360f / sides) * i + rotate;
             double theta = Math.PI * angle / 180.0;
-            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2));
+            vertices[index] = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-lengthOut / 2));
             index++;
-            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2));
+            vertices[index] = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-lengthIn / 2) + offsetIn);
             index++;
-            vertices[index] = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), (length / 2));
+            vertices[index] = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), (lengthOut / 2));
             index++;
-            vertices[index] = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (length / 2));
+            vertices[index] = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (lengthIn / 2) + offsetIn);
             index++;
 
 
@@ -172,15 +171,15 @@ public class ComponentMaker : MonoBehaviour
             Vector3 end;
             LineRenderer lr = new LineRenderer();
             Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
-            for (float j = (-length / 2); j <= (length / 2); j = j + length)
+            for (float j = (-0.5f); j <= 0.5f; j++)
             {
                 
-                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
-                end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j );
+                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j * lengthOut);
+                end = new Vector3(outerR * (float)Math.Cos(theta2), outerR * (float)Math.Sin(theta2), j * lengthOut);
                 if(j > 0)
                 {
-                    start = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), j);
-                    end = new Vector3(outerR2 * (float)Math.Cos(theta2), outerR2 * (float)Math.Sin(theta2), j);
+                    start = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), j * lengthOut);
+                    end = new Vector3(outerR2 * (float)Math.Cos(theta2), outerR2 * (float)Math.Sin(theta2), j * lengthOut);
                 }
                 lines[lineIndex] = new GameObject();
                 lines[lineIndex].tag = "Line";
@@ -195,12 +194,12 @@ public class ComponentMaker : MonoBehaviour
                 lineIndex++;
                 if (innerR != 0)
                 {
-                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
-                    end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), j );
+                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (j * lengthIn) + offsetIn);
+                    end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), (j * lengthIn) + offsetIn);
                     if (j > 0)
                     {
-                        start = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), j);
-                        end = new Vector3(innerR2 * (float)Math.Cos(theta2), innerR2 * (float)Math.Sin(theta2), j);
+                        start = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (j * lengthIn) + offsetIn);
+                        end = new Vector3(innerR2 * (float)Math.Cos(theta2), innerR2 * (float)Math.Sin(theta2), (j * lengthIn) + offsetIn);
                     }
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].tag = "Line";
@@ -215,12 +214,12 @@ public class ComponentMaker : MonoBehaviour
                     lineIndex++;
                     if (sides <= 50)
                     {
-                        start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j );
-                        end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), j );
+                        start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), j * lengthOut );
+                        end = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (j * lengthIn) + offsetIn);
                         if (j > 0)
                         {
-                            start = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), j);
-                            end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), j);
+                            start = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), j * lengthOut);
+                            end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (j * lengthIn) + offsetIn);
                         }
                         lines[lineIndex] = new GameObject();
                         lines[lineIndex].tag = "Line";
@@ -240,8 +239,8 @@ public class ComponentMaker : MonoBehaviour
             }
             if (sides <= 50)
             {
-                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-length / 2) );
-                end = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), (length / 2) );
+                start = new Vector3(outerR * (float)Math.Cos(theta), outerR * (float)Math.Sin(theta), (-lengthOut / 2) );
+                end = new Vector3(outerR2 * (float)Math.Cos(theta), outerR2 * (float)Math.Sin(theta), (lengthOut / 2) );
                 
                 lines[lineIndex] = new GameObject();
                 lines[lineIndex].tag = "Line";
@@ -256,10 +255,10 @@ public class ComponentMaker : MonoBehaviour
                 lineIndex++;
                 
                 
-                if (innerR >= 1f && innerR2 >= 1f)
+                if (innerR >= 0f && innerR2 >= 0f)
                 {
-                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-length / 2) );
-                    end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (length / 2) );
+                    start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-lengthIn / 2) + offsetIn );
+                    end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (lengthIn / 2) + offsetIn );
                     lines[lineIndex] = new GameObject();
                     lines[lineIndex].tag = "Line";
                     lines[lineIndex].transform.position = start;
