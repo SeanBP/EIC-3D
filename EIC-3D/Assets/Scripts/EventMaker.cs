@@ -187,6 +187,8 @@ public class EventMaker : MonoBehaviour
     {
         animating = false;
         DestroyHits();
+        proton.GetComponent<Renderer>().enabled = false;
+        electron.GetComponent<Renderer>().enabled = false;
     }
     public void ClearClusters()
     {

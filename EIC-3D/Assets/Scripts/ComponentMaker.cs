@@ -27,6 +27,12 @@ public class ComponentMaker : MonoBehaviour
     }
     public void ToggleMenagerie()
     {
+        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
+        for (int i = 0; i < gridOrigin.Length; i++)
+        {
+            Destroy(gridOrigin[i]);
+        }
+
         zSlider.value = 1f;
         xySlider.value = 1f;
         GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
@@ -87,6 +93,14 @@ public class ComponentMaker : MonoBehaviour
     }
     public void OneMGrid()
     {
+        zSlider.value = 1f;
+        xySlider.value = 1f;
+        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
+        for (int i = 0; i < gridOrigin.Length; i++)
+        {
+            Destroy(gridOrigin[i]);
+        }
+
         GameObject[] grid = GameObject.FindGameObjectsWithTag("FineGrid");
         if (grid.Length > 0)
         {
@@ -108,23 +122,39 @@ public class ComponentMaker : MonoBehaviour
     }
     public void FiveMGrid()
     {
-        GameObject[] grid = GameObject.FindGameObjectsWithTag("LargeGrid");
+        zSlider.value = 1f;
+        xySlider.value = 1f;
+        GameObject[] grid = GameObject.FindGameObjectsWithTag("FineGrid");
+        
+        for (int i = 0; i < grid.Length; i++)
+        {
+            Destroy(grid[i]);
+        }
+
+
+        grid = GameObject.FindGameObjectsWithTag("LargeGrid");
+        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
+        
         if (grid.Length > 0)
         {
             for (int i = 0; i < grid.Length; i++)
             {
                 Destroy(grid[i]);
             }
+            for (int i = 0; i < gridOrigin.Length; i++)
+            {
+                Destroy(gridOrigin[i]);
+            }
         }
         else
         {
+            for (int i = 0; i < gridOrigin.Length; i++)
+            {
+                Destroy(gridOrigin[i]);
+            }
             MakeLargeGrid();
         }
-        grid = GameObject.FindGameObjectsWithTag("FineGrid");
-        for (int i = 0; i < grid.Length; i++)
-        {
-            Destroy(grid[i]);
-        }
+        
 
     }
 
@@ -146,8 +176,7 @@ public class ComponentMaker : MonoBehaviour
             {
                 var child = components[i].transform.GetChild(j);
                 if (child.tag == "Line")
-                {
-                    //lines.Add(child.gameObject);
+                {          
                     if (child.gameObject.activeSelf)
                     {
                         child.gameObject.SetActive(false);
@@ -165,8 +194,14 @@ public class ComponentMaker : MonoBehaviour
 
     void MakeFineGrid()
     {
+        GameObject gridOrigin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        gridOrigin.tag = "GridOrigin";
+        gridOrigin.transform.position = new Vector3(0, 0, 0);
+        gridOrigin.GetComponent<Collider>().enabled = false;
+        gridOrigin.GetComponent<Renderer>().enabled = false;
+
         float smallLine = 0.01f;
-        int length = 8;
+        int length = 6;
         GameObject[] smallLines = new GameObject[(int)Math.Pow(length*2 +1, 2)*3];
         Vector3 start;
         Vector3 end;
@@ -235,13 +270,28 @@ public class ComponentMaker : MonoBehaviour
             }
         }
 
+        for(int i = 0; i < smallLines.Length; i++)
+        {
+            smallLines[i].transform.parent = gridOrigin.transform;
+            smallLines[i].GetComponent<LineRenderer>().useWorldSpace = false;
+            smallLines[i].transform.position = new Vector3(0, 0, 0);
+        }
+
+        
+
     }
 
     void MakeLargeGrid()
     {
-        float smallLine = 0.01f;
-        int length = 20;
-        GameObject[] smallLines = new GameObject[(int)Math.Pow(length * 2 + 1, 2) * 3];
+        GameObject gridOrigin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        gridOrigin.tag = "GridOrigin";
+        gridOrigin.transform.position = new Vector3(0, 0, 0);
+        gridOrigin.GetComponent<Collider>().enabled = false;
+        gridOrigin.GetComponent<Renderer>().enabled = false;
+
+        float smallLine = 0.02f;
+        int length = 15;
+        GameObject[] smallLines = new GameObject[(int)Math.Pow((length/5) * 2 + 1, 2) * 3];
         Vector3 start;
         Vector3 end;
         LineRenderer lr = new LineRenderer();
@@ -307,6 +357,15 @@ public class ComponentMaker : MonoBehaviour
                 lineIndex++;
             }
         }
+        
+        for (int i = 0; i < smallLines.Length; i++)
+        {
+            
+            smallLines[i].transform.parent = gridOrigin.transform;
+            smallLines[i].GetComponent<LineRenderer>().useWorldSpace = false;
+            smallLines[i].transform.position = new Vector3(0, 0, 0);
+        }
+
 
     }
 
