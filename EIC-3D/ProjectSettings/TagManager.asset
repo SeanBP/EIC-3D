@@ -13,6 +13,7 @@ TagManager:
   - FineGrid
   - LargeGrid
   - Facility
+  - GridOrigin
   layers:
   - Default
   - TransparentFX
