@@ -23,6 +23,7 @@ public class ComponentMaker : MonoBehaviour
         }
 
         buildSimModel();
+        MakeLargeGrid();
 
     }
     public void ToggleMenagerie()
@@ -89,7 +90,7 @@ public class ComponentMaker : MonoBehaviour
                 float.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]), int.Parse(dparams[12]), parts.Length - i);
 
         }
-        MakeLargeGrid();
+        
     }
     public void OneMGrid()
     {
