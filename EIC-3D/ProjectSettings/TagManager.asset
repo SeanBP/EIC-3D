@@ -10,10 +10,10 @@ TagManager:
   - Cluster
   - Line
   - Menagerie
-  - FineGrid
-  - LargeGrid
   - Facility
-  - GridOrigin
+  - Grid
+  - FineGridOrigin
+  - LargeGridOrigin
   layers:
   - Default
   - TransparentFX

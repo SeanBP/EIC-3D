@@ -23,15 +23,20 @@ public class ComponentMaker : MonoBehaviour
         }
 
         buildSimModel();
-        MakeLargeGrid();
+        
 
     }
     public void ToggleMenagerie()
     {
-        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
-        for (int i = 0; i < gridOrigin.Length; i++)
+        GameObject[] finegridOrigin = GameObject.FindGameObjectsWithTag("FineGridOrigin");
+        if(finegridOrigin.Length > 0)
         {
-            Destroy(gridOrigin[i]);
+            Destroy(finegridOrigin[0]);
+        }
+        GameObject[] largegridOrigin = GameObject.FindGameObjectsWithTag("LargeGridOrigin");
+        if (largegridOrigin.Length > 0)
+        {
+            Destroy(largegridOrigin[0]);
         }
 
         zSlider.value = 1f;
@@ -92,72 +97,6 @@ public class ComponentMaker : MonoBehaviour
         }
         
     }
-    public void OneMGrid()
-    {
-        zSlider.value = 1f;
-        xySlider.value = 1f;
-        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
-        for (int i = 0; i < gridOrigin.Length; i++)
-        {
-            Destroy(gridOrigin[i]);
-        }
-
-        GameObject[] grid = GameObject.FindGameObjectsWithTag("FineGrid");
-        if (grid.Length > 0)
-        {
-            for (int i = 0; i < grid.Length; i++)
-            {
-                Destroy(grid[i]);
-            }
-        }
-        else
-        {
-            MakeFineGrid();
-        }
-        grid = GameObject.FindGameObjectsWithTag("LargeGrid");
-        for (int i = 0; i < grid.Length; i++)
-        {
-            Destroy(grid[i]);
-        }
-
-    }
-    public void FiveMGrid()
-    {
-        zSlider.value = 1f;
-        xySlider.value = 1f;
-        GameObject[] grid = GameObject.FindGameObjectsWithTag("FineGrid");
-        
-        for (int i = 0; i < grid.Length; i++)
-        {
-            Destroy(grid[i]);
-        }
-
-
-        grid = GameObject.FindGameObjectsWithTag("LargeGrid");
-        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
-        
-        if (grid.Length > 0)
-        {
-            for (int i = 0; i < grid.Length; i++)
-            {
-                Destroy(grid[i]);
-            }
-            for (int i = 0; i < gridOrigin.Length; i++)
-            {
-                Destroy(gridOrigin[i]);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < gridOrigin.Length; i++)
-            {
-                Destroy(gridOrigin[i]);
-            }
-            MakeLargeGrid();
-        }
-        
-
-    }
 
     void Update()
     {
@@ -192,184 +131,7 @@ public class ComponentMaker : MonoBehaviour
  
         }     
     }
-
-    void MakeFineGrid()
-    {
-        GameObject gridOrigin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        gridOrigin.tag = "GridOrigin";
-        gridOrigin.transform.position = new Vector3(0, 0, 0);
-        gridOrigin.GetComponent<Collider>().enabled = false;
-        gridOrigin.GetComponent<Renderer>().enabled = false;
-
-        float smallLine = 0.01f;
-        int length = 6;
-        GameObject[] smallLines = new GameObject[(int)Math.Pow(length*2 +1, 2)*3];
-        Vector3 start;
-        Vector3 end;
-        LineRenderer lr = new LineRenderer();
-        Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
-        int lineIndex = 0;
-        
-        for (int i = -length; i <= length; i++)
-        {
-            for (int j = -length; j <= length; j++)
-            {
-                start = new Vector3(j, -length, i);
-                end = new Vector3(j, length, i);
-
-                smallLines[lineIndex] = new GameObject();
-                smallLines[lineIndex].tag = "FineGrid";
-                smallLines[lineIndex].transform.position = start;
-                smallLines[lineIndex].AddComponent<LineRenderer>();
-                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
-                lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
-                lr.SetWidth(smallLine, smallLine);
-                lr.SetPosition(0, start);
-                lr.SetPosition(1, end);
-                lineIndex++;
-            }
-        }
-        for (int i = -length; i <= length; i++)
-        {
-            for (int j = -length; j <= length; j++)
-            {
-                start = new Vector3(-length, j, i);
-                end = new Vector3(length, j, i);
-
-                smallLines[lineIndex] = new GameObject();
-                smallLines[lineIndex].tag = "FineGrid";
-                smallLines[lineIndex].transform.position = start;
-                smallLines[lineIndex].AddComponent<LineRenderer>();
-                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
-                lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
-                lr.SetWidth(smallLine, smallLine);
-                lr.SetPosition(0, start);
-                lr.SetPosition(1, end);
-                lineIndex++;
-            }
-        }
-        for (int i = -length; i <= length; i++)
-        {
-            for (int j = -length; j <= length; j++)
-            {
-                start = new Vector3(j, i, -length);
-                end = new Vector3(j, i, length);
-
-                smallLines[lineIndex] = new GameObject();
-                smallLines[lineIndex].tag = "FineGrid";
-                smallLines[lineIndex].transform.position = start;
-                smallLines[lineIndex].AddComponent<LineRenderer>();
-                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
-                lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
-                lr.SetWidth(smallLine, smallLine);
-                lr.SetPosition(0, start);
-                lr.SetPosition(1, end);
-                lineIndex++;
-            }
-        }
-
-        for(int i = 0; i < smallLines.Length; i++)
-        {
-            smallLines[i].transform.parent = gridOrigin.transform;
-            smallLines[i].GetComponent<LineRenderer>().useWorldSpace = false;
-            smallLines[i].transform.position = new Vector3(0, 0, 0);
-        }
-
-        
-
-    }
-
-    void MakeLargeGrid()
-    {
-        GameObject gridOrigin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        gridOrigin.tag = "GridOrigin";
-        gridOrigin.transform.position = new Vector3(0, 0, 0);
-        gridOrigin.GetComponent<Collider>().enabled = false;
-        gridOrigin.GetComponent<Renderer>().enabled = false;
-
-        float smallLine = 0.02f;
-        int length = 15;
-        GameObject[] smallLines = new GameObject[(int)Math.Pow((length/5) * 2 + 1, 2) * 3];
-        Vector3 start;
-        Vector3 end;
-        LineRenderer lr = new LineRenderer();
-        Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
-        int lineIndex = 0;
-        for (int i = -length; i <= length; i = i + 5)
-        {
-            for (int j = -length; j <= length; j = j + 5)
-            {
-                start = new Vector3(j, -length, i);
-                end = new Vector3(j, length, i);
-
-                smallLines[lineIndex] = new GameObject();
-                smallLines[lineIndex].tag = "LargeGrid";
-                smallLines[lineIndex].transform.position = start;
-                smallLines[lineIndex].AddComponent<LineRenderer>();
-                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
-                lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
-                lr.SetWidth(smallLine, smallLine);
-                lr.SetPosition(0, start);
-                lr.SetPosition(1, end);
-                lineIndex++;
-            }
-        }
-        for (int i = -length; i <= length; i = i + 5)
-        {
-            for (int j = -length; j <= length; j = j + 5)
-            {
-                start = new Vector3(-length, j, i);
-                end = new Vector3(length, j, i);
-
-                smallLines[lineIndex] = new GameObject();
-                smallLines[lineIndex].tag = "LargeGrid";
-                smallLines[lineIndex].transform.position = start;
-                smallLines[lineIndex].AddComponent<LineRenderer>();
-                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
-                lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
-                lr.SetWidth(smallLine, smallLine);
-                lr.SetPosition(0, start);
-                lr.SetPosition(1, end);
-                lineIndex++;
-            }
-        }
-        for (int i = -length; i <= length; i = i + 5)
-        {
-            for (int j = -length; j <= length; j = j + 5)
-            {
-                start = new Vector3(j, i, -length);
-                end = new Vector3(j, i, length);
-
-                smallLines[lineIndex] = new GameObject();
-                smallLines[lineIndex].tag = "LargeGrid";
-                smallLines[lineIndex].transform.position = start;
-                smallLines[lineIndex].AddComponent<LineRenderer>();
-                lr = smallLines[lineIndex].GetComponent<LineRenderer>();
-                lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
-                lr.SetWidth(smallLine, smallLine);
-                lr.SetPosition(0, start);
-                lr.SetPosition(1, end);
-                lineIndex++;
-            }
-        }
-        
-        for (int i = 0; i < smallLines.Length; i++)
-        {
-            
-            smallLines[i].transform.parent = gridOrigin.transform;
-            smallLines[i].GetComponent<LineRenderer>().useWorldSpace = false;
-            smallLines[i].transform.position = new Vector3(0, 0, 0);
-        }
-
-
-    }
-
+    
     void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float lengthOut, float lengthIn, float offset, float offsetIn, float rotate, int r, int g, int b, int renderQueue)
     {
  

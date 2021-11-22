@@ -127,7 +127,8 @@ public class PauseMenu : MonoBehaviour
     public void ExpandZ(float newValue)
     {
         GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
-        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
+        GameObject[] largegridOrigin = GameObject.FindGameObjectsWithTag("LargeGridOrigin");
+        GameObject[] finegridOrigin = GameObject.FindGameObjectsWithTag("FineGridOrigin");
 
 
         for (int i = 0; i < detectorParts.Length; i++)
@@ -136,16 +137,23 @@ public class PauseMenu : MonoBehaviour
             detectorParts[i].transform.localPosition = new Vector3(lastPosition.x, lastPosition.y, (lastPosition.z / lastSliderValue) * newValue);
 
         }
-        if (gridOrigin.Length > 0)
+        if (finegridOrigin.Length > 0)
         {
-            Vector3 newScale = new Vector3(gridOrigin[0].transform.localScale.x, gridOrigin[0].transform.localScale.y, newValue);
-            for (int i = 0; i < gridOrigin.Length; i++)
-            {
-                Vector3 lastPosition = gridOrigin[i].transform.position;
-                gridOrigin[i].transform.localScale = newScale;
-            }
+            Vector3 newScale = new Vector3(finegridOrigin[0].transform.localScale.x, finegridOrigin[0].transform.localScale.y, newValue);
+            
+                Vector3 lastPosition = finegridOrigin[0].transform.position;
+                finegridOrigin[0].transform.localScale = newScale;
+            
         }
-   
+        if (largegridOrigin.Length > 0)
+        {
+            Vector3 newScale = new Vector3(largegridOrigin[0].transform.localScale.x, largegridOrigin[0].transform.localScale.y, newValue);
+            
+            Vector3 lastPosition = largegridOrigin[0].transform.position;
+            largegridOrigin[0].transform.localScale = newScale;
+            
+        }
+
 
         lastSliderValue = newValue;
         
@@ -163,7 +171,8 @@ public class PauseMenu : MonoBehaviour
         GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
         Vector3 newScale = new Vector3(newValue, newValue, 1);
 
-        GameObject[] gridOrigin = GameObject.FindGameObjectsWithTag("GridOrigin");
+        GameObject[] largegridOrigin = GameObject.FindGameObjectsWithTag("LargeGridOrigin");
+        GameObject[] finegridOrigin = GameObject.FindGameObjectsWithTag("FineGridOrigin");
 
         for (int i = 0; i < detectorParts.Length; i++)
         {
@@ -174,16 +183,20 @@ public class PauseMenu : MonoBehaviour
         {
             menagerie[i].transform.localScale = newScale;
         }
-        if (gridOrigin.Length > 0)
+        if (finegridOrigin.Length > 0)
         {
-            newScale = new Vector3(newValue, newValue, gridOrigin[0].transform.localScale.z);
-            for (int i = 0; i < gridOrigin.Length; i++)
-            {
-                Vector3 lastPosition = gridOrigin[i].transform.position;
-                gridOrigin[i].transform.localScale = newScale;
-            }
+            newScale = new Vector3(newValue, newValue, finegridOrigin[0].transform.localScale.z);
+            
+            Vector3 lastPosition = finegridOrigin[0].transform.position;
+            finegridOrigin[0].transform.localScale = newScale;  
         }
+        if (largegridOrigin.Length > 0)
+        {
+            newScale = new Vector3(newValue, newValue, finegridOrigin[0].transform.localScale.z);
 
+            Vector3 lastPosition = finegridOrigin[0].transform.position;
+            finegridOrigin[0].transform.localScale = newScale;
+        }
 
     }
 
