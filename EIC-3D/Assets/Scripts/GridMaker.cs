@@ -4,14 +4,17 @@ using UnityEngine;
 using System;
 using System.IO;
 using UnityEngine.UI;
-
+#pragma warning disable 0618
 public class GridMaker : MonoBehaviour
 {
     public Slider zSlider;
     public Slider xySlider;
     public Transform lookAhead;
     float renderDistance = 0f;
-    
+    Vector3 startPoint;
+    Vector3 endPoint;
+    LineRenderer liner = new LineRenderer();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,48 +25,43 @@ public class GridMaker : MonoBehaviour
     void Update()
     {
         GameObject[] currentGrid = GameObject.FindGameObjectsWithTag("Grid");
-
         
-
-        Vector3 startPoint;
-        Vector3 endPoint;
-        LineRenderer lr = new LineRenderer();
         for (int i = 0; i < currentGrid.Length; i++)
         {
-            lr = currentGrid[i].GetComponent<LineRenderer>();
-            startPoint = lr.GetPosition(0);
-            endPoint = lr.GetPosition(1);
+            liner = currentGrid[i].GetComponent<LineRenderer>();
+            startPoint = liner.GetPosition(0);
+            endPoint = liner.GetPosition(1);
             if(startPoint.x == -endPoint.x && endPoint.x != 0)
             {
-                if(Math.Abs(lookAhead.position.y - startPoint.y) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z) <= renderDistance)
+                if(Math.Abs(lookAhead.position.y - startPoint.y * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z * zSlider.value) <= renderDistance)
                 {
-                    lr.enabled = true;
+                    liner.enabled = true;
                 }
                 else
                 {
-                    lr.enabled = false;
+                    liner.enabled = false;
                 }
             }
             if (startPoint.y == -endPoint.y && endPoint.y != 0)
             {
-                if (Math.Abs(lookAhead.position.x - startPoint.x) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z) <= renderDistance)
+                if (Math.Abs(lookAhead.position.x - startPoint.x * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z * zSlider.value) <= renderDistance)
                 {
-                    lr.enabled = true;
+                    liner.enabled = true;
                 }
                 else
                 {
-                    lr.enabled = false;
+                    liner.enabled = false;
                 }
             }
             if (startPoint.z == -endPoint.z && endPoint.z != 0)
             {
-                if (Math.Abs(lookAhead.position.y - startPoint.y) <= renderDistance && Math.Abs(lookAhead.position.x - startPoint.x) <= renderDistance)
+                if (Math.Abs(lookAhead.position.y - startPoint.y * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.x - startPoint.x * xySlider.value) <= renderDistance)
                 {
-                    lr.enabled = true;
+                    liner.enabled = true;
                 }
                 else
                 {
-                    lr.enabled = false;
+                    liner.enabled = false;
                 }
             }
 
@@ -88,8 +86,8 @@ public class GridMaker : MonoBehaviour
                 Destroy(largegridOrigin[0]);
                 
             }
-            renderDistance = 1.2f;
-            MakeGrid(1, 5);
+            renderDistance = 1f;
+            MakeGrid(1f, 5);
 
         }
 
@@ -113,7 +111,7 @@ public class GridMaker : MonoBehaviour
                 
             }
             renderDistance = 5f;
-            MakeGrid(5, 15);
+            MakeGrid(5f, 15);
             
         }
 
@@ -121,7 +119,7 @@ public class GridMaker : MonoBehaviour
 
 
 
-    void MakeGrid(int spacing, int length)
+    void MakeGrid(float spacing, int length)
     {
         GameObject gridOrigin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         if (spacing >= 5)
@@ -139,15 +137,15 @@ public class GridMaker : MonoBehaviour
         float thinLine = 0.01f;
         float thickLine = 0.04f;
         Color color;
-        GameObject[] lines = new GameObject[(int)Math.Pow((length / spacing) * 2 + 1, 2) * 3];
+        GameObject[] lines = new GameObject[(int)Math.Ceiling(Math.Pow((length / spacing) * 2 + 1, 2) * 3)];
         Vector3 start;
         Vector3 end;
         LineRenderer lr = new LineRenderer();
         Material whiteDiffuseMat = new Material(Shader.Find("Sprites/Default"));
         int lineIndex = 0;
-        for (int i = -length; i <= length; i = i + spacing)
+        for (float i = -length; i <= length; i = (float)Math.Round(i + spacing, 2))
         {
-            for (int j = -length; j <= length; j = j + spacing)
+            for (float j = -length; j <= length; j = (float)Math.Round(j + spacing, 2))
             {
                 start = new Vector3(j, -length, i);
                 end = new Vector3(j, length, i);
@@ -158,7 +156,7 @@ public class GridMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
+                lr.material.renderQueue = -1;
                 if (i % 5 == 0 && j % 5 == 0)
                 {
                     lr.SetWidth(thickLine, thickLine);
@@ -175,9 +173,9 @@ public class GridMaker : MonoBehaviour
                 lineIndex++;
             }
         }
-        for (int i = -length; i <= length; i = i + spacing)
+        for (float i = -length; i <= length; i = (float)Math.Round(i + spacing, 2))
         {
-            for (int j = -length; j <= length; j = j + spacing)
+            for (float j = -length; j <= length; j = (float)Math.Round(j + spacing, 2))
             {
                 start = new Vector3(-length, j, i);
                 end = new Vector3(length, j, i);
@@ -188,7 +186,7 @@ public class GridMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
+                lr.material.renderQueue = -1;
                 if (i % 5 == 0 && j % 5 == 0)
                 {
                     lr.SetWidth(thickLine, thickLine);
@@ -205,9 +203,9 @@ public class GridMaker : MonoBehaviour
                 lineIndex++;
             }
         }
-        for (int i = -length; i <= length; i = i + spacing)
+        for (float i = -length; i <= length; i = (float)Math.Round(i + spacing, 2))
         {
-            for (int j = -length; j <= length; j = j + spacing)
+            for (float j = -length; j <= length; j = (float)Math.Round(j + spacing, 2))
             {
                 start = new Vector3(j, i, -length);
                 end = new Vector3(j, i, length);
@@ -218,17 +216,20 @@ public class GridMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
+                lr.material.renderQueue = -1;
                 if (i % 5 == 0 && j % 5 == 0)
                 {
                     lr.SetWidth(thickLine, thickLine);
                     color = new Color(1, 1, 1);
+                   
+
                 }
                 else
                 {
                     lr.SetWidth(thinLine, thinLine);
                     color = new Color(1, 1, 1);
                 }
+                
                 lr.SetColors(color, color);
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);

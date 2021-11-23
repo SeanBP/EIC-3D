@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+#pragma warning disable 0618
 
 public class PauseMenu : MonoBehaviour
 {
@@ -192,10 +193,10 @@ public class PauseMenu : MonoBehaviour
         }
         if (largegridOrigin.Length > 0)
         {
-            newScale = new Vector3(newValue, newValue, finegridOrigin[0].transform.localScale.z);
+            newScale = new Vector3(newValue, newValue, largegridOrigin[0].transform.localScale.z);
 
-            Vector3 lastPosition = finegridOrigin[0].transform.position;
-            finegridOrigin[0].transform.localScale = newScale;
+            Vector3 lastPosition = largegridOrigin[0].transform.position;
+            largegridOrigin[0].transform.localScale = newScale;
         }
 
     }

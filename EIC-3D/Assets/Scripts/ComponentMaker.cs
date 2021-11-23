@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using UnityEngine.UI;
+#pragma warning disable 0618
 
 public class ComponentMaker : MonoBehaviour
 {
