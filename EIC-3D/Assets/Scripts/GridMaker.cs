@@ -67,7 +67,6 @@ public class GridMaker : MonoBehaviour
                         liner.enabled = false;
                     }
                 }
-
             }
         }
     }
@@ -87,8 +86,6 @@ public class GridMaker : MonoBehaviour
         {
             toggleGrid = true;
         }
-
-
     }
 
     public void OneMGrid()
@@ -123,24 +120,17 @@ public class GridMaker : MonoBehaviour
         GameObject[] largegridOrigin = GameObject.FindGameObjectsWithTag("LargeGridOrigin");
         if (largegridOrigin.Length > 0)
         {
-            Destroy(largegridOrigin[0]);
-        
+            Destroy(largegridOrigin[0]);        
         }
         else
         {
             if (finegridOrigin.Length > 0)
             {
-                Destroy(finegridOrigin[0]);
-                
+                Destroy(finegridOrigin[0]);  
             }
-      
-            MakeGrid(5f, 15);
-            
+            MakeGrid(5f, 15);           
         }
-
     }
-
-
 
     void MakeGrid(float spacing, int length)
     {
@@ -245,8 +235,6 @@ public class GridMaker : MonoBehaviour
                 {
                     lr.SetWidth(thickLine, thickLine);
                     color = new Color(1, 1, 1);
-                   
-
                 }
                 else
                 {
@@ -268,8 +256,5 @@ public class GridMaker : MonoBehaviour
             lines[i].GetComponent<LineRenderer>().useWorldSpace = false;
             lines[i].transform.position = new Vector3(0, 0, 0);
         }
-
-
     }
-
 }
