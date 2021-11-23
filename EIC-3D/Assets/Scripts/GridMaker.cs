@@ -14,6 +14,7 @@ public class GridMaker : MonoBehaviour
     Vector3 startPoint;
     Vector3 endPoint;
     LineRenderer liner = new LineRenderer();
+    bool toggleGrid = true;
 
     // Start is called before the first frame update
     void Start()
@@ -24,48 +25,70 @@ public class GridMaker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameObject[] currentGrid = GameObject.FindGameObjectsWithTag("Grid");
-        
-        for (int i = 0; i < currentGrid.Length; i++)
+        if (toggleGrid)
         {
-            liner = currentGrid[i].GetComponent<LineRenderer>();
-            startPoint = liner.GetPosition(0);
-            endPoint = liner.GetPosition(1);
-            if(startPoint.x == -endPoint.x && endPoint.x != 0)
-            {
-                if(Math.Abs(lookAhead.position.y - startPoint.y * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z * zSlider.value) <= renderDistance)
-                {
-                    liner.enabled = true;
-                }
-                else
-                {
-                    liner.enabled = false;
-                }
-            }
-            if (startPoint.y == -endPoint.y && endPoint.y != 0)
-            {
-                if (Math.Abs(lookAhead.position.x - startPoint.x * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z * zSlider.value) <= renderDistance)
-                {
-                    liner.enabled = true;
-                }
-                else
-                {
-                    liner.enabled = false;
-                }
-            }
-            if (startPoint.z == -endPoint.z && endPoint.z != 0)
-            {
-                if (Math.Abs(lookAhead.position.y - startPoint.y * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.x - startPoint.x * xySlider.value) <= renderDistance)
-                {
-                    liner.enabled = true;
-                }
-                else
-                {
-                    liner.enabled = false;
-                }
-            }
+            GameObject[] currentGrid = GameObject.FindGameObjectsWithTag("Grid");
 
+            for (int i = 0; i < currentGrid.Length; i++)
+            {
+                liner = currentGrid[i].GetComponent<LineRenderer>();
+                startPoint = liner.GetPosition(0);
+                endPoint = liner.GetPosition(1);
+                if (startPoint.x == -endPoint.x && endPoint.x != 0)
+                {
+                    if (Math.Abs(lookAhead.position.y - startPoint.y * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z * zSlider.value) <= renderDistance)
+                    {
+                        liner.enabled = true;
+                    }
+                    else
+                    {
+                        liner.enabled = false;
+                    }
+                }
+                if (startPoint.y == -endPoint.y && endPoint.y != 0)
+                {
+                    if (Math.Abs(lookAhead.position.x - startPoint.x * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.z - startPoint.z * zSlider.value) <= renderDistance)
+                    {
+                        liner.enabled = true;
+                    }
+                    else
+                    {
+                        liner.enabled = false;
+                    }
+                }
+                if (startPoint.z == -endPoint.z && endPoint.z != 0)
+                {
+                    if (Math.Abs(lookAhead.position.y - startPoint.y * xySlider.value) <= renderDistance && Math.Abs(lookAhead.position.x - startPoint.x * xySlider.value) <= renderDistance)
+                    {
+                        liner.enabled = true;
+                    }
+                    else
+                    {
+                        liner.enabled = false;
+                    }
+                }
+
+            }
         }
+    }
+
+    public void RenderAll()
+    {
+        if (toggleGrid)
+        {
+            toggleGrid = false;
+            GameObject[] grid = GameObject.FindGameObjectsWithTag("Grid");
+            for(int i = 0; i < grid.Length; i++)
+            {
+                grid[i].GetComponent<LineRenderer>().enabled = true;
+            }
+        }
+        else
+        {
+            toggleGrid = true;
+        }
+
+
     }
 
     public void OneMGrid()
@@ -86,7 +109,7 @@ public class GridMaker : MonoBehaviour
                 Destroy(largegridOrigin[0]);
                 
             }
-            renderDistance = 1f;
+            
             MakeGrid(1f, 5);
 
         }
@@ -110,7 +133,7 @@ public class GridMaker : MonoBehaviour
                 Destroy(finegridOrigin[0]);
                 
             }
-            renderDistance = 5f;
+      
             MakeGrid(5f, 15);
             
         }
@@ -121,6 +144,7 @@ public class GridMaker : MonoBehaviour
 
     void MakeGrid(float spacing, int length)
     {
+        renderDistance = spacing;
         GameObject gridOrigin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         if (spacing >= 5)
         {

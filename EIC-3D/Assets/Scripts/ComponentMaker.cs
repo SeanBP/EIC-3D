@@ -201,7 +201,7 @@ public class ComponentMaker : MonoBehaviour
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
                 lineIndex++;
-                if (innerR != 0)
+                if ((innerR != 0 && j < 0) ^ (innerR2 != 0 && j > 0))
                 {
                     start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (j * lengthIn) + offsetIn);
                     end = new Vector3(innerR * (float)Math.Cos(theta2), innerR * (float)Math.Sin(theta2), (j * lengthIn) + offsetIn);
@@ -264,7 +264,7 @@ public class ComponentMaker : MonoBehaviour
                 lineIndex++;
                 
                 
-                if (innerR >= 0f && innerR2 >= 0f)
+                if (innerR > 0f && innerR2 > 0f)
                 {
                     start = new Vector3(innerR * (float)Math.Cos(theta), innerR * (float)Math.Sin(theta), (-lengthIn / 2) + offsetIn );
                     end = new Vector3(innerR2 * (float)Math.Cos(theta), innerR2 * (float)Math.Sin(theta), (lengthIn / 2) + offsetIn );
