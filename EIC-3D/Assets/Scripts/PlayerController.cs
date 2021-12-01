@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     private Vector3 moveDirection;
+    private bool looping = false;
     public CharacterController controller;
+    public GameObject player;
     public float jumpForce;
     public float gravityScale;
     
@@ -21,18 +24,41 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        moveDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal")) + (transform.up * Input.GetAxis("Jump") * 0.5f);
-        
-        if (moveDirection.magnitude > 1)
+        if (looping == false)
         {
-            moveDirection = moveDirection.normalized * moveSpeed;
+            
+             moveDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal")) + (transform.up * Input.GetAxis("Jump") * 0.5f);
+
+             if (moveDirection.magnitude > 1)
+             {
+                 moveDirection = moveDirection.normalized * moveSpeed;
+             }
+             else
+             {
+                 moveDirection = moveDirection * moveSpeed;
+             }
+
+             controller.Move(moveDirection * Time.deltaTime);
+            
         }
         else
         {
-            moveDirection = moveDirection * moveSpeed;
+            player.transform.position = new Vector3(8 * (float)Math.Sin(0.3 * Time.time), 0f, 8 * (float)Math.Cos(0.3 * Time.time));
         }
-        
-        controller.Move(moveDirection * Time.deltaTime);
+    }
+    public void StopLooping()
+    {
+        looping = false;
+    }
+    public void Looping()
+    {
+        if (looping == false)
+        {
+            looping = true;
+        }
+        else
+        {
+            looping = false;
+        }
     }
 }

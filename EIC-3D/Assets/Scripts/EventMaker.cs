@@ -17,19 +17,23 @@ public class EventMaker : MonoBehaviour
     private bool clearing = false;
     private bool duration = false;
     private bool looping = false;
+    private StreamReader source;
+    private string fileContents;
+    private string[] events;
     public string filename = "Events.txt";
     public int iEvt = 1;
     private int maxiEvt = 1;
     GameObject proton;
     GameObject electron;
 
+
     // Update is called once per frame
     void Start()
     {
-        var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
-        var fileContents = source.ReadToEnd();
+        source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
+        fileContents = source.ReadToEnd();
         source.Close();
-        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
+        events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
         maxiEvt = events.Length - 1;
 
         proton = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -59,6 +63,28 @@ public class EventMaker : MonoBehaviour
 
     void Update()
     {
+        if(animating && duration == true && Time.time - start_time < 2.6666f)
+        {
+            proton.GetComponent<Renderer>().enabled = true;
+            electron.GetComponent<Renderer>().enabled = true;
+            proton.transform.position = new Vector3(0, 0, -6 + 2.25f * (Time.time - start_time));
+            electron.transform.position = new Vector3(0, 0, 6 - 2.25f * (Time.time - start_time));
+
+
+        }
+        else
+        {
+            proton.GetComponent<Renderer>().enabled = false;
+            electron.GetComponent<Renderer>().enabled = false;
+        }
+
+
+    }
+
+
+
+    void LateUpdate()
+    {
         if (clearing)
         {
             DestroyHits();
@@ -73,43 +99,34 @@ public class EventMaker : MonoBehaviour
                 LoadHits();
             }
             bool hitsLeft = false;
-            for (int i = 0; i < hits.Length; i++)
+            if (hits != null)
             {
-                if (duration == true)
+                for (int i = 0; i < hits.Length; i++)
                 {
-                    if (timeList[i] + 3f <= Time.time - start_time)
+                    if (duration == true)
+                    {
+                        if (timeList[i] + 3f <= Time.time - start_time)
+                        {
+                            hits[i].GetComponent<Renderer>().enabled = true;
+                        }
+                        else
+                        {
+                            hitsLeft = true;
+                        }
+
+                        if (looping == true)
+                        {
+                            if (Time.time - start_time >= 9)
+                            {
+                                NextEvent();
+                            }
+                        }
+
+                    }
+                    else
                     {
                         hits[i].GetComponent<Renderer>().enabled = true;
                     }
-                    else
-                    {
-                        hitsLeft = true;
-                    }
-
-                    if (Time.time - start_time < 2.6666f)
-                    {
-                        proton.GetComponent<Renderer>().enabled = true;
-                        electron.GetComponent<Renderer>().enabled = true;
-                        proton.transform.position = new Vector3(0, 0, -6 + 2.25f * (Time.time - start_time));
-                        electron.transform.position = new Vector3(0, 0, 6 - 2.25f * (Time.time - start_time));
-                    }
-                    else
-                    {
-                        proton.GetComponent<Renderer>().enabled = false;
-                        electron.GetComponent<Renderer>().enabled = false;
-                    }
-                    if (looping == true)
-                    {
-                        if (Time.time - start_time >= 9)
-                        {
-                            NextEvent();
-                        }
-                    }
-
-                }
-                else
-                {
-                    hits[i].GetComponent<Renderer>().enabled = true;
                 }
             }
             if (!hitsLeft)
@@ -140,25 +157,28 @@ public class EventMaker : MonoBehaviour
 
     public void NextEvent()
     {
+        
         iEvt++;
         if(iEvt == maxiEvt+1)
         {
             iEvt = 1;
         }
-        clusters = GameObject.FindGameObjectsWithTag("Cluster");
-        if(clusters.Length != 0)
+        
+        if(clusters != null && clusters.Length != 0)
         {
             ClearClusters();
             LoadClusters();
         }
-        hits = GameObject.FindGameObjectsWithTag("Hit");
-        if (hits.Length != 0)
+        
+        if (hits != null && hits.Length != 0)
         {
             ClearHits();
             LoadHits();
-        }
-        start_time = Time.time;
+            
+        }    
 
+        start_time = Time.time;
+        
 
     }
     public void PreviousEvent()
@@ -168,16 +188,16 @@ public class EventMaker : MonoBehaviour
         {
             iEvt = maxiEvt;
         }
-        clusters = GameObject.FindGameObjectsWithTag("Cluster");
-        if (clusters.Length != 0)
+        
+        if (clusters != null && clusters.Length != 0)
         {
             ClearClusters();
             LoadClusters();
         }
-        hits = GameObject.FindGameObjectsWithTag("Hit");
-        if (hits.Length != 0)
+        
+        if (hits != null && hits.Length != 0)
         {
-            ClearHits();
+            
             LoadHits();
         }
         start_time = Time.time;
@@ -192,20 +212,24 @@ public class EventMaker : MonoBehaviour
     }
     public void ClearClusters()
     {
-        clusters = GameObject.FindGameObjectsWithTag("Cluster");
-        for (var i = 0; i < clusters.Length; i++)
+        if (clusters != null)
         {
-            Destroy(clusters[i]);
+            for (var i = 0; i < clusters.Length; i++)
+            {
+                Destroy(clusters[i]);
+            }
         }
+        clusters = null;
     }
     void DestroyHits()
-    {
-        hits = GameObject.FindGameObjectsWithTag("Hit");
-        for (var i = 0; i < hits.Length; i++)
+    { 
+        if (hits != null)
         {
-            Destroy(hits[i]);
+            for (var i = 0; i < hits.Length; i++)
+            {
+                Destroy(hits[i]);
+            }
         }
-
         hits = null;
     }
     public void LoadClusters()
@@ -310,7 +334,7 @@ public class EventMaker : MonoBehaviour
                 
                 
                 float granularity = 0f;
-                //var cubeRenderer = clusters[i - start].GetComponent<MeshRenderer>();
+                
                 if (string.Equals(coords[0], "Ecal"))
                 {
                     granularity = 0.025f;
@@ -327,7 +351,7 @@ public class EventMaker : MonoBehaviour
                     material.color = Color.blue;
                     material.renderQueue = 1000;
                     clusters[i - start].GetComponent<MeshRenderer>().sharedMaterial = material;
-                    //cubeRenderer.sharedMaterial.SetColor("_Color", Color.blue);
+                    
                 }
 
 
@@ -392,8 +416,9 @@ public class EventMaker : MonoBehaviour
         
         }
 
-    void LoadHits()
+    public void LoadHits()
     {
+       
         ClearHits();
         proton.GetComponent<Renderer>().enabled = false;
         electron.GetComponent<Renderer>().enabled = false;
@@ -404,10 +429,7 @@ public class EventMaker : MonoBehaviour
         hitSig.GetComponent<Renderer>().enabled = false;
 
 
-        var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
-        var fileContents = source.ReadToEnd();
-        source.Close();
-        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
+        
         var prelines = events[iEvt].Split("\n"[0]);
         int size = 0;
 
@@ -484,6 +506,7 @@ public class EventMaker : MonoBehaviour
             hits[i - 1].GetComponent<Collider>().enabled = false;
             hits[i - 1].GetComponent<Renderer>().enabled = false;
             hits[i - 1].tag = "Hit";
+            
         }
 
         for (int i = 0; i < hits.Length; i++)
@@ -498,7 +521,7 @@ public class EventMaker : MonoBehaviour
             {
                 redness = 1;
             }
-            //Debug.Log(energyList[i]+" "+minE+" "+maxE);
+            
             float blueness = 1f - redness;
             Color color = new Color(redness, 0f, blueness);
             color.a = redness;
@@ -516,12 +539,13 @@ public class EventMaker : MonoBehaviour
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
-            //material.renderQueue = 10000;
             material.renderQueue = -1;
             hits[i].GetComponent<MeshRenderer>().sharedMaterial = material;
-
+            
+            
         }
         animating = true;
+        
     }
 
     public void LoadEvent()

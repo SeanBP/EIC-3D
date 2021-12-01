@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     public float rotateSpeed;
 
     public Transform pivot;
-
+    private bool looping = false;
     public float maxViewAngle;
     public float minViewAngle;
     public PauseMenu pauseMenu;
@@ -34,6 +34,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         isPaused = pauseMenu.GameIsPaused;
         
             float sensitivity = 1f;
@@ -79,8 +80,28 @@ public class CameraController : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, target.position.y - 0.5f, transform.position.z);
             }
-
+            if (looping == true)
+            {
+                target.transform.position = new Vector3(0f, 0f, 0f);
+            }
             transform.LookAt(target);
         
+    }
+
+    public void StopLooping()
+    {
+        looping = false;
+    }
+
+    public void Looping()
+    {
+        if(looping == false)
+        {
+            looping = true;
+        }
+        else
+        {
+            looping = false;
+        }
     }
 }

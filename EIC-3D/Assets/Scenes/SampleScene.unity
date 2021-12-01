@@ -1113,9 +1113,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
-        m_MethodName: LoadEvent
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
+        m_MethodName: LoadHits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2740,6 +2740,7 @@ GameObject:
   - component: {fileID: 662727533}
   - component: {fileID: 662727532}
   - component: {fileID: 662727534}
+  - component: {fileID: 662727535}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2899,6 +2900,19 @@ MonoBehaviour:
   zSlider: {fileID: 670967119}
   xySlider: {fileID: 1926416746}
   lookAhead: {fileID: 476474241}
+--- !u!114 &662727535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662727526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960a960005f460b4db0e80d25babf9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filename: Events.txt
 --- !u!1 &664979949
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,8 +2997,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: NextEvent
         m_Mode: 1
         m_Arguments:
@@ -3298,8 +3312,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: AnimateHits
         m_Mode: 1
         m_Arguments:
@@ -4392,9 +4406,33 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: LoopAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2127011639}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: Looping
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: Looping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5168,9 +5206,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
-        m_MethodName: ClearHits
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
+        m_MethodName: StartClearHits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5302,8 +5340,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: PreviousEvent
         m_Mode: 1
         m_Arguments:
@@ -24060,6 +24098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   controller: {fileID: 0}
+  player: {fileID: 2127011633}
   jumpForce: 20
   gravityScale: 5
 --- !u!143 &2127011640
