@@ -86,12 +86,12 @@ public class EventMaker : MonoBehaviour
                         hitsLeft = true;
                     }
 
-                    if (Time.time - start_time < 3f)
+                    if (Time.time - start_time < 2.6666f)
                     {
                         proton.GetComponent<Renderer>().enabled = true;
                         electron.GetComponent<Renderer>().enabled = true;
-                        proton.transform.position = new Vector3(0, 0, -9 + 3 * (Time.time - start_time));
-                        electron.transform.position = new Vector3(0, 0, 9 - 3 * (Time.time - start_time));
+                        proton.transform.position = new Vector3(0, 0, -6 + 2.25f * (Time.time - start_time));
+                        electron.transform.position = new Vector3(0, 0, 6 - 2.25f * (Time.time - start_time));
                     }
                     else
                     {
@@ -100,7 +100,7 @@ public class EventMaker : MonoBehaviour
                     }
                     if (looping == true)
                     {
-                        if (Time.time - start_time >= 7)
+                        if (Time.time - start_time >= 9)
                         {
                             NextEvent();
                         }
@@ -305,14 +305,10 @@ public class EventMaker : MonoBehaviour
                 clusters[i - start].tag = "Cluster";
                 clusters[i - start].layer = 3;
                 float length = 0f;
-                if (maxE - minE != 0)
-                {
-                    length = (energyList[i - start] - minE) / (maxE - minE);
-                }
-                else
-                {
-                    length = 1f;
-                }
+                
+                length = energyList[i - start] / 30f;
+                
+                
                 float granularity = 0f;
                 //var cubeRenderer = clusters[i - start].GetComponent<MeshRenderer>();
                 if (string.Equals(coords[0], "Ecal"))
@@ -414,6 +410,7 @@ public class EventMaker : MonoBehaviour
         var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
         var prelines = events[iEvt].Split("\n"[0]);
         int size = 0;
+
         for (var i = 1; i < prelines.Length; i++)
         {
             if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
@@ -444,7 +441,7 @@ public class EventMaker : MonoBehaviour
         float x = 0f;
         float y = 0f;
         float z = 0f;
-        float minE = 1000f;
+        
         float maxE = 0f;
         float[] energyList = new float[size];
         timeList = new float[size];
@@ -455,7 +452,7 @@ public class EventMaker : MonoBehaviour
             {
                 if (j == 0)
                 {
-                    timeList[i - 1] = float.Parse(coords[j]) / 10.0f;
+                    timeList[i - 1] = (float.Parse(coords[j]) / 10.0f) * 1.333f;
                 }
                 if (j == 1)
                 {
@@ -473,15 +470,12 @@ public class EventMaker : MonoBehaviour
                 }
                 if (j == 4)
                 {
-                    if (Math.Log(float.Parse(coords[j]), 10) < minE)
-                    {
-                        minE = (float)Math.Log(float.Parse(coords[j]), 10);
-                    }
+                    
                     if (Math.Log(float.Parse(coords[j]), 10) > maxE)
                     {
-                        maxE = (float)Math.Log(float.Parse(coords[j]), 10);
+                        maxE = float.Parse(coords[j]);
                     }
-                    energyList[i - 1] = (float)Math.Log(float.Parse(coords[j]), 10f);
+                    energyList[i - 1] = float.Parse(coords[j]);
                 }
             }
             hits[i - 1] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -494,14 +488,36 @@ public class EventMaker : MonoBehaviour
 
         for (int i = 0; i < hits.Length; i++)
         {
-            float redness = (energyList[i] - minE) / (maxE - minE);
+
+            float redness = 0f;
+            if (maxE != 0)
+            {
+                redness = energyList[i] / 200;
+            }
+            if(redness > 1)
+            {
+                redness = 1;
+            }
+            //Debug.Log(energyList[i]+" "+minE+" "+maxE);
             float blueness = 1f - redness;
             Color color = new Color(redness, 0f, blueness);
             color.a = redness;
+            if(energyList[i] == 0)
+            {
+                color.a = 1;
+                color = new Color(1f, 1f, 1f);
+            }
+            if (energyList[i] < 0)
+            {
+                color.a = 1;
+                color = new Color(0f, 0f, 0f);
+            }
+
 
             Material material = new Material(Shader.Find("Transparent/Diffuse"));
             material.color = color;
-            material.renderQueue = 10000;
+            //material.renderQueue = 10000;
+            material.renderQueue = -1;
             hits[i].GetComponent<MeshRenderer>().sharedMaterial = material;
 
         }
