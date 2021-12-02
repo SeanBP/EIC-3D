@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(8 * (float)Math.Sin(0.3 * Time.time), 0f, 8 * (float)Math.Cos(0.3 * Time.time));
+            player.transform.position = new Vector3(9*(float)Math.Cos(0.3f * Time.time) , 3f, 9 * (float)Math.Sin(0.3f * Time.time));
         }
     }
     public void StopLooping()

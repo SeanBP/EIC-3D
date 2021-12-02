@@ -101,7 +101,7 @@ public class ComponentMaker : MonoBehaviour
 
     void Update()
     {
-
+        //zSlider.value = (float)Math.Sin(0.3 * Time.time) + 2;
     }
 
     public void ToggleLines()
@@ -179,7 +179,7 @@ public class ComponentMaker : MonoBehaviour
             Vector3 start;
             Vector3 end;
             LineRenderer lr = new LineRenderer();
-            Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Texture"));
+            Material whiteDiffuseMat = new Material(Shader.Find("Sprites/Default"));
             for (float j = (-0.5f); j <= 0.5f; j++)
             {
                 
@@ -196,7 +196,7 @@ public class ComponentMaker : MonoBehaviour
                 lines[lineIndex].AddComponent<LineRenderer>();
                 lr = lines[lineIndex].GetComponent<LineRenderer>();
                 lr.material = whiteDiffuseMat;
-                lr.material.renderQueue = 100;
+                lr.material.renderQueue = -1;
                 lr.SetWidth(lineThickness, lineThickness);
                 lr.SetPosition(0, start);
                 lr.SetPosition(1, end);
@@ -216,7 +216,7 @@ public class ComponentMaker : MonoBehaviour
                     lines[lineIndex].AddComponent<LineRenderer>();
                     lr = lines[lineIndex].GetComponent<LineRenderer>();
                     lr.material = whiteDiffuseMat;
-                    lr.material.renderQueue = 100;
+                    lr.material.renderQueue = -1;
                     lr.SetWidth(lineThickness, lineThickness);
                     lr.SetPosition(0, start);
                     lr.SetPosition(1, end);
@@ -236,7 +236,7 @@ public class ComponentMaker : MonoBehaviour
                         lines[lineIndex].AddComponent<LineRenderer>();
                         lr = lines[lineIndex].GetComponent<LineRenderer>();
                         lr.material = whiteDiffuseMat;
-                        lr.material.renderQueue = 100;
+                        lr.material.renderQueue = -1;
                         lr.SetWidth(lineThickness, lineThickness);
                         lr.SetPosition(0, start);
                         lr.SetPosition(1, end);

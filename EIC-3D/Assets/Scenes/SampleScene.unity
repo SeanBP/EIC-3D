@@ -616,8 +616,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -172.16, y: 105.4}
-  m_SizeDelta: {x: 323.7103, y: 177.8575}
+  m_AnchoredPosition: {x: -159.95201, y: 76.03195}
+  m_SizeDelta: {x: 308.5955, y: 129.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &189091467
 GameObject:
@@ -652,10 +652,10 @@ RectTransform:
   m_Father: {fileID: 744503365}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 108, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &189091469
 MonoBehaviour:
@@ -1064,9 +1064,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -51.71, y: 151.7}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 260.28497, y: -18.999992}
   m_SizeDelta: {x: 87.42, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &382773565
@@ -1116,6 +1116,30 @@ MonoBehaviour:
       - m_Target: {fileID: 662727535}
         m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: LoadHits
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2127011639}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StopLooping
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: StopLooping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2737,7 +2761,6 @@ GameObject:
   - component: {fileID: 662727528}
   - component: {fileID: 662727527}
   - component: {fileID: 662727531}
-  - component: {fileID: 662727533}
   - component: {fileID: 662727532}
   - component: {fileID: 662727534}
   - component: {fileID: 662727535}
@@ -2870,21 +2893,6 @@ MonoBehaviour:
   xySlider: {fileID: 1926416746}
   pauseMenuUI: {fileID: 0}
   filename: Detector.txt
---- !u!114 &662727533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662727526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6f95441d7b30b42917b5b589594c09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 228658135}
-  filename: Events.txt
-  iEvt: 1
 --- !u!114 &662727534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2948,9 +2956,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -149.5, y: 75.2}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 162.5, y: -79}
   m_SizeDelta: {x: 108.16, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &664979951
@@ -3000,6 +3008,30 @@ MonoBehaviour:
       - m_Target: {fileID: 662727535}
         m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: NextEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2127011639}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StopLooping
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: StopLooping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3162,7 +3194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -88.03247, y: 168.99998}
+  m_AnchoredPosition: {x: -88.117, y: 120.4}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670967119
@@ -3263,9 +3295,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -51.710022, y: 113}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 260.29004, y: -79}
   m_SizeDelta: {x: 87.42, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &685199955
@@ -3315,6 +3347,30 @@ MonoBehaviour:
       - m_Target: {fileID: 662727535}
         m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: AnimateHits
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2127011639}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StopLooping
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: StopLooping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3607,10 +3663,10 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -149.5, y: 151.7}
-  m_SizeDelta: {x: 108.15, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 162.49, y: -19}
+  m_SizeDelta: {x: 108.149994, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &744503366
 MonoBehaviour:
@@ -3656,8 +3712,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: LoadClusters
         m_Mode: 1
         m_Arguments:
@@ -4357,9 +4413,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -256.51, y: 35}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 55.48999, y: -109}
   m_SizeDelta: {x: 105.8642, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &985474694
@@ -4889,9 +4945,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -149.5, y: 113}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 162.5, y: -49}
   m_SizeDelta: {x: 108.16, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106878928
@@ -4938,9 +4994,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662727533}
-        m_TargetAssemblyTypeName: EventMaker, Assembly-CSharp
-        m_MethodName: ClearClusters
+      - m_Target: {fileID: 662727535}
+        m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
+        m_MethodName: StartClearClusters
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5157,9 +5213,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -51.71003, y: 75.2}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 260.29, y: -49}
   m_SizeDelta: {x: 87.42, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124684791
@@ -5209,6 +5265,30 @@ MonoBehaviour:
       - m_Target: {fileID: 662727535}
         m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: StartClearHits
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2127011639}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StopLooping
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: StopLooping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5291,9 +5371,9 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -149.5, y: 35}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 162.5, y: -109}
   m_SizeDelta: {x: 108.1517, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1144474144
@@ -5343,6 +5423,30 @@ MonoBehaviour:
       - m_Target: {fileID: 662727535}
         m_TargetAssemblyTypeName: EventLoader, Assembly-CSharp
         m_MethodName: PreviousEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2127011639}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StopLooping
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: StopLooping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5953,10 +6057,10 @@ RectTransform:
   m_Father: {fileID: 145370311}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -51.713, y: 35}
-  m_SizeDelta: {x: 87.424, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 260.287, y: -109}
+  m_SizeDelta: {x: 87.42401, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1292333690
 MonoBehaviour:
@@ -22079,7 +22183,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -88.03256, y: 221}
+  m_AnchoredPosition: {x: -88.11699, y: 160.4}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1468438524
@@ -22264,8 +22368,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -178.54845, y: 45.84604}
-  m_SizeDelta: {x: 336.4782, y: 69.2562}
+  m_AnchoredPosition: {x: -179.32983, y: 47.409058}
+  m_SizeDelta: {x: 338.0411, y: 72.382}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1545102244
 MonoBehaviour:
@@ -23164,7 +23268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -88.03247, y: 195.99998}
+  m_AnchoredPosition: {x: -88.000015, y: 140.4}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1926416746
@@ -23267,7 +23371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -88.117, y: 109}
+  m_AnchoredPosition: {x: -88.000015, y: 89.600006}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2028873514
@@ -23438,7 +23542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -88, y: 69.9}
+  m_AnchoredPosition: {x: -88.11699, y: 59.6}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2042756303
@@ -23863,8 +23967,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -167.89, y: 165.3943}
-  m_SizeDelta: {x: 258.4151, y: 240.7966}
+  m_AnchoredPosition: {x: -139.52, y: 99.919}
+  m_SizeDelta: {x: 258.4151, y: 177.4029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092142886
 MonoBehaviour:
