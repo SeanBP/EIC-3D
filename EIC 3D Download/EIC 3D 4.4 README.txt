@@ -7,6 +7,8 @@ This version is currently available for use on Windows, Mac, and Linux.
 
 INSTALLATION
 
+Download link: https://github.com/SeanBP/EIC-3D/tree/main/EIC%203D%20Download
+
 To use the program, download the version for the platform you are using. Unzip the
 folder in your desired location. Within this folder (or for MacOS, the folder itself), 
 you will find an application file with the ATHENA logo. When opened, this will start the application. 
