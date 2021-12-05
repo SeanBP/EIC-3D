@@ -43,11 +43,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(9*(float)Math.Cos(0.3f * Time.time) , 3f, 9 * (float)Math.Sin(0.3f * Time.time));
+            player.transform.position = new Vector3(9*(float)Math.Cos(0.3f * Time.time) , 2f, 9 * (float)Math.Sin(0.3f * Time.time));
         }
     }
     public void StopLooping()
     {
+        Vector3 target = new Vector3(0f, 0f, 0f);
+        Vector3 _direction = (target - player.transform.position).normalized;
+        Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+        player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
         looping = false;
     }
     public void Looping()
@@ -58,6 +62,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+     
+            Vector3 target = new Vector3(0f, 0f, 0f);
+            Vector3 _direction = (target - player.transform.position).normalized;
+            Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+            player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
+
             looping = false;
         }
     }

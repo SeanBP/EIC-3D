@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 using System;
 
 public class EventLoader : MonoBehaviour
@@ -9,11 +10,11 @@ public class EventLoader : MonoBehaviour
     private StreamReader source;
     private string fileContents;
     private string[] events;
-    private float[][,] hitData;
+    private float[][] hitTime;
     private GameObject[][] hitObjects;
-    private GameObject[][] clusters;
-    private int iEvt = 1;
-    private int maxiEvt = -1;
+    private GameObject[][] clusterObjects;
+    
+    private int iEvt = 0;
     private int clearingiEvt = 0;
     private int clearingiEvtC = 0;
     public string filename = "Events.txt";
@@ -27,14 +28,15 @@ public class EventLoader : MonoBehaviour
     private float start_time = 0f;
     GameObject proton;
     GameObject electron;
-
-
-    
+    private int maxiEvt;
+    public float rate = 3; //speed of light is [rate] m/s
+    public InputField rateField;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        rateField.text = "Speed";
         LoadHitFile();
         LoadClusterFile();
         proton = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -65,22 +67,30 @@ public class EventLoader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        try
+        {
+            rate = float.Parse(rateField.text);
+        }
+        catch
+        {
+            rate = 3f;
+        }
         if (animating)
         {
             for (int i = 0; i < hitObjects[iEvt].Length; i++)
             {
-                if (hitData[iEvt][i, 0]*1.3333f + 2.666f <= Time.time - start_time)
+                if ((hitTime[iEvt][i] / 3.33564f)/rate + (6f / rate) <= Time.time - start_time)
                 {
                     hitObjects[iEvt][i].GetComponent<Renderer>().enabled = true;
                 }
                 
             }
-            if (Time.time - start_time < 2.666f)
+            if (Time.time - start_time < 6f / rate)
             {
                 proton.GetComponent<Renderer>().enabled = true;
                 electron.GetComponent<Renderer>().enabled = true;
-                proton.transform.position = new Vector3(0, 0, -6 + 2.25f * (Time.time - start_time));
-                electron.transform.position = new Vector3(0, 0, 6 - 2.25f * (Time.time - start_time));
+                proton.transform.position = new Vector3(0, 0, -6 + rate * (Time.time - start_time));
+                electron.transform.position = new Vector3(0, 0, 6 - rate * (Time.time - start_time));
             }
             else
             {
@@ -93,7 +103,7 @@ public class EventLoader : MonoBehaviour
             }
             if (looping == true)
             {
-                if (Time.time - start_time >= 9)
+                if (Time.time - start_time >= (15f / rate) + 1)
                 {
                     start_time = Time.time;
                     if (!clearing)
@@ -108,9 +118,9 @@ public class EventLoader : MonoBehaviour
                     }
 
                     iEvt++;
-                    if (iEvt == maxiEvt)
+                    if (iEvt == hitObjects.Length)
                     {
-                        iEvt = 1;
+                        iEvt = 0;
                     }
                     
                 }
@@ -138,9 +148,9 @@ public class EventLoader : MonoBehaviour
             clearingC = true;
             ClearClusters(iEvt);
             iEvt++;
-            if (iEvt == maxiEvt)
+            if (iEvt == hitObjects.Length)
             {
-                iEvt = 1;
+                iEvt = 0;
             }
             if (clusterToggle && !animating)
             {
@@ -168,9 +178,9 @@ public class EventLoader : MonoBehaviour
             clearingiEvt = iEvt;
             clearingiEvtC = iEvt;
             iEvt--;
-            if (iEvt == 0)
+            if (iEvt == -1)
             {
-                iEvt = maxiEvt - 1;
+                iEvt = hitObjects.Length - 1;
             }
             if (clusterToggle && !animating)
             {
@@ -273,9 +283,9 @@ public class EventLoader : MonoBehaviour
     public void LoadClusters()
     {
         
-        for (int i = 0; i < clusters[iEvt].Length; i++)
+        for (int i = 0; i < clusterObjects[iEvt].Length; i++)
         {
-            clusters[iEvt][i].GetComponent<Renderer>().enabled = true;
+            clusterObjects[iEvt][i].GetComponent<Renderer>().enabled = true;
         }
         clusterToggle = true;
 
@@ -295,9 +305,10 @@ public class EventLoader : MonoBehaviour
 
     private void ClearClusters(int ievt)
     {
+        
         clearingC = true;
 
-        if (indexC >= clusters[ievt].Length)
+        if (indexC >= clusterObjects[ievt].Length)
         {
 
             indexC = 0;
@@ -306,94 +317,62 @@ public class EventLoader : MonoBehaviour
         }
         else
         {
-            for (int i = indexC; i < clusters[ievt].Length && i < indexC + 1000; i++)
+            for (int i = indexC; i < clusterObjects[ievt].Length && i < indexC + 1000; i++)
             {
 
-                clusters[ievt][i].GetComponent<Renderer>().enabled = false;
+                clusterObjects[ievt][i].GetComponent<Renderer>().enabled = false;
 
 
             }
             indexC = indexC + 1000;
         }
-
+        
     }
-
+   
     public void LoadClusterFile()
     {
-        var source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));       
-
-        var fileContents = source.ReadToEnd();
+        source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
+        fileContents = source.ReadToEnd();
         source.Close();
-        
-        var events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
-        maxiEvt = events.Length - 1;
-        clusters = new GameObject[maxiEvt][];
-
-        for (int ievt = 0; ievt < maxiEvt; ievt++) {
-            var prelines = events[ievt].Split("\n"[0]);
-            var size = 0;
-
-            for (var i = 1; i < prelines.Length; i++)
-            {
-                if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+        events = fileContents.Split("Event");
+        string[] lines;
+        clusterObjects = new GameObject[events.Length - 1][];
+ 
+        float length;
+        int clusterSize;
+        float granularity = 0f;
+        float x, y, z;
+        int start = -1;
+        for (int i = 1; i < events.Length; i++)
+        {
+            start = -1;
+            lines = events[i].Split("\n");
+            clusterSize = 0;
+            for (int j = 2; j < lines.Length; j++)
+            {          
+                if (lines[j].Contains("Ecal") ^ lines[j].Contains("Hcal"))
                 {
-                    size++;
-                }
+                    clusterSize++;
+                    if(start == -1)
+                    {
+                        start = j;
+                    }
+                }            
             }
-
-            String[] lines = new string[size];
-            int index = 0;
-            for (var i = 1; i < prelines.Length; i++)
+            GameObject [] clusters = new GameObject[clusterSize];
+            for(int j = 0; j < clusterSize; j++)
             {
-                if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
-                {
-                    lines[index] = prelines[i];
-                    index++;
-                }
-            }
+                var coords = lines[j+start].Split(" "[0]);
+                clusters[j] = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
+                clusters[j].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                clusters[j].GetComponent<Collider>().enabled = false;
+                clusters[j].GetComponent<Renderer>().enabled = false;
 
-            var start = 0;
-            for (var i = 0; i < size; i++)
-            {
-                var coords = lines[i].Split(" "[0]);
-                if (string.Equals(coords[0].TrimEnd('\r', '\n'), "Clusters"))
-                {
-                    start = i + 1;
-                }
-            }
-
-            size = size - start;
-
-
-            clusters[ievt] = new GameObject[size];
-            float x = 0f;
-            float y = 0f;
-            float z = 0f;
-            float minE = 1000f;
-            float maxE = 0f;
-            float[] energyList = new float[size];
-
-            for (var i = start; i < lines.Length; i++)
-            {
-                var coords = lines[i].Split(" "[0]);
-
-                if (float.Parse(coords[5]) < minE)
-                {
-                    minE = float.Parse(coords[5]);
-                }
-                if (float.Parse(coords[5]) > maxE)
-                {
-                    maxE = float.Parse(coords[5]);
-                }
-                energyList[i - start] = float.Parse(coords[5]);
-
-            }
-
-            for (var i = start; i < lines.Length; i++)
-            {
-                var coords = lines[i].Split(" "[0]);
-                Color color = new Color(0, 0, 0);
+                clusters[j].layer = 3;
+                
+ 
+                length = float.Parse(coords[5]) / 30f;
 
                 x = float.Parse(coords[2]);
 
@@ -401,19 +380,6 @@ public class EventLoader : MonoBehaviour
 
                 z = float.Parse(coords[4]);
 
-                clusters[ievt][i - start] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-                clusters[ievt][i - start].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-                clusters[ievt][i - start].GetComponent<Collider>().enabled = false;
-                clusters[ievt][i - start].GetComponent<Renderer>().enabled = false;
- 
-                clusters[ievt][i - start].layer = 3;
-                float length = 0f;
-
-                length = energyList[i - start] / 30f;
-
-
-                float granularity = 0f;
 
                 if (string.Equals(coords[0], "Ecal"))
                 {
@@ -421,7 +387,7 @@ public class EventLoader : MonoBehaviour
                     Material material = new Material(Shader.Find("Standard"));
                     material.color = Color.green;
                     material.renderQueue = 999;
-                    clusters[ievt][i - start].GetComponent<MeshRenderer>().sharedMaterial = material;
+                    clusters[j].GetComponent<MeshRenderer>().sharedMaterial = material;
 
                 }
                 if (string.Equals(coords[0], "Hcal"))
@@ -430,30 +396,30 @@ public class EventLoader : MonoBehaviour
                     Material material = new Material(Shader.Find("Standard"));
                     material.color = Color.blue;
                     material.renderQueue = 1000;
-                    clusters[ievt][i - start].GetComponent<MeshRenderer>().sharedMaterial = material;
+                    clusters[j].GetComponent<MeshRenderer>().sharedMaterial = material;
 
                 }
 
 
                 if (string.Equals(coords[1], "Endcap"))
                 {
-                    clusters[ievt][i - start].transform.localScale = new Vector3(granularity, granularity, 1f * length + 0.01f);
+                    clusters[j].transform.localScale = new Vector3(granularity, granularity, 1f * length + 0.01f);
                     if (z < 0)
                     {
-                        clusters[ievt][i - start].transform.position = new Vector3(x, y, z - (length + 0.01f) / 2);
+                        clusters[j].transform.position = new Vector3(x, y, z - (length + 0.01f) / 2);
                     }
                     else
                     {
-                        clusters[ievt][i - start].transform.position = new Vector3(x, y, z + (length + 0.01f) / 2);
+                        clusters[j].transform.position = new Vector3(x, y, z + (length + 0.01f) / 2);
                     }
                 }
                 else
                 {
                     int sides = 12;
                     GameObject pivot = new GameObject();
-                    clusters[ievt][i - start].transform.localScale = new Vector3((length + 0.01f), granularity, granularity);
+                    clusters[j].transform.localScale = new Vector3((length + 0.01f), granularity, granularity);
                     pivot.transform.localPosition = new Vector3(x, y, z);
-                    clusters[ievt][i - start].transform.localPosition = new Vector3(x, y, z);
+                    clusters[j].transform.localPosition = new Vector3(x, y, z);
                     float angle = (float)Math.Atan(y / x);
                     float xmag = 1;
                     if (x != 0)
@@ -468,20 +434,24 @@ public class EventLoader : MonoBehaviour
 
                         float desiredAngle = side * (360f / 12f);
 
-                        clusters[ievt][i - start].transform.RotateAround(pivot.transform.position, new Vector3(0, 0, 1), desiredAngle);
+                        clusters[j].transform.RotateAround(pivot.transform.position, new Vector3(0, 0, 1), desiredAngle);
 
                         float magnitude = (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
                         float newX = xmag * (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Cos(Math.PI * desiredAngle / 180.0f);
                         float newY = (magnitude + ((length + 0.01f) / 2f)) * (float)Math.Sin(Math.PI * desiredAngle / 180.0f);
-                        clusters[ievt][i - start].transform.position = new Vector3(newX, xmag * newY, z);
+                        clusters[j].transform.position = new Vector3(newX, xmag * newY, z);
                     }
                     else
                     {
-                        clusters[ievt][i - start].SetActive(false);
+                        clusters[j].SetActive(false);
                     }
                     Destroy(pivot);
                 }
+
+
+
             }
+            clusterObjects[i-1] = clusters;
 
         }
 
@@ -493,94 +463,57 @@ public class EventLoader : MonoBehaviour
         source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
         fileContents = source.ReadToEnd();
         source.Close();
-        events = fileContents.Split(new string[] { "Event" }, StringSplitOptions.None);
-        maxiEvt = events.Length - 1;
-
-        hitData = new float[maxiEvt][,];
-        hitObjects = new GameObject[maxiEvt][];
-
-        for (int ievt = 0; ievt < maxiEvt; ievt++)
+        events = fileContents.Split("Event");
+        string[] lines;
+        hitObjects = new GameObject[events.Length - 1][];
+        hitTime = new float[events.Length - 1][];
+        bool checkCluster;
+        Material material;
+        Color color;
+        for (int i = 1; i < events.Length; i++)
         {
-            var prelines = events[ievt].Split("\n"[0]);
-            int size = 0;
-            for (var i = 1; i < prelines.Length; i++)
-            {
-                if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
+            
+            lines = events[i].Split("\n");
+            int hitSize = 0;
+            checkCluster = false;
+            for (int j = 2; j < lines.Length; j++)
+            {                  
+                if (lines[j].Contains("Cluster"))
                 {
-                    size++;
+                    checkCluster = true;
+                }
+                if (!checkCluster)
+                {
+                    hitSize++;
                 }
             }
-            String[] lines = new string[size];
-            int index = 0;
-            for (var i = 1; i < prelines.Length; i++)
-            {
-                if (!string.Equals("", prelines[i]) && !string.Equals("\n", prelines[i]))
-                {
-                    lines[index] = prelines[i];
-                    index++;
-                }
-            }
-            for (int i = 1; i < size; i++)
-            {
-                var coords = lines[i].Split(" "[0]);
-                if (string.Equals(coords[0], "Clusters"))
-                {
-                    size = i - 1;
-                }
-            }
+            
+            float[] timeData = new float[hitSize];
+            string[] coords;
+            GameObject[] eventObjects = new GameObject[hitSize];
 
-            float[,] eventHits = new float[size, 5];
-            for (int i = 1; i < size; i++)
+            for (int j = 0; j < hitSize; j++)
             {
-                var coords = lines[i].Split(" "[0]);
-                for (int j = 0; j < coords.Length; j++)
-                {
-                    if (j == 0)
-                    {
-                        eventHits[i, 0] = (float.Parse(coords[j]) / 10.0f) * 1.333f;
-                    }
-                    if (j == 1)
-                    {
-                        eventHits[i, 1] = float.Parse(coords[j]);
-                    }
-                    if (j == 2)
-                    {
-                        eventHits[i, 2] = float.Parse(coords[j]);
-                    }
-                    if (j == 3)
-                    {
-                        eventHits[i, 3] = float.Parse(coords[j]);
-                    }
-                    if (j == 4)
-                    {
-                        eventHits[i, 4] = float.Parse(coords[j]);
-                    }
-                }
-            }
-            hitData[ievt] = eventHits;
-            GameObject[] eventObjects = new GameObject[size];
-            Color color;
-            for (int i = 0; i < size; i++)
-            {
-                eventObjects[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                eventObjects[i].transform.position = new Vector3(eventHits[i, 1], eventHits[i, 2], eventHits[i, 3]);
-                eventObjects[i].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-                eventObjects[i].GetComponent<Collider>().enabled = false;
-                eventObjects[i].GetComponent<Renderer>().enabled = false;
-                
+                coords = lines[j + 2].Split(" ");
+                timeData[j] = float.Parse(coords[0]);
+                eventObjects[j] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                eventObjects[j].transform.position = new Vector3(float.Parse(coords[1]), float.Parse(coords[2]), float.Parse(coords[3]));
+                eventObjects[j].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                eventObjects[j].GetComponent<Collider>().enabled = false;
+                eventObjects[j].GetComponent<Renderer>().enabled = false;
 
-                float redness = eventHits[i, 4] / 200f;
-                if(redness > 1)
+                float redness = float.Parse(coords[4]) / 200f;
+                if (redness > 1)
                 {
                     color = new Color(1f, 0f, 0f);
                     color.a = 1;
                 }
-                else if(redness == 0)
+                else if (redness == 0)
                 {
                     color = new Color(1f, 1f, 1f);
                     color.a = 1;
                 }
-                else if(redness < 0)
+                else if (redness < 0)
                 {
                     color = new Color(0f, 0f, 0f);
                     color.a = 1;
@@ -590,18 +523,16 @@ public class EventLoader : MonoBehaviour
                     color = new Color(redness, 0f, 1f - redness);
                     color.a = redness;
                 }
-                Material material = new Material(Shader.Find("Transparent/Diffuse"));
+                material = new Material(Shader.Find("Transparent/Diffuse"));
                 material.color = color;
                 material.renderQueue = -1;
-                eventObjects[i].GetComponent<MeshRenderer>().sharedMaterial = material;
-                
-
+                eventObjects[j].GetComponent<MeshRenderer>().sharedMaterial = material;
             }
-            hitObjects[ievt] = eventObjects;
+            hitTime[i - 1] = timeData;
+            hitObjects[i - 1] = eventObjects;
 
         }
 
-
-
     }
+
 }
