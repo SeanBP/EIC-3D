@@ -48,11 +48,14 @@ public class PlayerController : MonoBehaviour
     }
     public void StopLooping()
     {
-        Vector3 target = new Vector3(0f, 0f, 0f);
-        Vector3 _direction = (target - player.transform.position).normalized;
-        Quaternion _lookRotation = Quaternion.LookRotation(_direction);
-        player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
-        looping = false;
+        if (looping)
+        {
+            Vector3 target = new Vector3(0f, 0f, 0f);
+            Vector3 _direction = (target - player.transform.position).normalized;
+            Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+            player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
+            looping = false;
+        }
     }
     public void Looping()
     {

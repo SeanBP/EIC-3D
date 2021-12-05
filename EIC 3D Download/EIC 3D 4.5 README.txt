@@ -1,0 +1,78 @@
+EIC 3D Alpha 4.5 User Guide
+
+EIC 3D (Alpha 4.5 version) is a standalone application you can use to view hit
+and ECal/HCal cluster data within a virtual environment in the ATHENA detector. 
+This version is currently available for use on Windows, Mac, and Linux.
+
+
+INSTALLATION
+
+Download link: https://github.com/SeanBP/EIC-3D/tree/main/EIC%203D%20Download
+
+To use the program, download the version for the platform you are using. Unzip the
+folder in your desired location. Within this folder (or for MacOS, the folder itself), 
+you will find an application file with the ATHENA logo. When opened, this will start the application. 
+
+For MacOS, the first time you attempt to open it, you will get an error saying it can't be opened.
+After pressing "OK" on this error, navigate to "System Preferences" and "Security and Privacy".
+Then, where it says ""EIC 3D MacOS Alpha 4.5" was blocked..." press "Open Anyway" and then "Open".
+
+For Windows, you may create a shortcut for the EIC application to place on your Desktop.
+
+
+CONTROLS / NAVIGATION
+
+Once the application is started, you will be able to control the movement of
+a camera within a virtual environment displaying a simplified model of the ATHENA
+detector.
+
+To move the camera, use the "W" "A" "S" "D" "Shift" and "Space" keys.
+To look in different directions, move your mouse / touchpad.
+
+To display event data and modify the detector model, open the menu using the "E" key
+and use your cursor to navigate into the Event Menu or the Detector Menu. Close the menu again with the "E" key.
+
+To exit the application, open the menu using the "E" key, and select "Exit Program" using your cursor.
+
+
+DISPLAYING DATA
+
+The program comes pre-installed with sample collision data, but you can display your own data by modifying
+the text file at the location listed below:
+
+Windows: "EIC 3D Windows Alpha 4.5/EIC 3D_Data/StreamingAssets/Events.txt"
+Mac: Right click the application and select "Show Package Contents", then navigate to "Contents/Resources/Data/StreamingAssets/Events.txt"
+Linux:"EIC 3D Linux Alpha 4.5/EIC 3D Linux Alpha 4.5_Data/StreamingAssets/Events.txt"
+
+The current syntax is used:
+Each event is preceded by the word "Event" on its own line.
+Under "Event", the word "Hit" is listed on its own line to indicate hit data.
+Under "Hit", each line is used as coordinate data of a single hit point, with information listed as:
+[time (ns)] [x (m)] [y (m)] [z (m)] [E (MeV)]
+For white hits, set energy to 0.
+For black hits, set energy to -1.
+Following these, the word "Clusters" is listed to indicate cluster data.
+Under "Clusters", each line is used as coordinate data of a single cluster, with information listed as:
+[Ecal/Hcal] [Endcap/Barrel] [x (m)] [y (m)] [z (m)] [E (MeV)]
+Under cluster data, "Event" is used to indicate data from the next event, and this syntax is looped until there is no more remaining data.
+
+
+DISPLAYING DETECTOR COMPONENTS
+
+The program comes pre-installed with a detector model, but you can display your own model by modifying
+the text file at the location listed below:
+
+Windows: "EIC 3D Windows Alpha 4.5/EIC 3D_Data/StreamingAssets/Detector.txt"
+Mac: Right click the application and select "Show Package Contents", then navigate to "Contents/Resources/Data/StreamingAssets/Detector.txt"
+Linux:"EIC 3D Linux Alpha 4.5/EIC 3D Linux Alpha 4.5_Data/StreamingAssets/Detector.txt"
+
+Each component is displayed as an annulus regular right frustum oriented along the beam line. The current syntax is used:
+
+The name of a component is written on a line to indicate that the parameters of that component are on the following line.
+In the next line, the parameters of the component are listed as:
+[sides] [inner vertex radius (negative side)] [outer radius (negative side)] [inner vertex radius (positive side)] [outer radius (positive side)] [outer barrel length] [inner barrel length] [outer barrel offset along beam axis] [inner barrel offset relative to outer barrel]  [R] [G] [B]
+The name of the next component is listed on the next line, and its parameters on the line after that, and so on until there are no more components.
+
+All units are in meters. R, G, B values represent the color of the detector, where each is a value from 0 to 255.
+Components should be listed from the innermost components to the outermost components, for them to render properly.
+If a circular shape is desired, simply set [sides] to be 51.
