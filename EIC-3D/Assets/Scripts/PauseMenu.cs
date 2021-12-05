@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using UnityEngine.UI;
 #pragma warning disable 0618
 
 public class PauseMenu : MonoBehaviour
@@ -14,6 +15,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject eventMenu;
     public GameObject detectorMenu;
     public GameObject controls;
+    public GameObject AudioSource;
+    public Slider volume;
     private float[] timeList;
 
  
@@ -29,7 +32,8 @@ public class PauseMenu : MonoBehaviour
         Resume();
     }
     void Update()
-    {      
+    {
+        AudioSource.GetComponent<AudioSource>().volume = volume.value;
        if (Input.GetButtonDown("Fire3"))
        {
                 if (GameIsPaused)

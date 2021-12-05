@@ -75,6 +75,10 @@ public class EventLoader : MonoBehaviour
         {
             rate = 3f;
         }
+        if(rate < 0)
+        {
+            rate = 3f;
+        }
         if (animating)
         {
             for (int i = 0; i < hitObjects[iEvt].Length; i++)

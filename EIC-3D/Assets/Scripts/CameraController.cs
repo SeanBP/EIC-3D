@@ -91,6 +91,12 @@ public class CameraController : MonoBehaviour
     public void StopLooping()
     {
         looping = false;
+        if (!useOffsetValues)
+        {
+            offset = target.position - transform.position;
+        }
+        target.transform.position = new Vector3(0f, pivot.transform.position.y, 0f);
+        transform.LookAt(target);
     }
 
     public void Looping()
@@ -101,8 +107,8 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            
-            looping = false;
+
+            StopLooping();
         }
     }
 }

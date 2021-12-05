@@ -12,50 +12,75 @@ public class PlayerController : MonoBehaviour
     public GameObject player;
     public float jumpForce;
     public float gravityScale;
-    
+    private bool menagerie = false;
+
     // Start is called before the first frame update
     void Start()
     {
         //theRB = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (looping == false)
+        float height = 0f;
+        float radius = 0f;
+        if (menagerie)
         {
-            
-             moveDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal")) + (transform.up * Input.GetAxis("Jump") * 0.5f);
-
-             if (moveDirection.magnitude > 1)
-             {
-                 moveDirection = moveDirection.normalized * moveSpeed;
-             }
-             else
-             {
-                 moveDirection = moveDirection * moveSpeed;
-             }
-
-             controller.Move(moveDirection * Time.deltaTime);
-            
+            height = 5f;
+            radius = 8f;
         }
         else
         {
-            player.transform.position = new Vector3(9*(float)Math.Cos(0.3f * Time.time) , 2f, 9 * (float)Math.Sin(0.3f * Time.time));
+            height = 2f;
+            radius = 9f;
+        }
+        if (looping == false)
+        {
+
+            moveDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal")) + (transform.up * Input.GetAxis("Jump") * 0.5f);
+
+            if (moveDirection.magnitude > 1)
+            {
+                moveDirection = moveDirection.normalized * moveSpeed;
+            }
+            else
+            {
+                moveDirection = moveDirection * moveSpeed;
+            }
+
+            controller.Move(moveDirection * Time.deltaTime);
+
+        }
+        else
+        {
+            player.transform.position = new Vector3(radius * (float)Math.Cos(0.3f * Time.time), height, radius * (float)Math.Sin(0.3f * Time.time));
         }
     }
     public void StopLooping()
     {
-        if (looping)
+        Vector3 target = new Vector3(0f, player.transform.position.y, 0f);
+        Vector3 _direction = (target - player.transform.position).normalized;
+        Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+        player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
+
+        looping = false;
+    }
+    public void toggleMenagerie()
+    {
+        if (menagerie)
         {
-            Vector3 target = new Vector3(0f, 0f, 0f);
-            Vector3 _direction = (target - player.transform.position).normalized;
-            Quaternion _lookRotation = Quaternion.LookRotation(_direction);
-            player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
-            looping = false;
+            menagerie = false;
         }
+        else
+        {
+            menagerie = true;
+        }
+
+
+
     }
     public void Looping()
     {
@@ -65,13 +90,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-     
-            Vector3 target = new Vector3(0f, 0f, 0f);
-            Vector3 _direction = (target - player.transform.position).normalized;
-            Quaternion _lookRotation = Quaternion.LookRotation(_direction);
-            player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
-
-            looping = false;
+            StopLooping();
+            
         }
     }
 }
