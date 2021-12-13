@@ -31,7 +31,7 @@ public class EventLoader : MonoBehaviour
     private int maxiEvt;
     public float rate = 3; //speed of light is [rate] m/s
     public InputField rateField;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +56,8 @@ public class EventLoader : MonoBehaviour
         electron.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         electron.GetComponent<Collider>().enabled = false;
         electron.GetComponent<Renderer>().enabled = false;
+
+      
 
         Color ecolor = new Color(0f, 0f, 1f);
         Material ematerial = new Material(Shader.Find("Transparent/Diffuse"));
@@ -93,13 +95,16 @@ public class EventLoader : MonoBehaviour
             {
                 proton.GetComponent<Renderer>().enabled = true;
                 electron.GetComponent<Renderer>().enabled = true;
+  
                 proton.transform.position = new Vector3(0, 0, -6 + rate * (Time.time - start_time));
                 electron.transform.position = new Vector3(0, 0, 6 - rate * (Time.time - start_time));
+               
             }
             else
             {
                 proton.GetComponent<Renderer>().enabled = false;
                 electron.GetComponent<Renderer>().enabled = false;
+              
                 if (clusterToggle)
                 {
                     LoadClusters();
@@ -134,6 +139,7 @@ public class EventLoader : MonoBehaviour
         {
             proton.GetComponent<Renderer>().enabled = false;
             electron.GetComponent<Renderer>().enabled = false;
+         
             ClearHits(clearingiEvt);
         }
         if (clearingC)

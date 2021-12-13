@@ -13,6 +13,8 @@ To use the program, download the version for the platform you are using. Unzip t
 folder in your desired location. Within this folder (or for MacOS, the folder itself), 
 you will find an application file with the ATHENA logo. When opened, this will start the application. 
 
+For Windows, the first time you attempt to open it, you will get an error saying "Windows protected your PC". Click "More info" and then "Run anyway".
+
 For MacOS, the first time you attempt to open it, you will get an error saying it can't be opened.
 After pressing "OK" on this error, navigate to "System Preferences" and "Security and Privacy".
 Then, where it says ""EIC 3D MacOS Alpha 4.6" was blocked..." press "Open Anyway" and then "Open".

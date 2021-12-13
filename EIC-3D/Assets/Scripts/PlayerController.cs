@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         float radius = 0f;
         if (menagerie)
         {
-            height = 5f;
+            height = -2f;
             radius = 8f;
         }
         else
@@ -56,16 +56,18 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(radius * (float)Math.Cos(0.3f * Time.time), height, radius * (float)Math.Sin(0.3f * Time.time));
+            player.transform.position = new Vector3(radius * (float)Math.Cos(0.1f * Time.time), height, radius * (float)Math.Sin(0.1f * Time.time));
         }
     }
     public void StopLooping()
     {
-        Vector3 target = new Vector3(0f, player.transform.position.y, 0f);
-        Vector3 _direction = (target - player.transform.position).normalized;
-        Quaternion _lookRotation = Quaternion.LookRotation(_direction);
-        player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
-
+        if (looping)
+        {
+            Vector3 target = new Vector3(0f, player.transform.position.y, 0f);
+            Vector3 _direction = (target - player.transform.position).normalized;
+            Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+            player.transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, 1);
+        }
         looping = false;
     }
     public void toggleMenagerie()
