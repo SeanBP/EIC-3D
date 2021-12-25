@@ -4,6 +4,10 @@ The goal of this project is to create a new, user-friendly, easily
 modifiable event display for the ATHENA detector at the future
 Electron-Ion Collider.
 
+https://www.bnl.gov/eic/
+https://sites.temple.edu/eicatip6/
+
+
 Currently, this project is in its Alpha stage and is not yet ready
 for wide public distribution, and will be updated frequently.
 
