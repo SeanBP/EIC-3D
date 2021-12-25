@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject detectorMenu;
     public GameObject controls;
     public GameObject AudioSource;
+    public GameObject menuText;
     public Slider volume;
     private float[] timeList;
 
@@ -36,12 +37,13 @@ public class PauseMenu : MonoBehaviour
         AudioSource.GetComponent<AudioSource>().volume = volume.value;
        if (Input.GetButtonDown("Fire3"))
        {
-                if (GameIsPaused)
-                {
-                    Resume();
-                }
+            if (GameIsPaused)
+            {
+                Resume();
+            }
             else
             {
+                menuText.SetActive(false);
                 Pause();
             }
         }
@@ -54,7 +56,6 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         eventMenu.SetActive(false);
         detectorMenu.SetActive(false);
-        //Time.timeScale = 1f;
         GameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         float radius = 0f;
         if (menagerie)
         {
-            height = -2f;
+            height = 3.7f;
             radius = 8f;
         }
         else
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(radius * (float)Math.Cos(0.1f * Time.time), height, radius * (float)Math.Sin(0.1f * Time.time));
+            player.transform.position = new Vector3(radius * (float)Math.Cos(0.3f * Time.time), height, radius * (float)Math.Sin(0.3f * Time.time));
         }
     }
     public void StopLooping()
