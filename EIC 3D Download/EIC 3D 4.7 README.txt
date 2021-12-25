@@ -4,6 +4,9 @@ EIC 3D (Alpha 4.7 version) is a standalone application you can use to view hit
 and ECal/HCal cluster data within a virtual environment in the ATHENA detector. 
 This version is currently available for use on Windows, Mac, and Linux.
 
+Desktop version requirements here:
+https://docs.unity3d.com/Manual/system-requirements.html#desktop
+
 
 INSTALLATION
 
