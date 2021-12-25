@@ -25,3 +25,8 @@ folder for further instructions.
 
 The download files will always be held at this link:
 https://github.com/SeanBP/EIC-3D/tree/main/EIC%203D%20Download
+
+Send inquiries to: sprei001 AT ucr.edu
+
+Thank you for your interest!
+-Sean Preins
