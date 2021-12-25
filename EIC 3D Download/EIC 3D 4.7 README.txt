@@ -80,3 +80,10 @@ The name of the next component is listed on the next line, and its parameters on
 All units are in meters. R, G, B values represent the color of the detector, where each is a value from 0 to 255.
 Components should be listed from the innermost components to the outermost components, for them to render properly.
 If a circular shape is desired, simply set [sides] to be 51.
+
+
+
+Send inquiries to: sprei001 AT ucr.edu
+
+Thank you for your interest!
+-Sean Preins
