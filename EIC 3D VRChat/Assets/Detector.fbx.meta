@@ -1,0 +1,287 @@
+fileFormatVersion: 2
+guid: 3001b50927e19a143baf4f2d6b40f833
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse
+    second: {fileID: 2100000, guid: f8d58e4f62f78e94fba8d168de8ce5b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_1
+    second: {fileID: 2100000, guid: 325bb9d57ede31a418dd52cb6da683ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_10
+    second: {fileID: 2100000, guid: 8d9045e758d943046a18794a85cc8da0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_11
+    second: {fileID: 2100000, guid: e35a8726530f52d45bdeab40bcb77615, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_12
+    second: {fileID: 2100000, guid: 969602cfb5a3d0f4fa64c0d859790bbc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_13
+    second: {fileID: 2100000, guid: e656a6461fc559c4b99c4d0951ed457f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_14
+    second: {fileID: 2100000, guid: 134ba843c548dbb4bbabccc35a204380, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_15
+    second: {fileID: 2100000, guid: 63559a9f59dca6346bfcc533cdb71027, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_16
+    second: {fileID: 2100000, guid: 173608592d872264896e7cf2e2fc1ed8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_17
+    second: {fileID: 2100000, guid: 36564a79b1d00514ca69d8fb0e12cfe7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_18
+    second: {fileID: 2100000, guid: 6c4d71fe19c61564c8e113873b54da69, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_19
+    second: {fileID: 2100000, guid: 5eb1fa3679c113f44941692fe2522cab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_2
+    second: {fileID: 2100000, guid: 51c2cdf8b1463304186efe4c51ca7dfd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_20
+    second: {fileID: 2100000, guid: 3d4dddbfe7aabee4196d3dc21ad1fa00, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_21
+    second: {fileID: 2100000, guid: 85815f904d5e9f047941b2c94ef1be93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_22
+    second: {fileID: 2100000, guid: 790d3c2958aa9344cb9af5c644b9d348, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_23
+    second: {fileID: 2100000, guid: 28bf732f7a9b9a745aaa64283a53f0e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_24
+    second: {fileID: 2100000, guid: c79ae958f41211844a1f93d8632f904e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_25
+    second: {fileID: 2100000, guid: 8c76f46f8ab495e4bb57bc40d2b4038d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_26
+    second: {fileID: 2100000, guid: 1a65d7063f8bc5348ab8352065544e8e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_27
+    second: {fileID: 2100000, guid: 4652bb2aceeb157468688f1051f02a5c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_28
+    second: {fileID: 2100000, guid: 8bde1b9250408d84bad5c37e3f00bf1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_29
+    second: {fileID: 2100000, guid: 80eddf44f5e7f1c42a9cc363a024ad83, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_3
+    second: {fileID: 2100000, guid: 00d543c898c75e24491c2ddb053a80b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_30
+    second: {fileID: 2100000, guid: 3c220c0036481a24c962a2e2a332d13a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_31
+    second: {fileID: 2100000, guid: 045851c368213444b8dbcdddc75471df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_32
+    second: {fileID: 2100000, guid: 654e1e94a18fe3442a28cb959a00a810, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_33
+    second: {fileID: 2100000, guid: 53190a84f58e42942a400b56f6fb123e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_34
+    second: {fileID: 2100000, guid: 13d77f7ef41618b459e749b97056e381, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_35
+    second: {fileID: 2100000, guid: a7b112f527e300d4b9a242b21519968b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_36
+    second: {fileID: 2100000, guid: db9da05d2b30a444ba49bb2cd918af98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_37
+    second: {fileID: 2100000, guid: 70bd7a66e78cf994fbc642a31e77c70c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_4
+    second: {fileID: 2100000, guid: e8111a51f53490e45ac840fc72ad1c31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_5
+    second: {fileID: 2100000, guid: 4f6087bc065280149bc018104c117ca4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_6
+    second: {fileID: 2100000, guid: dc6cf0530660f4e40a7715f302261198, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_7
+    second: {fileID: 2100000, guid: 03fedee11f3c57f4da4373921368a0a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_8
+    second: {fileID: 2100000, guid: 8202d07d2699eb0428917e6239f3d0b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legacy_Shaders_Transparent_Diffuse_9
+    second: {fileID: 2100000, guid: 1d41fef02a34fa14eb60e63cafe5cd45, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
