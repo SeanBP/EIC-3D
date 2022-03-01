@@ -10,9 +10,8 @@ public class ComponentMaker : MonoBehaviour
 {
     private bool menagerieActive = false;
     GameObject[] menagerie;
-    public Slider zSlider;
-    public Slider xySlider;
-    public GameObject pauseMenuUI;
+    
+  
     public string filename = "Detector.txt";
     // Start is called before the first frame update
     void Start()
@@ -40,8 +39,7 @@ public class ComponentMaker : MonoBehaviour
             Destroy(largegridOrigin[0]);
         }
 
-        zSlider.value = 1f;
-        xySlider.value = 1f;
+      
         GameObject[] detectorParts = GameObject.FindGameObjectsWithTag("Detector");
         if (!menagerieActive)
         {
@@ -377,8 +375,15 @@ public class ComponentMaker : MonoBehaviour
                 lines[i].SetActive(false);
             }
         }
-
-        Material material = new Material(Shader.Find("Transparent/Diffuse"));
+        
+        Material material = new Material(Shader.Find("Standard"));
+        material.SetFloat("_Mode", 3);
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.DisableKeyword("_ALPHABLEND_ON");
+        material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
         Color color = new Color(r / 255f, g / 255f, b / 255f);
 
 
