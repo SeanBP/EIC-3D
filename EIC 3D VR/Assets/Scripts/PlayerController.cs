@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         //theRB = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
+        
 
     }
 

@@ -22,7 +22,7 @@ public class EventLoader : MonoBehaviour
     private bool looping = false;
     private bool clearing = false;
     private bool clearingC = false;
-    private bool clusterToggle = false;
+    private bool clusterToggle = true;
     private int index = 0;
     private int indexC = 0;
     private float start_time = 0f;
@@ -40,7 +40,7 @@ public class EventLoader : MonoBehaviour
         LoadHitFile();
         LoadClusterFile();
         proton = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        proton.transform.position = new Vector3(0, 1.5f, 0);
+        proton.transform.position = new Vector3(0, 0, 0);
         proton.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         proton.GetComponent<Collider>().enabled = false;
         proton.GetComponent<Renderer>().enabled = false;
@@ -52,7 +52,7 @@ public class EventLoader : MonoBehaviour
         proton.GetComponent<MeshRenderer>().sharedMaterial = pmaterial;
 
         electron = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        electron.transform.position = new Vector3(0, 1.5f, 0);
+        electron.transform.position = new Vector3(0, 0, 0);
         electron.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         electron.GetComponent<Collider>().enabled = false;
         electron.GetComponent<Renderer>().enabled = false;
@@ -93,8 +93,8 @@ public class EventLoader : MonoBehaviour
                 proton.GetComponent<Renderer>().enabled = true;
                 electron.GetComponent<Renderer>().enabled = true;
   
-                proton.transform.position = new Vector3(0, 1.5f, -6 + rate * (Time.time - start_time));
-                electron.transform.position = new Vector3(0, 1.5f, 6 - rate * (Time.time - start_time));
+                proton.transform.position = new Vector3(0, 0, -6 + rate * (Time.time - start_time));
+                electron.transform.position = new Vector3(0, 0, 6 - rate * (Time.time - start_time));
                
             }
             else
@@ -504,7 +504,7 @@ public class EventLoader : MonoBehaviour
                 coords = lines[j + 2].Split(" ");
                 timeData[j] = float.Parse(coords[0]);
                 eventObjects[j] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                eventObjects[j].transform.position = new Vector3(float.Parse(coords[1]), float.Parse(coords[2]) + 1.5f, float.Parse(coords[3]));
+                eventObjects[j].transform.position = new Vector3(float.Parse(coords[1]), float.Parse(coords[2]), float.Parse(coords[3]));
                 eventObjects[j].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                 eventObjects[j].GetComponent<Collider>().enabled = false;
                 eventObjects[j].GetComponent<Renderer>().enabled = false;

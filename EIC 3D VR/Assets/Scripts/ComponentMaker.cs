@@ -23,7 +23,7 @@ public class ComponentMaker : MonoBehaviour
         }
 
         buildSimModel();
-        
+        //ToggleLines();
 
     }
     public void ToggleMenagerie()
@@ -393,7 +393,7 @@ public class ComponentMaker : MonoBehaviour
 
         gameObject.GetComponent<MeshRenderer>().sharedMaterial = material;
 
-        gameObject.transform.position = new Vector3(0, 1.5f, offset);
+        gameObject.transform.position = new Vector3(0, 0, offset);
         
     }
 }
