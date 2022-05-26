@@ -544,7 +544,7 @@ public class EventLoader : MonoBehaviour
                 else
                 {
                     color = new Color(redness, 0f, 1f - redness);
-                    color.a = (redness/2) + 0.5f;
+                    color.a = redness;
                 }
                 material = new Material(Shader.Find("Transparent/Diffuse"));
                 material.color = color;
