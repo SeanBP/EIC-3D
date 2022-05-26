@@ -502,17 +502,30 @@ public class EventLoader : MonoBehaviour
             string[] coords;
             GameObject[] eventObjects = new GameObject[hitSize];
 
+            float maxE = 0;
+            for(int j = 0; j < hitSize; j++)
+            {
+                coords = lines[j + 2].Split(" ");
+                if (float.Parse(coords[4]) > maxE)
+                {
+                    maxE = float.Parse(coords[4]);
+                }
+            }
+
             for (int j = 0; j < hitSize; j++)
             {
                 coords = lines[j + 2].Split(" ");
                 timeData[j] = float.Parse(coords[0]);
                 eventObjects[j] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 eventObjects[j].transform.position = new Vector3(float.Parse(coords[1]), float.Parse(coords[2]), float.Parse(coords[3]));
-                eventObjects[j].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                eventObjects[j].transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
                 eventObjects[j].GetComponent<Collider>().enabled = false;
                 eventObjects[j].GetComponent<Renderer>().enabled = false;
-
-                float redness = float.Parse(coords[4]) / 200f;
+                float redness = 1;
+                if (maxE > 0)
+                {
+                    redness = float.Parse(coords[4]) / maxE;
+                }
                 if (redness > 1)
                 {
                     color = new Color(1f, 0f, 0f);
@@ -531,7 +544,7 @@ public class EventLoader : MonoBehaviour
                 else
                 {
                     color = new Color(redness, 0f, 1f - redness);
-                    color.a = redness;
+                    color.a = (redness/2) + 0.5f;
                 }
                 material = new Material(Shader.Find("Transparent/Diffuse"));
                 material.color = color;
