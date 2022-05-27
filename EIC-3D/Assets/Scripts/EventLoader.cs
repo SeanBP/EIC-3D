@@ -7,6 +7,8 @@ using System;
 
 public class EventLoader : MonoBehaviour
 {
+    public Text timeText;
+    public Toggle LinearToggle;
     private StreamReader source;
     private string fileContents;
     private string[] events;
@@ -83,6 +85,7 @@ public class EventLoader : MonoBehaviour
         }
         if (animating)
         {
+            timeText.text = Math.Round(((Time.time - start_time) * rate * 3.33564f - 6f * 3.33564f)).ToString()+" ns";
             for (int i = 0; i < hitObjects[iEvt].Length; i++)
             {
                 if ((hitTime[iEvt][i] / 3.33564f)/rate + (6f / rate) <= Time.time - start_time)
@@ -112,7 +115,7 @@ public class EventLoader : MonoBehaviour
             }
             if (looping == true)
             {
-                if (Time.time - start_time >= (15f / rate) + 1)
+                if (Time.time - start_time >= (15f / rate) + 4)
                 {
                     start_time = Time.time;
                     if (!clearing)
@@ -248,6 +251,15 @@ public class EventLoader : MonoBehaviour
             hitObjects[iEvt][i].GetComponent<Renderer>().enabled = true;
         }
         
+    }
+    public void LinearToggled()
+    {
+        for (int i = 0; i < hitObjects[iEvt].Length; i++)
+        {
+            hitObjects[iEvt][i].GetComponent<Renderer>().enabled = false;
+        }
+        LoadHitFile();
+        LoadHits();
     }
 
     public void StartClearHits()
@@ -502,15 +514,34 @@ public class EventLoader : MonoBehaviour
             string[] coords;
             GameObject[] eventObjects = new GameObject[hitSize];
 
-            float maxE = 0;
+         
+            
+
+
+
+            double maxE = 0;
             for(int j = 0; j < hitSize; j++)
             {
                 coords = lines[j + 2].Split(" ");
-                if (float.Parse(coords[4]) > maxE)
+                if (!LinearToggle.isOn)
                 {
-                    maxE = float.Parse(coords[4]);
+                    if (float.Parse(coords[4]) > 0)
+                    {
+                        if (Math.Log10(float.Parse(coords[4]) + 1f  ) > maxE)
+                        {
+                            maxE = Math.Log10(float.Parse(coords[4]) + 1f);
+                        }
+                    }
+                }
+                else
+                {
+                    if (float.Parse(coords[4]) > maxE)
+                    {
+                        maxE = float.Parse(coords[4]);
+                    }
                 }
             }
+            
 
             for (int j = 0; j < hitSize; j++)
             {
@@ -522,30 +553,36 @@ public class EventLoader : MonoBehaviour
                 eventObjects[j].GetComponent<Collider>().enabled = false;
                 eventObjects[j].GetComponent<Renderer>().enabled = false;
                 float redness = 1;
-                if (maxE > 0)
+                color = new Color(1, 1, 1);
+               
+                if (maxE > 0 && float.Parse(coords[4]) > 0)
                 {
-                    redness = float.Parse(coords[4]) / maxE;
-                }
-                if (redness > 1)
-                {
-                    color = new Color(1f, 0f, 0f);
+                    if (!LinearToggle.isOn)
+                    {
+                        redness = (float)(Math.Log10(float.Parse(coords[4]) + 1f) / maxE);
+                    }
+                    else
+                    {
+                        redness = float.Parse(coords[4]) / (float)maxE;
+                    }
+                    
+                    color = new Color(redness, 0f, 1f - redness);
                     color.a = 1;
+                    eventObjects[j].transform.localScale = new Vector3(0.03f*redness, 0.03f*redness, 0.03f*redness);
                 }
-                else if (redness == 0)
+                
+               
+                else if (float.Parse(coords[4]) == 0)
                 {
                     color = new Color(1f, 1f, 1f);
                     color.a = 1;
                 }
-                else if (redness < 0)
+                else if (float.Parse(coords[4]) < 0)
                 {
                     color = new Color(0f, 0f, 0f);
                     color.a = 1;
                 }
-                else
-                {
-                    color = new Color(redness, 0f, 1f - redness);
-                    color.a = redness;
-                }
+              
                 material = new Material(Shader.Find("Transparent/Diffuse"));
                 material.color = color;
                 material.renderQueue = -1;
