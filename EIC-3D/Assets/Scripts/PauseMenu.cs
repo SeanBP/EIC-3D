@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject menuText;
     public Slider volume;
     private float[] timeList;
-
+    public bool pseudoPause = false;
  
     private float lastSliderValue = 1;
     GameObject[] menagerie;
@@ -47,7 +47,19 @@ public class PauseMenu : MonoBehaviour
                 Pause();
             }
         }
-        
+        if (Input.GetButtonDown("Fire2") && pseudoPause == false)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            pseudoPause = true;
+            GameIsPaused = true;
+        }
+        else if (Input.GetButtonDown("Fire2") && pseudoPause == true)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            pseudoPause = false;
+            GameIsPaused = false;
+        }
+
     }
 
 

@@ -3687,6 +3687,17 @@ MonoBehaviour:
   filename: Events.txt
   rate: 3
   rateField: {fileID: 1112596654}
+  paramname: Parameters.txt
+  eleSize: 0.1
+  eleColor:
+  - 0
+  - 0
+  - 1
+  protColor:
+  - 1
+  - 0
+  - 0
+  maxEnergy: 0
 --- !u!1 &664979949
 GameObject:
   m_ObjectHideFlags: 0
@@ -27929,10 +27940,10 @@ RectTransform:
   m_Father: {fileID: 662727530}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 758.77, y: 430.97}
-  m_SizeDelta: {x: 82.4531, y: 38.0645}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -41.22998, y: -19.03003}
+  m_SizeDelta: {x: 82.453125, y: 38.064514}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1995265754
 MonoBehaviour:

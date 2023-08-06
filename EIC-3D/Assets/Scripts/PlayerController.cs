@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float gravityScale;
     private bool menagerie = false;
-
+    public float omega = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             height = 2f;
-            radius = 9f;
+            radius = 6f;
         }
         if (looping == false)
         {
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(radius * (float)Math.Cos(0.3f * Time.time), height, radius * (float)Math.Sin(0.3f * Time.time));
+            player.transform.position = new Vector3(radius * (float)Math.Cos(omega * Time.time), height, radius * (float)Math.Sin(omega * Time.time));
         }
     }
     public void StopLooping()

@@ -1,0 +1,10 @@
+Granularity:
+0.03
+Proton Size:
+0.15
+Electron Size:
+0.1
+Proton Color:
+1 0 0
+Electron Color:
+0 0 1

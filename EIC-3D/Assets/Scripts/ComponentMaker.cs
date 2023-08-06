@@ -90,10 +90,10 @@ public class ComponentMaker : MonoBehaviour
         for (int i = 1; i < parts.Length; i = i + 2)
         {
             var dparams = parts[i].Split(" "[0]);
-
-            MakeComponent(int.Parse(dparams[0]), float.Parse(dparams[1]), float.Parse(dparams[2]), float.Parse(dparams[3]),
-                float.Parse(dparams[4]), float.Parse(dparams[5]), float.Parse(dparams[6]), float.Parse(dparams[7]), float.Parse(dparams[8]),
-                float.Parse(dparams[9]), int.Parse(dparams[10]), int.Parse(dparams[11]), int.Parse(dparams[12]), parts.Length - i);
+            float scale = 1.0f;
+            MakeComponent(int.Parse(dparams[0]), (float.Parse(dparams[1])/scale), (float.Parse(dparams[2])/scale), (float.Parse(dparams[3])/scale),
+                (float.Parse(dparams[4])/scale), (float.Parse(dparams[5])/scale), (float.Parse(dparams[6])/scale), (float.Parse(dparams[7])/scale), (float.Parse(dparams[8])/scale),
+                (float.Parse(dparams[9])/scale), float.Parse(dparams[10]) / 255.0f, float.Parse(dparams[11]) / 255.0f, float.Parse(dparams[12]) / 255.0f, parts.Length - i);
 
         }
         
@@ -133,13 +133,13 @@ public class ComponentMaker : MonoBehaviour
         }     
     }
     
-    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float lengthOut, float lengthIn, float offset, float offsetIn, float rotate, int r, int g, int b, int renderQueue)
+    void MakeComponent(int sides, float innerR, float outerR, float innerR2, float outerR2, float lengthOut, float lengthIn, float offset, float offsetIn, float rotate, float r, float g, float b, int renderQueue)
     {
  
-        float lineThickness = 0.02f;
+        float lineThickness = 0.008f;
         if(outerR < 1)
         {
-            lineThickness = 0.01f;
+            lineThickness = 0.004f;
         }
         if (outerR < 0.5)
         {
@@ -379,7 +379,7 @@ public class ComponentMaker : MonoBehaviour
         }
 
         Material material = new Material(Shader.Find("Transparent/Diffuse"));
-        Color color = new Color(r / 255f, g / 255f, b / 255f);
+        Color color = new Color(r , g , b);
 
 
         color.a = 0.3f;

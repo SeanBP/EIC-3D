@@ -15,7 +15,7 @@ public class EventLoader : MonoBehaviour
     private float[][] hitTime;
     private GameObject[][] hitObjects;
     private GameObject[][] clusterObjects;
-    
+
     private int iEvt = 0;
     private int clearingiEvt = 0;
     private int clearingiEvtC = 0;
@@ -33,21 +33,28 @@ public class EventLoader : MonoBehaviour
     private int maxiEvt;
     public float rate = 3; //speed of light is [rate] m/s
     public InputField rateField;
-
+    public string paramname = "Parameters.txt";
+    private float hitGranularity = 0.03f;
+    private float proSize = 0.15f;
+    public float eleSize = 0.1f;
+    public float[] eleColor = new float[] { 0.0f, 0.0f, 1.0f };
+    public float[] protColor = new float[] { 1.0f, 0.0f, 0.0f };
+    public float maxEnergy = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         rateField.text = "Speed";
+        //LoadParamFile();
         LoadHitFile();
         LoadClusterFile();
         proton = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         proton.transform.position = new Vector3(0, 0, 0);
-        proton.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+        proton.transform.localScale = new Vector3(proSize, proSize, proSize);
         proton.GetComponent<Collider>().enabled = false;
         proton.GetComponent<Renderer>().enabled = false;
 
-        Color pcolor = new Color(1f, 0f, 0f);
+        Color pcolor = new Color(protColor[0], protColor[1], protColor[2]);
         Material pmaterial = new Material(Shader.Find("Transparent/Diffuse"));
         pmaterial.color = pcolor;
         pmaterial.renderQueue = -1;
@@ -55,13 +62,13 @@ public class EventLoader : MonoBehaviour
 
         electron = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         electron.transform.position = new Vector3(0, 0, 0);
-        electron.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        electron.transform.localScale = new Vector3(eleSize,eleSize,eleSize);
         electron.GetComponent<Collider>().enabled = false;
         electron.GetComponent<Renderer>().enabled = false;
 
-      
 
-        Color ecolor = new Color(0f, 0f, 1f);
+
+        Color ecolor = new Color(eleColor[0], eleColor[1], eleColor[2]);
         Material ematerial = new Material(Shader.Find("Transparent/Diffuse"));
         ematerial.color = ecolor;
         ematerial.renderQueue = -1;
@@ -79,35 +86,36 @@ public class EventLoader : MonoBehaviour
         {
             rate = 3f;
         }
-        if(rate < 0)
+        if (rate < 0)
         {
             rate = 3f;
         }
         if (animating)
         {
-            timeText.text = Math.Round(((Time.time - start_time) * rate * 3.33564f - 6f * 3.33564f)).ToString()+" ns";
+          
+            timeText.text = string.Format("{0:f3}", (Math.Round(((Time.time - start_time) * rate * 3.33564f - 6f * 3.33564f)) )) + " ns";
             for (int i = 0; i < hitObjects[iEvt].Length; i++)
             {
-                if ((hitTime[iEvt][i] / 3.33564f)/rate + (6f / rate) <= Time.time - start_time)
+                if ((hitTime[iEvt][i] / 3.33564f) / rate + (6f / rate) <= Time.time - start_time)
                 {
                     hitObjects[iEvt][i].GetComponent<Renderer>().enabled = true;
                 }
-                
+
             }
             if (Time.time - start_time < 6f / rate)
             {
                 proton.GetComponent<Renderer>().enabled = true;
                 electron.GetComponent<Renderer>().enabled = true;
-  
-                proton.transform.position = new Vector3(0, 0, -6 + rate * (Time.time - start_time));
-                electron.transform.position = new Vector3(0, 0, 6 - rate * (Time.time - start_time));
-               
+
+                proton.transform.position = new Vector3(0, 0, -6 + rate  * (Time.time - start_time));
+                electron.transform.position = new Vector3(0, 0, 6 - rate  * (Time.time - start_time));
+
             }
             else
             {
                 proton.GetComponent<Renderer>().enabled = false;
                 electron.GetComponent<Renderer>().enabled = false;
-              
+
                 if (clusterToggle)
                 {
                     LoadClusters();
@@ -115,13 +123,13 @@ public class EventLoader : MonoBehaviour
             }
             if (looping == true)
             {
-                if (Time.time - start_time >= (15f / rate) + 4)
+                if (Time.time - start_time >= (15f / rate) + 5)
                 {
                     start_time = Time.time;
                     if (!clearing)
                     {
                         clearing = true;
-                        clearingiEvt = iEvt;         
+                        clearingiEvt = iEvt;
                     }
                     if (!clearingC)
                     {
@@ -134,7 +142,7 @@ public class EventLoader : MonoBehaviour
                     {
                         iEvt = 0;
                     }
-                    
+
                 }
             }
         }
@@ -142,11 +150,11 @@ public class EventLoader : MonoBehaviour
         {
             proton.GetComponent<Renderer>().enabled = false;
             electron.GetComponent<Renderer>().enabled = false;
-         
+
             ClearHits(clearingiEvt);
         }
         if (clearingC)
-        {         
+        {
             ClearClusters(clearingiEvtC);
         }
     }
@@ -233,13 +241,13 @@ public class EventLoader : MonoBehaviour
 
     public void AnimateHits()
     {
-       ClearHits(iEvt);
-       ClearClusters(iEvt);
-       clearingiEvt = iEvt;
-       clearingiEvtC = iEvt;
-       animating = true;
-       start_time = Time.time;
-        
+        ClearHits(iEvt);
+        ClearClusters(iEvt);
+        clearingiEvt = iEvt;
+        clearingiEvtC = iEvt;
+        animating = true;
+        start_time = Time.time;
+
     }
 
     public void LoadHits()
@@ -247,10 +255,10 @@ public class EventLoader : MonoBehaviour
         animating = false;
         looping = false;
         for (int i = 0; i < hitObjects[iEvt].Length; i++)
-        {              
+        {
             hitObjects[iEvt][i].GetComponent<Renderer>().enabled = true;
         }
-        
+
     }
     public void LinearToggled()
     {
@@ -275,16 +283,16 @@ public class EventLoader : MonoBehaviour
             clearingiEvt = iEvt;
             ClearHits(iEvt);
         }
-        
+
     }
 
     private void ClearHits(int ievt)
     {
         clearing = true;
-               
+
         if (index >= hitObjects[ievt].Length)
         {
-            
+
             index = 0;
             start_time = Time.time;
             clearing = false;
@@ -295,16 +303,16 @@ public class EventLoader : MonoBehaviour
             {
 
                 hitObjects[ievt][i].GetComponent<Renderer>().enabled = false;
-                
+
 
             }
             index = index + 1000;
         }
-        
+
     }
     public void LoadClusters()
     {
-        
+
         for (int i = 0; i < clusterObjects[iEvt].Length; i++)
         {
             clusterObjects[iEvt][i].GetComponent<Renderer>().enabled = true;
@@ -327,14 +335,14 @@ public class EventLoader : MonoBehaviour
 
     private void ClearClusters(int ievt)
     {
-        
+
         clearingC = true;
 
         if (indexC >= clusterObjects[ievt].Length)
         {
 
             indexC = 0;
-            
+
             clearingC = false;
         }
         else
@@ -348,9 +356,31 @@ public class EventLoader : MonoBehaviour
             }
             indexC = indexC + 1000;
         }
-        
+
     }
-   
+
+    public void LoadParamFile()
+    {
+        source = new StreamReader(Path.Combine(Application.streamingAssetsPath, paramname));
+        fileContents = source.ReadToEnd();
+        source.Close();
+        string[] lines;
+        lines = fileContents.Split("\n");
+
+        //hitGranularity = float.Parse(lines[1]);
+        proSize = float.Parse(lines[3]);
+        eleSize = float.Parse(lines[5]);
+
+        string[] protColors = lines[7].Split(" ");
+        protColor = new float[] { float.Parse(protColors[0]), float.Parse(protColors[1]), float.Parse(protColors[2]) };
+
+        string[] eleColors = lines[9].Split(" ");
+
+        protColor = new float[] { float.Parse(protColors[0]), float.Parse(protColors[1]), float.Parse(protColors[2]) };
+
+
+    }
+
     public void LoadClusterFile()
     {
         source = new StreamReader(Path.Combine(Application.streamingAssetsPath, filename));
@@ -359,7 +389,7 @@ public class EventLoader : MonoBehaviour
         events = fileContents.Split("Event");
         string[] lines;
         clusterObjects = new GameObject[events.Length - 1][];
- 
+
         float length;
         int clusterSize;
         float granularity = 0f;
@@ -371,20 +401,20 @@ public class EventLoader : MonoBehaviour
             lines = events[i].Split("\n");
             clusterSize = 0;
             for (int j = 2; j < lines.Length; j++)
-            {          
+            {
                 if (lines[j].Contains("Ecal") ^ lines[j].Contains("Hcal"))
                 {
                     clusterSize++;
-                    if(start == -1)
+                    if (start == -1)
                     {
                         start = j;
                     }
-                }            
+                }
             }
-            GameObject [] clusters = new GameObject[clusterSize];
-            for(int j = 0; j < clusterSize; j++)
+            GameObject[] clusters = new GameObject[clusterSize];
+            for (int j = 0; j < clusterSize; j++)
             {
-                var coords = lines[j+start].Split(" "[0]);
+                var coords = lines[j + start].Split(" "[0]);
                 clusters[j] = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
                 clusters[j].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
@@ -392,8 +422,8 @@ public class EventLoader : MonoBehaviour
                 clusters[j].GetComponent<Renderer>().enabled = false;
 
                 clusters[j].layer = 3;
-                
- 
+
+
                 length = float.Parse(coords[5]) / 30f;
 
                 x = float.Parse(coords[2]);
@@ -473,7 +503,7 @@ public class EventLoader : MonoBehaviour
 
 
             }
-            clusterObjects[i-1] = clusters;
+            clusterObjects[i - 1] = clusters;
 
         }
 
@@ -494,12 +524,12 @@ public class EventLoader : MonoBehaviour
         Color color;
         for (int i = 1; i < events.Length; i++)
         {
-            
+
             lines = events[i].Split("\n");
             int hitSize = 0;
             checkCluster = false;
             for (int j = 2; j < lines.Length; j++)
-            {                  
+            {
                 if (lines[j].Contains("Cluster"))
                 {
                     checkCluster = true;
@@ -509,25 +539,25 @@ public class EventLoader : MonoBehaviour
                     hitSize++;
                 }
             }
-            
+
             float[] timeData = new float[hitSize];
             string[] coords;
             GameObject[] eventObjects = new GameObject[hitSize];
 
-         
-            
+
+
 
 
 
             double maxE = 0;
-            for(int j = 0; j < hitSize; j++)
+            for (int j = 0; j < hitSize; j++)
             {
                 coords = lines[j + 2].Split(" ");
                 if (!LinearToggle.isOn)
                 {
                     if (float.Parse(coords[4]) > 0)
                     {
-                        if (Math.Log10(float.Parse(coords[4]) + 1f  ) > maxE)
+                        if (Math.Log10(float.Parse(coords[4]) + 1f) > maxE)
                         {
                             maxE = Math.Log10(float.Parse(coords[4]) + 1f);
                         }
@@ -541,7 +571,6 @@ public class EventLoader : MonoBehaviour
                     }
                 }
             }
-            
 
             for (int j = 0; j < hitSize; j++)
             {
@@ -549,12 +578,12 @@ public class EventLoader : MonoBehaviour
                 timeData[j] = float.Parse(coords[0]);
                 eventObjects[j] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 eventObjects[j].transform.position = new Vector3(float.Parse(coords[1]), float.Parse(coords[2]), float.Parse(coords[3]));
-                eventObjects[j].transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
+                eventObjects[j].transform.localScale = new Vector3(hitGranularity, hitGranularity, hitGranularity);
                 eventObjects[j].GetComponent<Collider>().enabled = false;
                 eventObjects[j].GetComponent<Renderer>().enabled = false;
                 float redness = 1;
                 color = new Color(1, 1, 1);
-               
+
                 if (maxE > 0 && float.Parse(coords[4]) > 0)
                 {
                     if (!LinearToggle.isOn)
@@ -565,13 +594,13 @@ public class EventLoader : MonoBehaviour
                     {
                         redness = float.Parse(coords[4]) / (float)maxE;
                     }
-                    
+
                     color = new Color(redness, 0f, 1f - redness);
                     color.a = 1;
-                    eventObjects[j].transform.localScale = new Vector3(0.03f*redness, 0.03f*redness, 0.03f*redness);
+                    //eventObjects[j].transform.localScale = new Vector3(0.03f * redness, 0.03f * redness, 0.03f * redness);
                 }
-                
-               
+
+
                 else if (float.Parse(coords[4]) == 0)
                 {
                     color = new Color(1f, 1f, 1f);
@@ -582,7 +611,7 @@ public class EventLoader : MonoBehaviour
                     color = new Color(0f, 0f, 0f);
                     color.a = 1;
                 }
-              
+
                 material = new Material(Shader.Find("Transparent/Diffuse"));
                 material.color = color;
                 material.renderQueue = -1;
