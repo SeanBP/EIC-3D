@@ -3,7 +3,7 @@ THIS PROJECT HAS MIGRATED
 This project has been renamed to VIRTUE: Virtual Interactive Reality Toolkit for Understanding the EIC. 
 It is currently in the process of being published to Steam. In the meantime, the project is being
 hosted on Google Drive: https://drive.google.com/drive/folders/14rfT9EBBHjIgnaWPRxh4RgzzIzQrbWmD?usp=sharing
-and can be downloaded here, with a user manuel: https://drive.google.com/drive/folders/11vkSBOYs0pH7dERY3ONdK60ehs7CAo2O?usp=sharing
+and can be downloaded here, with a user guide: https://drive.google.com/drive/folders/11vkSBOYs0pH7dERY3ONdK60ehs7CAo2O?usp=sharing
 
 
 EIC 3D
